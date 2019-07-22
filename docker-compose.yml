@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  vim:
+    container_name: vim
+    build:
+      context: .
+      dockerfile: vim.dockerfile
+    tty: true
+    depends_on: 
+      - go
+    volumes:
+      - .:/myubuntu
+  go:
+    container_name: go
+    environment: 
+      - GO111MODULE=on
+    build:
+      context: .
+      dockerfile: go.dockerfile
+    ports:
+      - 8081:8081
+    tty: true
+    volumes:
+      - ./go:/go/app
