@@ -38,6 +38,10 @@ After launching containers, execute the following command to attach the "vim" co
 docker-compose exec vim bash --login
 ```
 
+The `--login` option is required to read the `.vimrc` file.
+
+Thank you.
+
 ## Author
 
 [Hodaka Sakamoto](https://hodalog.com)
