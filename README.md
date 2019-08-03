@@ -12,6 +12,7 @@ This is using the following technologies and vim-plugins:
 - vundle
 - NERDTree
 - Monokai
+- gruvbox
 - vim-go
 
 
