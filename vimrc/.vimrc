@@ -91,7 +91,8 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 """
 " vimshell setting
 """
-map <C-i>  :below terminal ++rows=11<CR>
+map <C-i> :below terminal ++close ++rows=11 bash<CR>
+
 
 """
 " Other setting
