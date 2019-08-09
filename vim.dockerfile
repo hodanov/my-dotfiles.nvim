@@ -8,7 +8,9 @@ RUN apt update && apt install -y \
     jq \
     wget \
     curl \
-    vim && \
+    vim \
+	python3 \
+    build-essential cmake python3-dev && \
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
     git clone https://github.com/sickill/vim-monokai.git && \
     git clone https://github.com/morhetz/gruvbox.git && \
@@ -20,5 +22,6 @@ RUN apt update && apt install -y \
     tar -C /usr/local -xzf go1.12.7.linux-amd64.tar.gz && \
     rm go1.12.7.linux-amd64.tar.gz
 ENV PATH $PATH:/usr/local/go/bin
-RUN vim +PluginInstall +qall
+RUN vim +PluginInstall +qall && \
     # vim +GoInstallBinaries +qall
+    python3 /root/.vim/bundle/youcompleteme/install.py
