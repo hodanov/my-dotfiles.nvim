@@ -46,6 +46,7 @@ let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
 let NERDTreeShowHidden = 1
 let g:NERDTreeWinSize = 25
+let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
 map <C-o> :NERDTreeToggle<CR>
 
 """
@@ -87,12 +88,13 @@ let g:ycm_global_ycm_extra_conf = '/root/.vim/plugged/YouCompleteMe/.ycm_extra_c
 let g:ycm_auto_trigger = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
+set completeopt-=preview
+let g:ycm_add_preview_to_completeopt = 0
 
 """
 " vimshell setting
 """
 map <C-i> :below terminal ++close ++rows=11 bash<CR>
-
 
 """
 " Other setting
