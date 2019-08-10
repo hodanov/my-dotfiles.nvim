@@ -11,10 +11,9 @@ This is using the following technologies and vim-plugins:
 - vim
 - vundle
 - NERDTree
-- Monokai
 - gruvbox
 - vim-go
-
+etc...
 
 ## Requirements
 
