@@ -22,6 +22,7 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'fatih/vim-go'
 "Python
 Plugin 'vim-scripts/indentpython.vim'
+Plugin 'nvie/vim-flake8'
 "Auto complete and syntax hightlight
 Plugin 'valloric/youcompleteme'
 Plugin 'tpope/vim-surround'
@@ -45,7 +46,7 @@ let g:gruvbox_contrast_dark = 'medium'
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
 let NERDTreeShowHidden = 1
-let g:NERDTreeWinSize = 25
+let g:NERDTreeWinSize = 30 
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
 map <C-o> :NERDTreeToggle<CR>
 
@@ -78,6 +79,11 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
+
+"""
+" Python
+"""
+let python_highlight_all=1
 
 """
 " YouCompleteMe setting
