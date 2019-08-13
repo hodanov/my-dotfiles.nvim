@@ -22,7 +22,7 @@ RUN apt update && apt install -y \
     wget https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.12.7.linux-amd64.tar.gz && \
     rm go1.12.7.linux-amd64.tar.gz && \
-    pip3 install -y flake8
+    pip3 install flake8 autopep8
 ENV PATH $PATH:/usr/local/go/bin
 RUN vim +PluginInstall +qall && \
     # vim +GoInstallBinaries +qall
