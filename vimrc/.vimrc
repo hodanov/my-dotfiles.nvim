@@ -85,8 +85,8 @@ let g:go_highlight_extra_types = 1
 " Python setting - syntastic, flake8, autopep8
 """
 let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_python_flake8_args="--max-line-length=120"
-let python_highlight_all=1
+"let g:syntastic_python_flake8_args = '--max-line-length=120'
+let python_highlight_all = 1
 
 """
 " autopep
@@ -113,11 +113,14 @@ function! Preserve(command)
 endfunction
 
 function! Autopep8()
-    "--ignote=E501: 一行の長さの補正を無視"
+    "--ignote=E501: Ignore completing the length of a line."
     call Preserve(':silent %!autopep8 --ignore=E501 -')
 endfunction
 
-autocmd BufWrite *.{py} :call Autopep8()
+augroup python_auto_lint
+  autocmd!
+  au BufWrite *.{py} :call Autopep8()
+augroup END
 
 """
 " YouCompleteMe setting
@@ -134,7 +137,8 @@ let g:ycm_add_preview_to_completeopt = 0
 """
 " vimshell setting
 """
-map <C-i> :below terminal ++close ++rows=11 bash<CR>
+map <C-_> :below terminal ++close ++rows=11 bash<CR>
+map <C-i> :vertical terminal ++close bash<CR>
 
 """
 " Other setting
@@ -145,7 +149,7 @@ set title
 set expandtab
 set tabstop=4
 set shiftwidth=4
-set colorcolumn=120
+set colorcolumn=80
 "split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
