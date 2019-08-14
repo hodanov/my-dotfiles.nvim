@@ -150,9 +150,15 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set colorcolumn=80
+"Set a space key to a leader.
+"https://vim-jp.org/vimdoc-ja/map.html#mapleader
+let g:mapleader = "\<Space>"
 "split navigations
 set splitright
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+"Open .vimrc
+nnoremap <Leader>. :tabnew ~/.vimrc<CR>
+nnoremap <Leader>s :source ~/.vimrc<CR>
