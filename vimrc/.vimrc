@@ -88,40 +88,45 @@ let g:syntastic_python_checkers = ['flake8']
 "let g:syntastic_python_flake8_args = '--max-line-length=120'
 let python_highlight_all = 1
 
+augroup python_auto_lint
+  autocmd!
+  au BufWrite *.py :call Flake8()
+augroup END
+
 """
 " autopep
 " original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
 """
-function! Preserve(command)
-    " Save the last search.
-    let search = @/
-    " Save the current cursor position.
-    let cursor_position = getpos('.')
-    " Save the current window position.
-    normal! H
-    let window_position = getpos('.')
-    call setpos('.', cursor_position)
-    " Execute the command.
-    execute a:command
-    " Restore the last search.
-    let @/ = search
-    " Restore the previous window position.
-    call setpos('.', window_position)
-    normal! zt
-    " Restore the previous cursor position.
-    call setpos('.', cursor_position)
-endfunction
-
-function! Autopep8()
-    "--ignote=E501: Ignore completing the length of a line."
-    call Preserve(':silent %!autopep8 --ignore=E501 -')
-endfunction
-
-augroup python_auto_lint
-  autocmd!
-  au BufWrite *.{py} :call Autopep8()
-augroup END
-
+"function! Preserve(command)
+"    " Save the last search.
+"    let search = @/
+"    " Save the current cursor position.
+"    let cursor_position = getpos('.')
+"    " Save the current window position.
+"    normal! H
+"    let window_position = getpos('.')
+"    call setpos('.', cursor_position)
+"    " Execute the command.
+"    execute a:command
+"    " Restore the last search.
+"    let @/ = search
+"    " Restore the previous window position.
+"    call setpos('.', window_position)
+"    normal! zt
+"    " Restore the previous cursor position.
+"    call setpos('.', cursor_position)
+"endfunction
+"
+"function! Autopep8()
+"    "--ignote=E501: Ignore completing the length of a line."
+"    call Preserve(':silent %!autopep8 --ignore=E501 -')
+"endfunction
+"
+"augroup python_auto_lint
+"  autocmd!
+"  au BufWrite *.{py} :call Autopep8()
+"augroup END
+"
 """
 " YouCompleteMe setting
 """
@@ -144,6 +149,7 @@ map <C-i> :vertical terminal ++close bash<CR>
 " Other setting
 """
 set encoding=utf-8
+set fileencoding=utf-8
 set number
 set title
 set expandtab
@@ -154,11 +160,11 @@ set colorcolumn=80
 "https://vim-jp.org/vimdoc-ja/map.html#mapleader
 let g:mapleader = "\<Space>"
 "split navigations
-set splitright
+"set splitright
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 "Open .vimrc
-nnoremap <Leader>. :tabnew ~/.vimrc<CR>
+nnoremap <Leader>. :vs ~/.vimrc<CR>
 nnoremap <Leader>s :source ~/.vimrc<CR>
