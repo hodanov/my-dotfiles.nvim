@@ -24,6 +24,7 @@ RUN apt update && apt install -y \
     rm go1.12.7.linux-amd64.tar.gz && \
     pip3 install flake8 autopep8 vim-vint
 ENV PATH $PATH:/usr/local/go/bin
+ENV PYTHONIOENCODING utf-8
 RUN vim +PluginInstall +qall && \
     # vim +GoInstallBinaries +qall
     python3 /root/.vim/bundle/youcompleteme/install.py
