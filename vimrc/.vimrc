@@ -12,6 +12,13 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set colorcolumn=80
+augroup  html_css_js_indent
+    autocmd!
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set tabstop=2
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set softtabstop=2
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set shiftwidth=2
+augroup END
+
 "Set a space key to a leader.
 "https://vim-jp.org/vimdoc-ja/map.html#mapleader
 let g:mapleader = "\<Space>"
