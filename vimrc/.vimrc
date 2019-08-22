@@ -55,10 +55,13 @@ Plugin 'fatih/vim-go'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'hhatto/autopep8'
-"Auto complete and syntax hightlight
+"Auto complete and linter
 Plugin 'valloric/youcompleteme'
 Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
+"Debugger for Python, Node.js and so on.
+"Plugin 'joonty/vdebug'
 
 call vundle#end()
 filetype plugin indent on
@@ -81,6 +84,15 @@ let NERDTreeShowHidden = 1
 let g:NERDTreeWinSize = 30 
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
 nnoremap <C-o> :NERDTreeToggle<CR>
+
+"""
+" ALE 
+"""
+" In ~/.vim/ftplugin/javascript.vim, or somewhere similar.
+" Fix files with prettier, and then ESLint.
+let b:ale_fixers = ['prettier', 'eslint']
+" Equivalent to the above.
+let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
 
 """
 " vim-airline setting
@@ -169,3 +181,4 @@ let g:ycm_add_preview_to_completeopt = 0
 """
 nnoremap <C-_> :below terminal ++close ++rows=13 bash<CR>
 nnoremap <C-i> :vertical terminal ++close bash<CR>
+
