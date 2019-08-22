@@ -22,6 +22,12 @@ RUN apt update && apt install -y \
     wget https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.12.7.linux-amd64.tar.gz && \
     rm go1.12.7.linux-amd64.tar.gz && \
+    wget http://downloads.activestate.com/Komodo/releases/11.1.0/remotedebugging/Komodo-PythonRemoteDebugging-11.1.0-91033-linux-x86_64.tar.gz && \
+    mkdir /usr/lib/python3/pydbgp && \
+    tar -C . -xzf Komodo-PythonRemoteDebugging-11.1.0-91033-linux-x86_64.tar.gz && \
+    mv Komodo-PythonRemoteDebugging-11.1.0-91033-linux-x86_64/* /usr/lib/python3/pydbgp/ && \
+    mv /usr/lib/python3/pydbgp/python3lib/* /usr/lib/python3/pydbgp/ && \
+    rm Komodo-PythonRemoteDebugging-11.1.0-91033-linux-x86_64.tar.gz && \
     pip3 install flake8 autopep8 vim-vint
 ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
