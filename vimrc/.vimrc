@@ -1,17 +1,21 @@
 """
 " Key bind and other setting
 """
-set nocompatible
-filetype off
-set encoding=utf-8
-set fileencoding=utf-8
-scriptencoding utf-8
+set nocompatible " Setting for vundle
+filetype off " Setting for vundle
+set encoding=utf-8 " Prevent garbled characters
+set fileencoding=utf-8 "
+scriptencoding utf-8 " Setting for handling multi byte characters.
 set number
 set title
 set expandtab
 set tabstop=4
 set shiftwidth=4
 set colorcolumn=80
+if has("clipboard")
+" yank to clipboard
+  set clipboard=unnamed " copy to the system clipboard
+endif
 augroup  html_css_js_indent
     autocmd!
     autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set tabstop=2
@@ -52,7 +56,7 @@ Plugin 'ekalinin/Dockerfile.vim'
 "Golang
 Plugin 'fatih/vim-go'
 "Python
-Plugin 'vim-scripts/indentpython.vim'
+"Plugin 'vim-scripts/indentpython.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'hhatto/autopep8'
 "Auto complete and linter
@@ -181,4 +185,3 @@ let g:ycm_add_preview_to_completeopt = 0
 """
 nnoremap <C-_> :below terminal ++close ++rows=13 bash<CR>
 nnoremap <C-i> :vertical terminal ++close bash<CR>
-
