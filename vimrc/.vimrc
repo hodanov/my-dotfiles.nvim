@@ -1,20 +1,22 @@
 """
 " Key bind and other setting
 """
-set nocompatible " Setting for vundle
+if !has('nvim')
+    set nocompatible " Setting for vundle
+endif
 filetype off " Setting for vundle
 set encoding=utf-8 " Prevent garbled characters
-set fileencoding=utf-8 "
-scriptencoding utf-8 " Setting for handling multi byte characters.
-set number
-set title
-set expandtab
-set tabstop=4
-set shiftwidth=4
-set colorcolumn=80
-if has("clipboard")
-" yank to clipboard
-  set clipboard=unnamed " copy to the system clipboard
+set fileencoding=utf-8 " Setting for handling multi byte characters
+scriptencoding utf-8 " Setting for handling multi byte characters
+set number " Add row number
+set title " Add a filename to each tabs"
+set expandtab " Convert tabs to spaces
+set shiftwidth=4 " Indentation without hard tabs
+set softtabstop=4 " Indentation without hard tabs
+set colorcolumn=80 " Add a color on 80'th column
+set hlsearch " Highlight searched characters
+if has('clipboard')
+  set clipboard=unnamed " Copy to the system clipboard
 endif
 augroup  html_css_js_indent
     autocmd!
@@ -26,20 +28,26 @@ augroup END
 "Set a space key to a leader.
 "https://vim-jp.org/vimdoc-ja/map.html#mapleader
 let g:mapleader = "\<Space>"
-"split navigations
-"set splitright
+"set splitright " Split navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-"Open .vimrc
+
+" Open .vimrc and 'source' it
 nnoremap <Leader>. :vs ~/.vimrc<CR>
 nnoremap <Leader>s :source ~/.vimrc<CR>
 
 """
+" vimshell setting
+"""
+nnoremap <Leader>- :below terminal ++close ++rows=13 bash<CR>
+nnoremap <Leader>i :vertical terminal ++close bash<CR>
+
+"""
 " Set the runtime path to include Vundle and initialize
 """
-set rtp+=~/.vim/bundle/Vundle.vim
+set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -133,7 +141,7 @@ let g:go_highlight_extra_types = 1
 " autopep
 " original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
 """
-let g:syntastic_python_checkers = ['flake8']
+"let g:syntastic_python_checkers = ['flake8']
 "let g:syntastic_python_flake8_args = '--max-line-length=120'
 let python_highlight_all = 1
 
@@ -180,8 +188,3 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
 
-"""
-" vimshell setting
-"""
-nnoremap <C-_> :below terminal ++close ++rows=13 bash<CR>
-nnoremap <C-i> :vertical terminal ++close bash<CR>
