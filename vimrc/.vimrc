@@ -41,8 +41,12 @@ nnoremap <Leader>s :source ~/.vimrc<CR>
 """
 " vimshell setting
 """
-nnoremap <Leader>- :below terminal ++close ++rows=13 bash<CR>
-nnoremap <Leader>i :vertical terminal ++close bash<CR>
+if has('nvim')
+    nnoremap <Leader>i :terminal bash<CR>
+elseif !has('nvim')
+    nnoremap <Leader>- :below terminal ++close ++rows=13 bash<CR>
+    nnoremap <Leader>i :vertical terminal ++close bash<CR>
+endif
 
 """
 " Set the runtime path to include Vundle and initialize
@@ -187,4 +191,3 @@ let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
-
