@@ -42,7 +42,8 @@ nnoremap <Leader>s :source ~/.vimrc<CR>
 " vimshell setting
 """
 if has('nvim')
-    nnoremap <Leader>i :terminal bash<CR>
+    nnoremap <Leader>- :split term://bash<CR>
+    nnoremap <Leader>i :vsplit term://bash<CR>
 elseif !has('nvim')
     nnoremap <Leader>- :below terminal ++close ++rows=13 bash<CR>
     nnoremap <Leader>i :vertical terminal ++close bash<CR>
