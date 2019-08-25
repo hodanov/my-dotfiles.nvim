@@ -1,6 +1,6 @@
-# Golang + Vim on docker
+# Golang + Vim/NeoVim on docker
 
-This is the dev-environment for vim and golang on docker.
+This is the dev-environment for Vim/NeoVim and golang on docker.
 
 This is using the following technologies and vim-plugins:
 
@@ -8,7 +8,8 @@ This is using the following technologies and vim-plugins:
 - Docker Compose
 - golang:1.12.7-alpine
 - ubuntu:18.04
-- vim
+- vim:8
+- NeoVim:0.3.8
 - vundle
 - NERDTree
 - gruvbox
