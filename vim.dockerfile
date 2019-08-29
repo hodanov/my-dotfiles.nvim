@@ -10,7 +10,7 @@ RUN apt update && apt install -y \
     wget \
     curl \
     vim \
-	python3 \
+    python3 \
     python3-pip \
     build-essential cmake python3-dev && \
     # Plugin manager
