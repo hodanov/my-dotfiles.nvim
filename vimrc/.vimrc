@@ -88,8 +88,10 @@ if dein#load_state('/root/.cache/dein')
     call dein#add('w0rp/ale')
     "Debugger for Python, Node.js and so on.
     "call dein#add('joonty/vdebug')
+    "Finder
+    call dein#add('ctrlpvim/ctrlp.vim')
     "Color Scheme
-    "call dein#add('morhetz/gruvbox')
+    call dein#add('morhetz/gruvbox')
     
     call dein#end()
     call dein#save_state()

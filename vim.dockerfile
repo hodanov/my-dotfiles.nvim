@@ -13,10 +13,9 @@ RUN apt update && apt install -y \
     python3 \
     python3-pip \
     build-essential cmake python3-dev && \
-    # Plugin manager
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
     # Color scheme
     git clone https://github.com/morhetz/gruvbox.git && \
+    mkdir -p ~/.vim/colors && \
     cp gruvbox/colors/gruvbox.vim ~/.vim/colors && \
     rm -rf gruvbox && \
     #Golang
