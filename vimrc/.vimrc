@@ -131,8 +131,9 @@ set signcolumn=yes
 """
 let g:go_template_autocreate = 0
 let g:go_fmt_command = 'gofmt'
-""let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+"let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+"let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_metalinter_autosave = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
