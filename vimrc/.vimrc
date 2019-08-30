@@ -68,7 +68,8 @@ if dein#load_state('/root/.cache/dein')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
-    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_yarp=1
+    let g:deoplete#enable_at_startup=1
     call dein#add('scrooloose/nerdtree')
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
@@ -82,10 +83,13 @@ if dein#load_state('/root/.cache/dein')
     call dein#add('nvie/vim-flake8')
     call dein#add('hhatto/autopep8')
     "Auto complete and linter
+    "call dein#add('ycm-core/YouCompleteMe', {'build': './install.py'})
     call dein#add('tpope/vim-surround')
     call dein#add('w0rp/ale')
     "Debugger for Python, Node.js and so on.
     "call dein#add('joonty/vdebug')
+    "Color Scheme
+    "call dein#add('morhetz/gruvbox')
     
     call dein#end()
     call dein#save_state()
@@ -197,3 +201,15 @@ augroup python_auto_lint
     autocmd BufWrite *.py :call Autopep8()
     autocmd BufWrite *.py :call Flake8()
 augroup END
+
+"""
+" YouCompleteMe setting
+"""
+"let g:ycm_server_python_interpreter = '/usr/bin/python3'
+"let g:ycm_python_binary_path = '/usr/bin/python3'
+"let g:ycm_global_ycm_extra_conf = '/root/.cache/dein/repos/github.com/ycm-core/YouCompleteMe/.ycm_extra_conf.py'
+"let g:ycm_auto_trigger = 1
+"let g:ycm_min_num_of_chars_for_completion = 1
+"let g:ycm_autoclose_preview_window_after_insertion = 1
+"set completeopt-=preview
+"let g:ycm_add_preview_to_completeopt = 0

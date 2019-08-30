@@ -16,13 +16,10 @@ RUN apt update && apt install -y \
     # Plugin manager
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
     # Color scheme
-    git clone https://github.com/sickill/vim-monokai.git && \
     git clone https://github.com/morhetz/gruvbox.git && \
-    cp -R vim-monokai/colors ~/.vim && \
     cp gruvbox/colors/gruvbox.vim ~/.vim/colors && \
-    rm -rf vim-monokai && \
-	rm -rf gruvbox && \
-    # Golang
+    rm -rf gruvbox && \
+    #Golang
     wget https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.12.7.linux-amd64.tar.gz && \
     rm go1.12.7.linux-amd64.tar.gz && \
@@ -41,3 +38,4 @@ RUN apt update && apt install -y \
 ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 RUN nvim +GoInstallBinaries +q
+    #python3 /root/.cache/dein/repos/github.com/valloric/youcompleteme/install.py
