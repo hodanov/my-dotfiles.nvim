@@ -75,7 +75,6 @@ Plugin 'hhatto/autopep8'
 "Auto complete and linter
 Plugin 'valloric/youcompleteme'
 Plugin 'tpope/vim-surround'
-"Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 "Debugger for Python, Node.js and so on.
 "Plugin 'joonty/vdebug'
@@ -131,8 +130,8 @@ set signcolumn=yes
 """
 let g:go_template_autocreate = 0
 let g:go_fmt_command = 'gofmt'
-""let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+"let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_metalinter_autosave = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -142,12 +141,10 @@ let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
 
 """
-" Python setting - syntastic, flake8, autopep8
+" Python setting - flake8, autopep8
 " autopep
 " original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
 """
-"let g:syntastic_python_checkers = ['flake8']
-"let g:syntastic_python_flake8_args = '--max-line-length=120'
 let python_highlight_all = 1
 
 function! Preserve(command)
