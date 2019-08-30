@@ -33,9 +33,11 @@ RUN apt update && apt install -y \
     chmod u+x nvim.appimage && ./nvim.appimage --appimage-extract && \
     cp ./squashfs-root/usr/bin/nvim /usr/bin/ && \
     cp -r squashfs-root/usr/share/nvim /usr/share/ && \
-    rm -rf ./squashfs-root
+    rm -rf ./squashfs-root && \
+    # Dein.vim
+    curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh && \
+    sh ./installer.sh ~/.cache/dein && \
+    rm ./installer.sh
 ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
-RUN vim +PluginInstall +qall && \
-    # vim +GoInstallBinaries +qall
-    python3 ~/.vim/bundle/youcompleteme/install.py
+RUN nvim +GoInstallBinaries +q

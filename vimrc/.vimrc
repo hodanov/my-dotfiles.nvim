@@ -1,10 +1,6 @@
 """
 " Key bind and other setting
 """
-if !has('nvim')
-    set nocompatible " Setting for vundle
-endif
-filetype off " Setting for vundle
 set encoding=utf-8 " Prevent garbled characters
 set fileencoding=utf-8 " Setting for handling multi byte characters
 scriptencoding utf-8 " Setting for handling multi byte characters
@@ -16,7 +12,7 @@ set softtabstop=4 " Indentation without hard tabs
 set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 if has('clipboard')
-  set clipboard=unnamed " Copy to the system clipboard
+    set clipboard=unnamed " Copy to the system clipboard
 endif
 augroup  html_css_js_indent
     autocmd!
@@ -49,38 +45,62 @@ elseif !has('nvim')
     nnoremap <Leader>i :vertical terminal ++close bash<CR>
 endif
 
-"""
-" Set the runtime path to include Vundle and initialize
-"""
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
 
 """
-" Add plugins
+" dein Scripts
 """
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'airblade/vim-gitgutter'
-"docker
-Plugin 'ekalinin/Dockerfile.vim'
-"Golang
-Plugin 'fatih/vim-go'
-"Python
-"Plugin 'vim-scripts/indentpython.vim'
-Plugin 'nvie/vim-flake8'
-Plugin 'hhatto/autopep8'
-"Auto complete and linter
-Plugin 'valloric/youcompleteme'
-Plugin 'tpope/vim-surround'
-Plugin 'w0rp/ale'
-"Debugger for Python, Node.js and so on.
-"Plugin 'joonty/vdebug'
+if &compatible
+    set nocompatible
+endif
 
-call vundle#end()
+set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('/root/.cache/dein')
+    call dein#begin('/root/.cache/dein')
+  
+    call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')
+  
+    " Add or remove your plugins here like this:
+    "call dein#add('Shougo/neosnippet.vim')
+    "call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('Shougo/deoplete.nvim')
+    if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+    let g:deoplete#enable_at_startup = 1
+    call dein#add('scrooloose/nerdtree')
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('airblade/vim-gitgutter')
+    "Docker
+    call dein#add('ekalinin/Dockerfile.vim')
+    "Golang
+    call dein#add('fatih/vim-go')
+    "Python
+    "call dein#add('vim-scripts/indentpython.vim')
+    call dein#add('nvie/vim-flake8')
+    call dein#add('hhatto/autopep8')
+    "Auto complete and linter
+    call dein#add('tpope/vim-surround')
+    call dein#add('w0rp/ale')
+    "Debugger for Python, Node.js and so on.
+    "call dein#add('joonty/vdebug')
+    
+    call dein#end()
+    call dein#save_state()
+endif
+
 filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+    call dein#install()
+endif
+"""
+"End dein Scripts
+"""
 
 """
 " Colorscheme setting
@@ -131,7 +151,7 @@ set signcolumn=yes
 let g:go_template_autocreate = 0
 let g:go_fmt_command = 'gofmt'
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-"let g:go_metalinter_autosave_enabled = ['vet']
+let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_metalinter_autosave = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -173,19 +193,7 @@ function! Autopep8()
 endfunction
 
 augroup python_auto_lint
-  autocmd!
-  autocmd BufWrite *.py :call Autopep8()
-  autocmd BufWrite *.py :call Flake8()
+    autocmd!
+    autocmd BufWrite *.py :call Autopep8()
+    autocmd BufWrite *.py :call Flake8()
 augroup END
-
-"""
-" YouCompleteMe setting
-"""
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_global_ycm_extra_conf = '/root/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_auto_trigger = 1
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
