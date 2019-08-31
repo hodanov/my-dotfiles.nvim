@@ -21,9 +21,7 @@ augroup  html_css_js_indent
     autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set shiftwidth=2
 augroup END
 
-"Set a space key to a leader.
-"https://vim-jp.org/vimdoc-ja/map.html#mapleader
-let g:mapleader = "\<Space>"
+let g:mapleader = "\<Space>" " Set a space key to a leader.
 "set splitright " Split navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -47,51 +45,44 @@ endif
 
 
 """
-" dein Scripts
+" dein scripts
 """
 if &compatible
     set nocompatible
 endif
-
 set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
 
 if dein#load_state('/root/.cache/dein')
     call dein#begin('/root/.cache/dein')
-  
+
     call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')
-  
-    " Add or remove your plugins here like this:
     "call dein#add('Shougo/neosnippet.vim')
     "call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('Shougo/deoplete.nvim')
     if !has('nvim')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
-    let g:deoplete#enable_yarp=1
-    let g:deoplete#enable_at_startup=1
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('airblade/vim-gitgutter')
+    "Color Scheme, status/tabline and so on..
+    call dein#add('scrooloose/nerdtree') " File manager
+    call dein#add('vim-airline/vim-airline') " Status/tabline
+    call dein#add('vim-airline/vim-airline-themes') " Modify theme of vim-airline
+    call dein#add('airblade/vim-gitgutter') " git diff in the gutter(sign column)
+    call dein#add('morhetz/gruvbox')
     "Docker
     call dein#add('ekalinin/Dockerfile.vim')
     "Golang
     call dein#add('fatih/vim-go')
     "Python
-    "call dein#add('vim-scripts/indentpython.vim')
-    call dein#add('nvie/vim-flake8')
+    "call dein#add('nvie/vim-flake8')
     call dein#add('hhatto/autopep8')
     "Auto complete and linter
-    "call dein#add('ycm-core/YouCompleteMe', {'build': './install.py'})
     call dein#add('tpope/vim-surround')
-    call dein#add('w0rp/ale')
+    call dein#add('w0rp/ale') " Asynchronous Lint Engine.
+    call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'}) " Auto complete
     "Debugger for Python, Node.js and so on.
     "call dein#add('joonty/vdebug')
     "Finder
     call dein#add('ctrlpvim/ctrlp.vim')
-    "Color Scheme
-    call dein#add('morhetz/gruvbox')
     
     call dein#end()
     call dein#save_state()
@@ -111,11 +102,11 @@ endif
 """
 " Colorscheme setting
 """
-syntax enable 
+"syntax enable 
 colorscheme gruvbox
 set background=dark
 set t_Co=256
-let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_contrast_dark = 'hard'
 
 """
 " NERDTree setting
@@ -157,7 +148,7 @@ set signcolumn=yes
 let g:go_template_autocreate = 0
 let g:go_fmt_command = 'gofmt'
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave_enabled = ['vet']
+"let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_metalinter_autosave = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -167,7 +158,7 @@ let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
 
 """
-" Python setting - flake8, autopep8
+" Python setting - autopep8
 " autopep
 " original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
 """
@@ -201,17 +192,4 @@ endfunction
 augroup python_auto_lint
     autocmd!
     autocmd BufWrite *.py :call Autopep8()
-    autocmd BufWrite *.py :call Flake8()
 augroup END
-
-"""
-" YouCompleteMe setting
-"""
-"let g:ycm_server_python_interpreter = '/usr/bin/python3'
-"let g:ycm_python_binary_path = '/usr/bin/python3'
-"let g:ycm_global_ycm_extra_conf = '/root/.cache/dein/repos/github.com/ycm-core/YouCompleteMe/.ycm_extra_conf.py'
-"let g:ycm_auto_trigger = 1
-"let g:ycm_min_num_of_chars_for_completion = 1
-"let g:ycm_autoclose_preview_window_after_insertion = 1
-"set completeopt-=preview
-"let g:ycm_add_preview_to_completeopt = 0
