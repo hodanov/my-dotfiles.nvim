@@ -10,7 +10,7 @@ This is using the following technologies and vim-plugins:
 - ubuntu:18.04
 - vim:8
 - Neovim:0.3.8
-- vundle
+- dein.vim
 - NERDTree
 - gruvbox
 - vim-go
@@ -45,4 +45,4 @@ Thank you.
 
 ## Author
 
-[Hodaka Sakamoto](https://hodalog.com)
+[Hoda](https://hodalog.com)
