@@ -16,9 +16,9 @@ if has('clipboard')
 endif
 augroup  html_css_js_indent
     autocmd!
-    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set tabstop=2
-    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set softtabstop=2
-    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set shiftwidth=2
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml :set tabstop=2
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml :set softtabstop=2
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml :set shiftwidth=2
 augroup END
 
 let g:mapleader = "\<Space>" " Set a space key to a leader.
@@ -103,10 +103,10 @@ endif
 " Colorscheme setting
 """
 "syntax enable 
-colorscheme gruvbox
+let g:gruvbox_contrast_dark = 'hard'
 set background=dark
 set t_Co=256
-let g:gruvbox_contrast_dark = 'hard'
+colorscheme gruvbox
 
 """
 " NERDTree setting
