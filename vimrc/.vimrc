@@ -67,7 +67,11 @@ if dein#load_state('/root/.cache/dein')
     call dein#add('vim-airline/vim-airline') " Status/tabline
     call dein#add('vim-airline/vim-airline-themes') " Modify theme of vim-airline
     call dein#add('airblade/vim-gitgutter') " git diff in the gutter(sign column)
-    call dein#add('morhetz/gruvbox')
+    call dein#add('airblade/vim-gitgutter') " Show git diff
+    call dein#add('Yggdroot/indentLine') " Add indent line
+    call dein#add('Yggdroot/indentLine') " Add indent line
+    call dein#add('morhetz/gruvbox') " Color scheme
+    call dein#add('rhysd/vim-color-spring-night') " Color scheme
     "Docker
     call dein#add('ekalinin/Dockerfile.vim')
     "Golang
@@ -107,6 +111,29 @@ let g:gruvbox_contrast_dark = 'hard'
 set background=dark
 set t_Co=256
 colorscheme gruvbox
+" colorscheme spring-night
+
+"""
+" vim-airline setting
+"""
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#branch#enabled = 1
+" let g:airline_theme = 'spring_night'
+
+"""
+" gitgutter setting
+"""
+let g:gitgutter_override_sign_column_highlight = 0
+set signcolumn=yes
+
+"""
+" indentLine setting
+"""
+let g:indentLine_enabled = 1
+let g:indentLine_char_list = '|'
 
 """
 " NERDTree setting
@@ -126,21 +153,6 @@ nnoremap <C-o> :NERDTreeToggle<CR>
 let b:ale_fixers = ['prettier', 'eslint']
 " Equivalent to the above.
 let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
-
-"""
-" vim-airline setting
-"""
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#branch#enabled = 1
-
-"""
-" gitgutter setting
-"""
-let g:gitgutter_override_sign_column_highlight = 0
-set signcolumn=yes
 
 """
 " Vim-go setting
