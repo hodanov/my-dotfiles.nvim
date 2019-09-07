@@ -9,7 +9,7 @@ set title " Add a filename to each tabs"
 set expandtab " Convert tabs to spaces
 set shiftwidth=4 " Indentation without hard tabs
 set softtabstop=4 " Indentation without hard tabs
-set colorcolumn=80 " Add a color on 80'th column
+set colorcolumn=120 " Add a color on 120'th column
 set hlsearch " Highlight searched characters
 if has('clipboard')
     set clipboard=unnamed " Copy to the system clipboard
@@ -22,7 +22,8 @@ augroup  html_css_js_indent
 augroup END
 
 let g:mapleader = "\<Space>" " Set a space key to a leader.
-"set splitright " Split navigation
+
+" Move splited window
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -77,11 +78,10 @@ if dein#load_state('/root/.cache/dein')
     "Golang
     call dein#add('fatih/vim-go')
     "Python
-    "call dein#add('nvie/vim-flake8')
     call dein#add('hhatto/autopep8')
     "Auto complete and linter
-    call dein#add('tpope/vim-surround')
-    call dein#add('w0rp/ale') " Asynchronous Lint Engine.
+    call dein#add('tpope/vim-surround') " surroundings: for example parentheses, brackets, quotes, XML tags, and more.
+    call dein#add('dense-analysis/ale') " Asynchronous Lint Engine, error check
     call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'}) " Auto complete
     "Debugger for Python, Node.js and so on.
     "call dein#add('joonty/vdebug')
@@ -205,3 +205,4 @@ augroup python_auto_lint
     autocmd!
     autocmd BufWrite *.py :call Autopep8()
 augroup END
+
