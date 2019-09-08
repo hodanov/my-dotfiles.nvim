@@ -22,7 +22,8 @@ augroup  html_css_js_indent
 augroup END
 
 let g:mapleader = "\<Space>" " Set a space key to a leader.
-"set splitright " Split navigation
+
+" Move splited window
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -51,37 +52,39 @@ if &compatible
     set nocompatible
 endif
 set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
+let g:dein#auto_recache=1
 
 if dein#load_state('/root/.cache/dein')
     call dein#begin('/root/.cache/dein')
 
     call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')
-    "call dein#add('Shougo/neosnippet.vim')
-    "call dein#add('Shougo/neosnippet-snippets')
     if !has('nvim')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
-    "Color Scheme, status/tabline and so on..
+    " Color Scheme, status/tabline and so on..
     call dein#add('scrooloose/nerdtree') " File manager
     call dein#add('vim-airline/vim-airline') " Status/tabline
     call dein#add('vim-airline/vim-airline-themes') " Modify theme of vim-airline
     call dein#add('airblade/vim-gitgutter') " git diff in the gutter(sign column)
-    call dein#add('morhetz/gruvbox')
-    "Docker
+    call dein#add('airblade/vim-gitgutter') " Show git diff
+    call dein#add('Yggdroot/indentLine') " Add indent line
+    call dein#add('Yggdroot/indentLine') " Add indent line
+    call dein#add('morhetz/gruvbox') " Color scheme
+    call dein#add('rhysd/vim-color-spring-night') " Color scheme
+    " Docker
     call dein#add('ekalinin/Dockerfile.vim')
-    "Golang
+    " Golang
     call dein#add('fatih/vim-go')
-    "Python
-    "call dein#add('nvie/vim-flake8')
+    " Python
     call dein#add('hhatto/autopep8')
-    "Auto complete and linter
-    call dein#add('tpope/vim-surround')
-    call dein#add('w0rp/ale') " Asynchronous Lint Engine.
+    " Auto complete and linter
+    call dein#add('tpope/vim-surround') " surroundings: for example parentheses, brackets, quotes, XML tags, and more.
+    call dein#add('dense-analysis/ale') " Asynchronous Lint Engine, error check
     call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'}) " Auto complete
-    "Debugger for Python, Node.js and so on.
-    "call dein#add('joonty/vdebug')
-    "Finder
+    " Debugger for Python, Node.js and so on.
+    " call dein#add('joonty/vdebug')
+    " Finder
     call dein#add('ctrlpvim/ctrlp.vim')
     
     call dein#end()
@@ -107,6 +110,29 @@ let g:gruvbox_contrast_dark = 'hard'
 set background=dark
 set t_Co=256
 colorscheme gruvbox
+" colorscheme spring-night
+
+"""
+" vim-airline setting
+"""
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#branch#enabled = 1
+" let g:airline_theme = 'spring_night'
+
+"""
+" gitgutter setting
+"""
+let g:gitgutter_override_sign_column_highlight = 0
+set signcolumn=yes
+
+"""
+" indentLine setting
+"""
+let g:indentLine_enabled = 1
+let g:indentLine_char_list = '|'
 
 """
 " NERDTree setting
@@ -126,21 +152,6 @@ nnoremap <C-o> :NERDTreeToggle<CR>
 let b:ale_fixers = ['prettier', 'eslint']
 " Equivalent to the above.
 let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
-
-"""
-" vim-airline setting
-"""
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#branch#enabled = 1
-
-"""
-" gitgutter setting
-"""
-let g:gitgutter_override_sign_column_highlight = 0
-set signcolumn=yes
 
 """
 " Vim-go setting
