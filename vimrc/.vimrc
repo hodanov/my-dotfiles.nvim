@@ -9,7 +9,7 @@ set title " Add a filename to each tabs"
 set expandtab " Convert tabs to spaces
 set shiftwidth=4 " Indentation without hard tabs
 set softtabstop=4 " Indentation without hard tabs
-set colorcolumn=120 " Add a color on 120'th column
+set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 if has('clipboard')
     set clipboard=unnamed " Copy to the system clipboard
@@ -52,18 +52,17 @@ if &compatible
     set nocompatible
 endif
 set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
+let g:dein#auto_recache=1
 
 if dein#load_state('/root/.cache/dein')
     call dein#begin('/root/.cache/dein')
 
     call dein#add('/root/.cache/dein/repos/github.com/Shougo/dein.vim')
-    "call dein#add('Shougo/neosnippet.vim')
-    "call dein#add('Shougo/neosnippet-snippets')
     if !has('nvim')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
-    "Color Scheme, status/tabline and so on..
+    " Color Scheme, status/tabline and so on..
     call dein#add('scrooloose/nerdtree') " File manager
     call dein#add('vim-airline/vim-airline') " Status/tabline
     call dein#add('vim-airline/vim-airline-themes') " Modify theme of vim-airline
@@ -73,19 +72,19 @@ if dein#load_state('/root/.cache/dein')
     call dein#add('Yggdroot/indentLine') " Add indent line
     call dein#add('morhetz/gruvbox') " Color scheme
     call dein#add('rhysd/vim-color-spring-night') " Color scheme
-    "Docker
+    " Docker
     call dein#add('ekalinin/Dockerfile.vim')
-    "Golang
+    " Golang
     call dein#add('fatih/vim-go')
-    "Python
+    " Python
     call dein#add('hhatto/autopep8')
-    "Auto complete and linter
+    " Auto complete and linter
     call dein#add('tpope/vim-surround') " surroundings: for example parentheses, brackets, quotes, XML tags, and more.
     call dein#add('dense-analysis/ale') " Asynchronous Lint Engine, error check
     call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'}) " Auto complete
-    "Debugger for Python, Node.js and so on.
-    "call dein#add('joonty/vdebug')
-    "Finder
+    " Debugger for Python, Node.js and so on.
+    " call dein#add('joonty/vdebug')
+    " Finder
     call dein#add('ctrlpvim/ctrlp.vim')
     
     call dein#end()
@@ -205,4 +204,3 @@ augroup python_auto_lint
     autocmd!
     autocmd BufWrite *.py :call Autopep8()
 augroup END
-
