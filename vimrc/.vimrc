@@ -5,25 +5,27 @@ set encoding=utf-8 " Prevent garbled characters
 set fileencoding=utf-8 " Setting for handling multi byte characters
 scriptencoding utf-8 " Setting for handling multi byte characters
 set number " Add row number
-set title " Add a filename to each tabs"
+set title " Add a filename to each tabs
+set tabstop=4 " Insert spaces when the tab key is pressed
+set shiftwidth=4 " Change the number of spaces inserted for indentation
+" set softtabstop=4 " Make spaces feel like real tabs
 set expandtab " Convert tabs to spaces
-set shiftwidth=4 " Indentation without hard tabs
-set softtabstop=4 " Indentation without hard tabs
 set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 if has('clipboard')
     set clipboard=unnamed " Copy to the system clipboard
 endif
-augroup  html_css_js_indent
+augroup html_css_js_and_others_indent
     autocmd!
     autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml :set tabstop=2
-    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml :set softtabstop=2
     autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml :set shiftwidth=2
+    autocmd BufNewFile,BufRead *.go :set tabstop=8
+    autocmd BufNewFile,BufRead *.go :set shiftwidth=8
 augroup END
 
 let g:mapleader = "\<Space>" " Set a space key to a leader.
 
-" Move splited window
+" Move the splited window
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
