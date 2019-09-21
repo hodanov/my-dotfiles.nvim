@@ -69,7 +69,6 @@ if dein#load_state('/root/.cache/dein')
     call dein#add('vim-airline/vim-airline') " Status/tabline
     call dein#add('vim-airline/vim-airline-themes') " Modify theme of vim-airline
     call dein#add('airblade/vim-gitgutter') " git diff in the gutter(sign column)
-    call dein#add('airblade/vim-gitgutter') " Show git diff
     call dein#add('Yggdroot/indentLine') " Add indent line
     call dein#add('morhetz/gruvbox') " Color scheme
     call dein#add('rhysd/vim-color-spring-night') " Color scheme
