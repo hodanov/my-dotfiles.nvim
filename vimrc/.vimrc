@@ -71,7 +71,6 @@ if dein#load_state('/root/.cache/dein')
     call dein#add('airblade/vim-gitgutter') " git diff in the gutter(sign column)
     call dein#add('airblade/vim-gitgutter') " Show git diff
     call dein#add('Yggdroot/indentLine') " Add indent line
-    call dein#add('Yggdroot/indentLine') " Add indent line
     call dein#add('morhetz/gruvbox') " Color scheme
     call dein#add('rhysd/vim-color-spring-night') " Color scheme
     " Docker
@@ -108,7 +107,7 @@ endif
 " Colorscheme setting
 """
 "syntax enable 
-let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_contrast_dark = 'medium'
 set background=dark
 set t_Co=256
 colorscheme gruvbox
