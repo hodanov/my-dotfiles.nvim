@@ -81,28 +81,18 @@ if dein#load_state('/root/.cache/dein')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
     endif
-    " Color Scheme, status/tabline and so on..
-    call dein#add('scrooloose/nerdtree') " File manager
-    call dein#add('vim-airline/vim-airline') " Status/tabline
-    call dein#add('vim-airline/vim-airline-themes') " Modify theme of vim-airline
-    call dein#add('airblade/vim-gitgutter') " git diff in the gutter(sign column)
-    call dein#add('Yggdroot/indentLine') " Add indent line
-    call dein#add('morhetz/gruvbox') " Color scheme
-    call dein#add('rhysd/vim-color-spring-night') " Color scheme
-    " Docker
-    call dein#add('ekalinin/Dockerfile.vim')
-    " Golang
-    call dein#add('fatih/vim-go')
-    " Python
-    call dein#add('hhatto/autopep8')
-    " Auto complete and linter
-    call dein#add('tpope/vim-surround') " surroundings: for example parentheses, brackets, quotes, XML tags, and more.
-    call dein#add('dense-analysis/ale') " Asynchronous Lint Engine, error check
-    call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'}) " Auto complete
-    " Debugger for Python, Node.js and so on.
-    " call dein#add('joonty/vdebug')
-    " Finder
-    call dein#add('ctrlpvim/ctrlp.vim')
+
+    " Set .toml file
+    let s:rc_dir = expand('~/.vim')
+    if !isdirectory(s:rc_dir)
+        call mkdir(s:rc_dir, 'p')
+    endif
+    let s:toml = s:rc_dir . '/dein.toml'
+    let s:lazy_toml = s:rc_dir . '/dein_lazy.toml'
+
+    " Read toml and cache
+    call dein#load_toml(s:toml, {'lazy': 0})
+    call dein#load_toml(s:lazy_toml, {'lazy': 1})
     
     call dein#end()
     call dein#save_state()
@@ -114,6 +104,13 @@ syntax enable
 " If you want to install not installed plugins on startup.
 if dein#check_install()
     call dein#install()
+endif
+
+" Uninstall removed plugins from dein.toml.
+let s:removed_plugins = dein#check_clean()
+if len(s:removed_plugins) > 0
+    call map(s:removed_plugins, "delete(v:val, 'rf')")
+    call dein#recache_runtimepath()
 endif
 """
 "End dein Scripts

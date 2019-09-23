@@ -3,6 +3,8 @@ WORKDIR /myubuntu
 COPY ./vimrc/.vimrc /root/
 COPY ./vimrc/init.vim /root/.config/nvim/
 COPY ./vimrc/coc-settings.json /root/.config/nvim/
+COPY ./vimrc/dein.toml /root/.vim/
+COPY ./vimrc/dein_lazy.toml /root/.vim/
 RUN apt update && apt install -y \
     git \
     silversearcher-ag \
