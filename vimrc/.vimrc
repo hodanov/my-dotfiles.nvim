@@ -92,7 +92,7 @@ if dein#load_state('/root/.cache/dein')
     " Docker
     call dein#add('ekalinin/Dockerfile.vim')
     " Golang
-    call dein#add('fatih/vim-go', {'augroup': 'GoInstallBinaries'})
+    call dein#add('fatih/vim-go')
     " Python
     call dein#add('hhatto/autopep8')
     " Auto complete and linter
