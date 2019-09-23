@@ -32,6 +32,6 @@ RUN apt update && apt install -y \
     && rm ./installer.sh
 ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
-# RUN nvim +q \
-#     && nvim +GoInstallBinaries +q
-#         nvim +CocInstall coc-json coc-tsserver coc-html coc-css coc-vetur coc-yaml coc-python coc-emmet coc-git +q
+RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
+    && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git|q"
+    # && nvim +GoInstallBinaries +q
