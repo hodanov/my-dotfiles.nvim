@@ -35,3 +35,7 @@ ENV PYTHONIOENCODING utf-8
 RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
     && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git|q"
     # && nvim +GoInstallBinaries +q
+    # && nvim -c "execute 'silent! GoInstallBinaries' | execute 'quit'"
+    # Use vim's execute command to pipe commands
+    # This helps avoid "Press ENTER or type command to continue"
+    # vim -c "execute 'silent GoUpdateBinaries' | execute 'quit'"
