@@ -6,15 +6,29 @@ set fileencoding=utf-8 " Setting for handling multi byte characters
 scriptencoding utf-8 " Setting for handling multi byte characters
 set number " Add row number
 set title " Add a filename to each tabs
+set cursorline " Add cursor line
 set tabstop=4 " Insert spaces when the tab key is pressed
 set shiftwidth=4 " Change the number of spaces inserted for indentation
 " set softtabstop=4 " Make spaces feel like real tabs
 set expandtab " Convert tabs to spaces
+set smartindent " Add a new line with autoindent
 set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
+set incsearch " Highlight when inputting chars
+set wildmenu " Show completion suggestions at command line mode
+
+" Copy to the system clipboard
 if has('clipboard')
-    set clipboard=unnamed " Copy to the system clipboard
+    set clipboard=unnamed 
 endif
+
+" Remember a history of undo/redo
+if has('persistent_undo')
+    let undo_path = expand('~/.vim/undo/')
+    exe 'set undodir =' . undo_path
+    set undofile
+endif
+
 augroup html_css_js_and_others_indent
     autocmd!
     autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml :set tabstop=2
@@ -34,6 +48,9 @@ nnoremap <C-H> <C-W><C-H>
 " Open .vimrc and 'source' it
 nnoremap <Leader>. :vs ~/.vimrc<CR>
 nnoremap <Leader>s :source ~/.vimrc<CR>
+
+" Clear highlighted characters
+nnoremap <Esc><Esc> :nohlsearch<CR>
 
 """
 " vimshell setting
@@ -75,7 +92,7 @@ if dein#load_state('/root/.cache/dein')
     " Docker
     call dein#add('ekalinin/Dockerfile.vim')
     " Golang
-    call dein#add('fatih/vim-go')
+    call dein#add('fatih/vim-go', {'augroup': 'GoInstallBinaries'})
     " Python
     call dein#add('hhatto/autopep8')
     " Auto complete and linter
