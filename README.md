@@ -9,7 +9,7 @@ This is using the following technologies and vim-plugins:
 - Environments
   - Docker
   - Docker Compose
-  - golang:1.12.7-alpine
+  - golang:1.13-alpine
   - ubuntu:18.04
   - vim:8
   - Neovim:0.3.8
@@ -28,9 +28,12 @@ This is using the following technologies and vim-plugins:
   - Dockerfile.vim...Snippet for dockerfile and docker-compose.yml
   - vim-go...Development tool for Golang
   - autopep8...Run autopep8 when saving file
+  - emmet-vim...Support coding HTML/CSS
   - vim-surround...Do surroundings: for example {}, (), '', "" and so on.
   - ALE...Asynchronous Lint Engine, error check 
   - coc.nvim...Auto complete engine
+  - vim-maketable...Support making a markdown table
+  - translate.vim...Google translate in vim
 
 ## Requirements
 
