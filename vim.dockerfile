@@ -1,4 +1,7 @@
 FROM ubuntu:18.04
+ENV GO_VERSION='1.13.1'
+ENV GO_NAME="go${GO_VERSION}.linux-amd64.tar.gz"
+ENV GO_URL="https://dl.google.com/go/${GO_NAME}"
 WORKDIR /myubuntu
 COPY ./vimrc/.vimrc /root/
 COPY ./vimrc/init.vim /root/.config/nvim/
@@ -18,10 +21,10 @@ RUN apt update && apt install -y \
     build-essential cmake python3-dev \
     nodejs npm \
     && npm install -g yarn neovim \
-    #Golang
-    && wget https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go1.12.7.linux-amd64.tar.gz \
-    && rm go1.12.7.linux-amd64.tar.gz \
+    # Golang
+    && wget ${GO_URL} \
+    && tar -C /usr/local -xzf ${GO_NAME} \
+    && rm ${GO_NAME} \
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint neovim \
     # NeoVim
