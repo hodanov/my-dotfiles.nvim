@@ -16,10 +16,11 @@ set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
+autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
 
 " Copy to the system clipboard
 if has('clipboard')
-    set clipboard=unnamed 
+    set clipboard=unnamed
 endif
 
 " Remember a history of undo/redo
@@ -93,7 +94,7 @@ if dein#load_state('/root/.cache/dein')
     " Read toml and cache
     call dein#load_toml(s:toml, {'lazy': 0})
     call dein#load_toml(s:lazy_toml, {'lazy': 1})
-    
+
     call dein#end()
     call dein#save_state()
 endif
@@ -119,7 +120,7 @@ endif
 """
 " Colorscheme setting
 """
-"syntax enable 
+"syntax enable
 let g:gruvbox_contrast_dark = 'medium'
 set background=dark
 set t_Co=256
@@ -154,12 +155,12 @@ let g:indentLine_char_list = '|'
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '-'
 let NERDTreeShowHidden = 1
-let g:NERDTreeWinSize = 30 
+let g:NERDTreeWinSize = 30
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
 nnoremap <C-o> :NERDTreeToggle<CR>
 
 """
-" ALE 
+" ALE
 """
 " In ~/.vim/ftplugin/javascript.vim, or somewhere similar.
 " Fix files with prettier, and then ESLint.

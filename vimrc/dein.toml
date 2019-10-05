@@ -1,6 +1,6 @@
-################### 
+###################
 # Color Scheme, status/tabline and so on..
-################### 
+###################
 
 # File manager
 [[plugins]]
@@ -42,9 +42,9 @@ repo = 'hhatto/autopep8'
 [[plugins]]
 repo = 'mattn/emmet-vim'
 
-################### 
+###################
 # Auto complete and linter
-################### 
+###################
 
 # Surroundings: for example parentheses, brackets, quotes, XML tags, and more.
 [[plugins]]
@@ -64,9 +64,9 @@ rev = 'release'
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
 
-################### 
+###################
 # Auto complete and linter
-################### 
+###################
 
 # Markdown preview
 # [[plugins]]
@@ -75,7 +75,7 @@ repo = 'ctrlpvim/ctrlp.vim'
 # build = '''
 # cd app & yarn install
 # '''
- 
+
 # Support making a table
 [[plugins]]
 repo = 'mattn/vim-maketable'

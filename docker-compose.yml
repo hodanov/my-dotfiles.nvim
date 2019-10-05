@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: vim.dockerfile
     tty: true
-    depends_on: 
+    depends_on:
       - go
     volumes:
       - ..:/myubuntu
@@ -21,8 +21,8 @@ services:
       - 8081:8081
     tty: true
     volumes:
-      - ./go:/go/app
-        
+      - ./go:/go/src/github.com/hodanov
+
   py:
     container_name: py
     build:
