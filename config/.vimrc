@@ -171,17 +171,17 @@ let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
 """
 " Vim-go setting
 """
-let g:go_template_autocreate = 0
+" let g:go_template_autocreate = 0
 let g:go_fmt_command = 'gofmt'
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-"let g:go_metalinter_autosave_enabled = ['vet']
+let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
 let g:go_metalinter_autosave = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_extra_types = 1
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_function_calls = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_extra_types = 1
 
 """
 " Python setting - autopep8
