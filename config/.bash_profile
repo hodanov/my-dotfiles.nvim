@@ -1,0 +1,5 @@
+BEGIN="\[\e[1;37;42m\]"
+MIDDLE="\[\e[0;30;47m\]"
+END="\[\e[m\]"
+HOST_NAME="MyVim"
+export PS1="${BEGIN} \u@${HOST_NAME} ${MIDDLE} \w ${END} "

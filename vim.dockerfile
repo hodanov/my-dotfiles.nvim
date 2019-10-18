@@ -3,11 +3,11 @@ ENV GO_VERSION='1.13.1'
 ENV GO_NAME="go${GO_VERSION}.linux-amd64.tar.gz"
 ENV GO_URL="https://dl.google.com/go/${GO_NAME}"
 WORKDIR /myubuntu
-COPY ./vimrc/.vimrc /root/
-COPY ./vimrc/init.vim /root/.config/nvim/
-COPY ./vimrc/coc-settings.json /root/.config/nvim/
-COPY ./vimrc/dein.toml /root/.vim/
-COPY ./vimrc/dein_lazy.toml /root/.vim/
+COPY ./config/.vimrc /root/
+COPY ./config/init.vim /root/.config/nvim/
+COPY ./config/coc-settings.json /root/.config/nvim/
+COPY ./config/dein.toml /root/.vim/
+COPY ./config/dein_lazy.toml /root/.vim/
 RUN apt update && apt install -y \
     git \
     silversearcher-ag \
