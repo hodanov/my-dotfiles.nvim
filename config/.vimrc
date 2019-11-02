@@ -17,6 +17,8 @@ set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
 autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
+set mouse=a " Use mouse
+" set ttymouse=xterm2 " Use mouse
 
 " Copy to the system clipboard
 if has('clipboard')
