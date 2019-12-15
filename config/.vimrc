@@ -43,10 +43,10 @@ augroup END
 let g:mapleader = "\<Space>" " Set a space key to a leader.
 
 " Move the splited window
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
 
 " Open .vimrc and 'source' it
 nnoremap <Leader>. :vs ~/.vimrc<CR>
