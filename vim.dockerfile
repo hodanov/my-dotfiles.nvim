@@ -3,7 +3,6 @@ FROM ubuntu:18.04
 ENV GO_VERSION='1.13.1'
 ENV GO_NAME="go${GO_VERSION}.linux-amd64.tar.gz"
 ENV GO_URL="https://dl.google.com/go/${GO_NAME}"
-ENV NVIM_VERSION='0.4.3'
 
 WORKDIR /myubuntu
 
@@ -12,6 +11,7 @@ COPY ./config/init.vim /root/.config/nvim/
 COPY ./config/coc-settings.json /root/.config/nvim/
 COPY ./config/dein.toml /root/.vim/
 COPY ./config/dein_lazy.toml /root/.vim/
+COPY ./config/.bash_profile /root/
 
 RUN apt update && apt install -y \
     software-properties-common \
@@ -41,13 +41,6 @@ RUN apt update && apt install -y \
     # NeoVim
     && add-apt-repository ppa:neovim-ppa/stable \
     && apt install -y neovim python3-neovim \
-    && wget "https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/nvim.appimage" \
-    && chmod u+x nvim.appimage \
-    && ./nvim.appimage --appimage-extract \
-    && cp squashfs-root/usr/bin/nvim /usr/bin/ \
-    && cp -R squashfs-root/usr/* /usr \
-    && rm -rf nvim.appimage squashfs-root \
-    && apt install -y python3-neovim \
     ####################
     # Dein.vim
     && wget "https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh" \
@@ -59,9 +52,9 @@ ENV PYTHONIOENCODING utf-8
 
 RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
     && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
+    # && nvim -c "execute 'silent! GoInstallBinaries' | q"
     # nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
     # && nvim +GoInstallBinaries +q
-    # && nvim -c "execute 'silent! GoInstallBinaries' | execute 'quit'"
     # Use vim's execute command to pipe commands
     # This helps avoid "Press ENTER or type command to continue"
     # vim -c "execute 'silent GoUpdateBinaries' | execute 'quit'"
