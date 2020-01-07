@@ -9,6 +9,7 @@ WORKDIR /myubuntu
 COPY ./config/.vimrc /root/
 COPY ./config/init.vim /root/.config/nvim/
 COPY ./config/coc-settings.json /root/.config/nvim/
+COPY ./config/coc-settings.json /root/.vim/
 COPY ./config/dein.toml /root/.vim/
 COPY ./config/dein_lazy.toml /root/.vim/
 COPY ./config/.bash_profile /root/
