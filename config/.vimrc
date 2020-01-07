@@ -16,7 +16,10 @@ set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
-autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
+augroup auto_remove_unnecessary_spaces_at_the_end_of_line
+    autocmd!
+    autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
+augroup END
 " set mouse=a " Use mouse
 " set ttymouse=xterm2 " Use mouse
 
@@ -175,10 +178,12 @@ let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
 """
 " let g:go_template_autocreate = 0
 let g:go_fmt_command = 'gofmt'
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_enabled = ['vet', 'golint']
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_autosave = 1
-let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
+" let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
+let g:go_gocode_propose_builtins = 0
+let g:go_gopls_enabled = 0
 " let g:go_highlight_types = 1
 " let g:go_highlight_fields = 1
 " let g:go_highlight_functions = 1
