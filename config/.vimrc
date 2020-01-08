@@ -183,7 +183,7 @@ let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_autosave = 1
 " let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
 let g:go_gocode_propose_builtins = 0
-let g:go_gopls_enabled = 0
+" let g:go_gopls_enabled = 0
 " let g:go_highlight_types = 1
 " let g:go_highlight_fields = 1
 " let g:go_highlight_functions = 1
