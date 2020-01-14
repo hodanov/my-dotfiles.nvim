@@ -165,7 +165,7 @@ let g:NERDTreeDirArrowCollapsible = '-'
 let NERDTreeShowHidden = 1
 let g:NERDTreeWinSize = 30
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
-nnoremap <C-o> :NERDTreeToggle<CR>
+nnoremap <Leader>o :NERDTreeToggle<CR>
 
 """
 " ALE
