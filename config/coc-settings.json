@@ -5,5 +5,12 @@
       "rootPatterns": ["go.mod"],
       "filetypes": ["go"]
     }
+  },
+  "eslint.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.filetypes": ["javascript", "typescript", "javascriptreact", "vue"],
+  "markdownlint.config": {
+    "default": true,
+    "line-length": false
   }
 }

@@ -13,6 +13,7 @@ COPY ./config/coc-settings.json /root/.vim/
 COPY ./config/dein.toml /root/.vim/
 COPY ./config/dein_lazy.toml /root/.vim/
 COPY ./config/.bash_profile /root/
+COPY ./config/.eslintrc /root/
 
 RUN apt update && apt install -y \
     software-properties-common \
@@ -35,6 +36,9 @@ RUN apt update && apt install -y \
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
     ####################
+    # eslint, eslint-plugin-vue
+    && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node \
+    ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \
     && apt install -y vim \
@@ -52,7 +56,7 @@ ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 
 RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
-    && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
+    && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-highlight coc-emmet coc-git coc-vimlsp coc-markdownlint coc-eslint | q"
     # && nvim -c "execute 'silent! GoInstallBinaries' | q"
     # nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
     # && nvim +GoInstallBinaries +q
