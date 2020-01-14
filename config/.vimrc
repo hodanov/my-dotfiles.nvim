@@ -16,6 +16,7 @@ set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
+set conceallevel=0 " Show double quatations in json file and so on.
 augroup auto_remove_unnecessary_spaces_at_the_end_of_line
     autocmd!
     autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
@@ -151,8 +152,10 @@ set signcolumn=yes
 """
 " indentLine setting
 """
-let g:indentLine_enabled = 1
-let g:indentLine_char_list = '|'
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
 
 """
 " NERDTree setting
@@ -162,7 +165,7 @@ let g:NERDTreeDirArrowCollapsible = '-'
 let NERDTreeShowHidden = 1
 let g:NERDTreeWinSize = 30
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
-nnoremap <C-o> :NERDTreeToggle<CR>
+nnoremap <Leader>o :NERDTreeToggle<CR>
 
 """
 " ALE
