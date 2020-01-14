@@ -20,7 +20,7 @@ repo = 'airblade/vim-gitgutter'
 
 # Add indent line
 [[plugins]]
-repo = 'Yggdroot/indentLine'
+repo = 'nathanaelkane/vim-indent-guides'
 
 # Color scheme
 [[plugins]]
