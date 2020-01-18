@@ -147,10 +147,10 @@ let g:airline#extensions#branch#enabled = 1
 " gitgutter setting
 """
 let g:gitgutter_override_sign_column_highlight = 0
-set signcolumn=yes
+set signcolumn=yes " always show signcolumns
 
 """
-" indentLine setting
+" indent_guide setting
 """
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
@@ -184,7 +184,7 @@ let g:go_fmt_command = 'gofmt'
 let g:go_metalinter_enabled = ['vet', 'golint']
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 let g:go_metalinter_autosave = 1
-" let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
+let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
 let g:go_gocode_propose_builtins = 0
 " let g:go_gopls_enabled = 0
 " let g:go_highlight_types = 1
@@ -230,3 +230,13 @@ augroup python_auto_lint
     autocmd!
     autocmd BufWrite *.py :call Autopep8()
 augroup END
+
+"""
+" coc.nvim settings
+"""
+set hidden " if hidden is not set, TextEdit might fail.
+set nobackup " Some servers have issues with backup files, see #649
+set nowritebackup
+" set cmdheight=1 " Better display for messages
+set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
+" set shortmess+=c " don't give `ins-completion-menu` messages.
