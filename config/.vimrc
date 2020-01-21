@@ -16,7 +16,10 @@ set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
-autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
+augroup auto_remove_unnecessary_spaces_at_the_end_of_line
+    autocmd!
+    autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
+augroup END
 " set mouse=a " Use mouse
 " set ttymouse=xterm2 " Use mouse
 
@@ -146,10 +149,12 @@ let g:gitgutter_override_sign_column_highlight = 0
 set signcolumn=yes
 
 """
-" indentLine setting
+" indent_guides setting
 """
-let g:indentLine_enabled = 1
-let g:indentLine_char_list = '|'
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
 
 """
 " NERDTree setting
@@ -159,26 +164,28 @@ let g:NERDTreeDirArrowCollapsible = '-'
 let NERDTreeShowHidden = 1
 let g:NERDTreeWinSize = 30
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
-nnoremap <C-o> :NERDTreeToggle<CR>
+nnoremap <Leader>o :NERDTreeToggle<CR>
 
 """
 " ALE
 """
 " In ~/.vim/ftplugin/javascript.vim, or somewhere similar.
 " Fix files with prettier, and then ESLint.
-let b:ale_fixers = ['prettier', 'eslint']
+" let b:ale_fixers = ['prettier', 'eslint']
 " Equivalent to the above.
-let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
+" let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
 
 """
 " Vim-go setting
 """
 " let g:go_template_autocreate = 0
-let g:go_fmt_command = 'gofmt'
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
+" let g:go_fmt_command = 'gofmt'
+" let g:go_metalinter_enabled = ['vet', 'golint']
+" let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+" let g:go_metalinter_autosave = 1
+" let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
+" let g:go_gocode_propose_builtins = 0
+" let g:go_gopls_enabled = 0
 " let g:go_highlight_types = 1
 " let g:go_highlight_fields = 1
 " let g:go_highlight_functions = 1
@@ -222,3 +229,32 @@ augroup python_auto_lint
     autocmd!
     autocmd BufWrite *.py :call Autopep8()
 augroup END
+
+"""
+" vim-lsp
+"""
+let g:lsp_fold_enabled = 0
+let g:lsp_diagnostics_enabled = 0
+let g:lsp_diagnostics_echo_cursor = 0
+let g:asyncomplete_popup_delay = 100
+let g:lsp_text_edit_enabled = 0
+" debug
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+nmap <silent> gd :LspDefinition<CR>
+" nmap <silent> gd :LspPeekDefinition<CR>
+nmap <silent> <f2> :LspRename<CR>
+nmap <silent> <Leader>d :LspTypeDefinition<CR>
+nmap <silent> <Leader>r :LspReferences<CR>
+nmap <silent> <Leader>i :LspImplementation<CR>
+
+"""
+" vim-lsp-settings
+"""
+let g:lsp_settings_servers_dir = '/root/.vim/servers'
+
+"augroup go_auto_lint
+"    autocmd!
+"    autocmd BufWritePost,FileWritePost *.go execute 'golint' | cwindow
+"augroup END

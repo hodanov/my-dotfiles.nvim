@@ -2,13 +2,14 @@ version: '3'
 
 services:
   vim:
-    container_name: vim
+    container_name: vim-dev
     build:
       context: .
       dockerfile: vim.dockerfile
     tty: true
     volumes:
       - ..:/myubuntu
+      - ../docker-template-go/code/app:/root/go/src/app
 
         #  go:
         #    container_name: go

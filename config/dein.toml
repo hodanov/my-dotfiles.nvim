@@ -19,28 +19,28 @@ repo = 'vim-airline/vim-airline-themes'
 repo = 'airblade/vim-gitgutter'
 
 # Add indent line
-[[plugins]]
-repo = 'Yggdroot/indentLine'
+# [[plugins]]
+# repo = 'nathanaelkane/vim-indent-guides'
 
 # Color scheme
 [[plugins]]
 repo = 'morhetz/gruvbox'
 
 # Docker
-[[plugins]]
-repo = 'ekalinin/Dockerfile.vim'
+# [[plugins]]
+# repo = 'ekalinin/Dockerfile.vim'
 
 # Golang
-[[plugins]]
-repo = 'fatih/vim-go'
+# [[plugins]]
+# repo = 'fatih/vim-go'
 
 # Python
-[[plugins]]
-repo = 'hhatto/autopep8'
+# [[plugins]]
+# repo = 'hhatto/autopep8'
 
 # HTML/CSS
-[[plugins]]
-repo = 'mattn/emmet-vim'
+# [[plugins]]
+# repo = 'mattn/emmet-vim'
 
 ###################
 # Auto complete and linter
@@ -56,13 +56,36 @@ repo = 'dense-analysis/ale'
 
 # Auto complete
 [[plugins]]
-repo = 'neoclide/coc.nvim'
-merge = 0
-rev = 'release'
+repo = 'prabirshrestha/async.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+[[plugins]]
+repo = 'yami-beta/asyncomplete-omni.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+merged = '0'
+
+[[plugins]]
+repo = 'mattn/vim-goimports'
+
+# Auto complete
+# [[plugins]]
+# repo = 'neoclide/coc.nvim'
+# merge = 0
+# rev = 'release'
 
 # Finder
-[[plugins]]
-repo = 'ctrlpvim/ctrlp.vim'
+# [[plugins]]
+# repo = 'ctrlpvim/ctrlp.vim'
 
 ###################
 # Auto complete and linter
@@ -77,9 +100,10 @@ repo = 'ctrlpvim/ctrlp.vim'
 # '''
 
 # Support making a table
-[[plugins]]
-repo = 'mattn/vim-maketable'
+# [[plugins]]
+# repo = 'mattn/vim-maketable'
 
 # Google translate in vim
-[[plugins]]
-repo = 'skanehira/translate.vim'
+# [[plugins]]
+# repo = 'skanehira/translate.vim'
+
