@@ -32,8 +32,6 @@ RUN mkdir /root/.vim/servers \
     && wget ${GO_URL} \
     && tar -C /usr/local -xzf ${GO_NAME} \
     && rm ${GO_NAME} \
-    && go get golang.org/x/tools/cmd... \
-    && go get golang.org/x/lint/golint \
     ####################
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
@@ -55,6 +53,8 @@ ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 
 RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
+    && go get golang.org/x/tools/cmd... \
+    && go get golang.org/x/lint/golint
     # && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
     # && nvim -c "execute 'silent! GoInstallBinaries' | q"
     # nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
