@@ -15,6 +15,7 @@ COPY ./config/dein_lazy.toml /root/.vim/
 COPY ./config/.bash_profile /root/
 
 RUN mkdir /root/.vim/servers \
+    && mkdir /root/.vim/undo \
     && apt update && apt install -y \
     software-properties-common \
     git \
@@ -53,7 +54,7 @@ ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 
 RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
-    && go get golang.org/x/tools/cmd... \
+    && go get golang.org/x/tools/cmd/... \
     && go get golang.org/x/lint/golint
     # && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
     # && nvim -c "execute 'silent! GoInstallBinaries' | q"

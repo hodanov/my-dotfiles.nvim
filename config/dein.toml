@@ -45,6 +45,9 @@ repo = 'morhetz/gruvbox'
 ###################
 # Auto complete and linter
 ###################
+# Auto checker
+[[plugins]]
+repo = 'vim-syntastic/syntastic'
 
 # Surroundings: for example parentheses, brackets, quotes, XML tags, and more.
 [[plugins]]

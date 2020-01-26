@@ -130,7 +130,6 @@ let g:gruvbox_contrast_dark = 'medium'
 set background=dark
 set t_Co=256
 colorscheme gruvbox
-" colorscheme spring-night
 
 """
 " vim-airline setting
@@ -140,7 +139,6 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled = 1
-" let g:airline_theme = 'spring_night'
 
 """
 " gitgutter setting
@@ -174,24 +172,6 @@ nnoremap <Leader>o :NERDTreeToggle<CR>
 " let b:ale_fixers = ['prettier', 'eslint']
 " Equivalent to the above.
 " let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
-
-"""
-" Vim-go setting
-"""
-" let g:go_template_autocreate = 0
-" let g:go_fmt_command = 'gofmt'
-" let g:go_metalinter_enabled = ['vet', 'golint']
-" let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-" let g:go_metalinter_autosave = 1
-" let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
-" let g:go_gocode_propose_builtins = 0
-" let g:go_gopls_enabled = 0
-" let g:go_highlight_types = 1
-" let g:go_highlight_fields = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_function_calls = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_extra_types = 1
 
 """
 " Python setting - autopep8
@@ -254,7 +234,19 @@ nmap <silent> <Leader>i :LspImplementation<CR>
 """
 let g:lsp_settings_servers_dir = '/root/.vim/servers'
 
-"augroup go_auto_lint
-"    autocmd!
-"    autocmd BufWritePost,FileWritePost *.go execute 'golint' | cwindow
-"augroup END
+"""
+" Syntastic
+" Execute a linter command when saving a file.
+"""
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_error_symbol = '✗✗'
+let g:syntastic_style_error_symbol = '✠✠'
+let g:syntastic_warning_symbol = '∆∆'
+let g:syntastic_style_warning_symbol = '≈≈'
+let g:syntastic_go_checkers = ['govet', 'golint']
