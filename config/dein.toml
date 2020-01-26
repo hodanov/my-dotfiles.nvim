@@ -19,8 +19,8 @@ repo = 'vim-airline/vim-airline-themes'
 repo = 'airblade/vim-gitgutter'
 
 # Add indent line
-# [[plugins]]
-# repo = 'nathanaelkane/vim-indent-guides'
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
 
 # Color scheme
 [[plugins]]
@@ -51,8 +51,8 @@ repo = 'morhetz/gruvbox'
 repo = 'tpope/vim-surround'
 
 # Asynchronous Lint Engine, error check
-[[plugins]]
-repo = 'dense-analysis/ale'
+# [[plugins]]
+# repo = 'dense-analysis/ale'
 
 # Auto complete
 [[plugins]]
@@ -73,6 +73,9 @@ repo = 'prabirshrestha/vim-lsp'
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
 merged = '0'
+
+[[plugins]]
+repo = 'mattn/vim-lsp-icons'
 
 [[plugins]]
 repo = 'mattn/vim-goimports'

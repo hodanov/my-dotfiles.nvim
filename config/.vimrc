@@ -234,10 +234,10 @@ augroup END
 " vim-lsp
 """
 let g:lsp_fold_enabled = 0
-let g:lsp_diagnostics_enabled = 0
-let g:lsp_diagnostics_echo_cursor = 0
-let g:asyncomplete_popup_delay = 100
-let g:lsp_text_edit_enabled = 0
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+" let g:asyncomplete_popup_delay = 100
+let g:lsp_text_edit_enabled = 1
 " debug
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('~/vim-lsp.log')
