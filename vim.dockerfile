@@ -25,7 +25,7 @@ RUN mkdir /root/.vim/servers \
     wget \
     python3 \
     python3-pip \
-    build-essential cmake python3-dev \
+    build-essential cmake python3-dev python3-venv \
     nodejs npm \
     && npm install -g yarn \
     ####################
