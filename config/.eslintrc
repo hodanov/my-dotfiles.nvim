@@ -1,0 +1,20 @@
+{
+    "extends": [
+      "eslint:recommended",
+      "plugin:vue/recommended",
+      "plugin:react/recommended",
+      "plugin:node/recommended"
+    ],
+    "plugins": [
+      "vue",
+      "react",
+      "node"
+    ],
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "rules": {
+      "node/no-unsupported-features": ["error", {"version": 8}]
+    }
+}
