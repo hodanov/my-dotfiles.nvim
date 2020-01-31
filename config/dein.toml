@@ -45,17 +45,13 @@ repo = 'morhetz/gruvbox'
 ###################
 # Auto complete and linter
 ###################
-# Auto checker
-[[plugins]]
-repo = 'vim-syntastic/syntastic'
-
 # Surroundings: for example parentheses, brackets, quotes, XML tags, and more.
 [[plugins]]
 repo = 'tpope/vim-surround'
 
 # Asynchronous Lint Engine, error check
-# [[plugins]]
-# repo = 'dense-analysis/ale'
+[[plugins]]
+repo = 'dense-analysis/ale'
 
 # Auto complete
 [[plugins]]
@@ -112,4 +108,3 @@ repo = 'mattn/vim-goimports'
 # Google translate in vim
 # [[plugins]]
 # repo = 'skanehira/translate.vim'
-

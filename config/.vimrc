@@ -73,9 +73,9 @@ endif
 """
 " dein scripts
 """
-if &compatible
-    set nocompatible
-endif
+" if &compatible
+"     set nocompatible
+" endif
 set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
 let g:dein#auto_recache=1
 
@@ -167,11 +167,15 @@ nnoremap <Leader>o :NERDTreeToggle<CR>
 """
 " ALE
 """
-" In ~/.vim/ftplugin/javascript.vim, or somewhere similar.
-" Fix files with prettier, and then ESLint.
-" let b:ale_fixers = ['prettier', 'eslint']
-" Equivalent to the above.
-" let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
+" ALE enables `gofmt`, `golint` and `go vet` by default.
+" https://github.com/dense-analysis/ale/blob/master/doc/ale-go.txt
+let g:ale_fix_on_save = 1
+let b:ale_fixers = ['prettier', 'eslint']
+let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
+let g:airline#extensions#ale#enabled = 1
+" let g:ale_set_loclist = 1
+" let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
 
 """
 " Python setting - autopep8
@@ -233,21 +237,3 @@ nmap <silent> <Leader>i :LspImplementation<CR>
 " vim-lsp-settings
 """
 let g:lsp_settings_servers_dir = '/root/.vim/servers'
-
-"""
-" Syntastic
-" Execute a linter command when saving a file.
-"""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_error_symbol = '✗✗'
-let g:syntastic_style_error_symbol = '✠✠'
-let g:syntastic_warning_symbol = '∆∆'
-let g:syntastic_style_warning_symbol = '≈≈'
-let g:syntastic_go_checkers = ['govet', 'golint']
-let g:syntastic_python_checkers = ['flake8']
