@@ -11,6 +11,7 @@ COPY ./config/init.vim /root/.config/nvim/
 COPY ./config/dein.toml /root/.vim/
 COPY ./config/dein_lazy.toml /root/.vim/
 COPY ./config/.bash_profile /root/
+COPY ./config/.eslintrc /root/
 
 RUN mkdir /root/.vim/servers \
     && mkdir /root/.vim/undo \
@@ -34,6 +35,9 @@ RUN mkdir /root/.vim/servers \
     ####################
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
+    ####################
+    # eslint, eslint-plugin-vue
+    && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node \
     ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \

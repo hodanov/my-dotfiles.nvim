@@ -16,6 +16,8 @@ set colorcolumn=80 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
+set conceallevel=0 " Show double quatations in json file and so on.
+
 augroup auto_remove_unnecessary_spaces_at_the_end_of_line
     autocmd!
     autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
@@ -144,10 +146,14 @@ let g:airline#extensions#branch#enabled = 1
 " gitgutter setting
 """
 let g:gitgutter_override_sign_column_highlight = 0
-set signcolumn=yes
+set signcolumn=yes " always show signcolumns
 
 """
+<<<<<<< HEAD
 " indent_guides setting
+=======
+" indent_guide setting
+>>>>>>> 226b951be453d491e6b205d362258f96d6c1fb54
 """
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
@@ -182,6 +188,7 @@ let g:ale_open_list = 1
 " autopep
 " original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
 """
+<<<<<<< HEAD
 " let python_highlight_all = 1
 "
 " function! Preserve(command)

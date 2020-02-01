@@ -7,5 +7,6 @@ services:
       context: .
       dockerfile: vim.dockerfile
     tty: true
+    restart: always
     volumes:
       - ..:/my-ubuntu
