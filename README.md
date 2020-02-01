@@ -1,26 +1,27 @@
-# Golang + Vim/Neovim on docker
+# Go + Vim/Neovim on docker
 
 This is the dev-environment for Vim/Neovim on docker.
 
 This is using the following technologies and vim-plugins:
 
 - Environment
-  - ubuntu: 18.04
-  - vim: > 8
+  - Ubuntu: 18.04
+  - Vim: > 8
   - Neovim: > 0.3.8
   - Go: > 1.13
-  - python: > 3
+  - Python: > 3
 - Linter
   - Go
     - gofmt
     - go vet
+    - goimports
     - golint
   - Python
     - flake8
     - autopep8
     - mypy
 - Vim plugins
-  - Dein.vim...Plugin manager
+  - dein.vim...Plugin manager
   - NERDTree...File manager
   - gruvbox...Color scheme
   - vim-lsp...LSP plugin
