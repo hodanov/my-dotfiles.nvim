@@ -27,20 +27,16 @@ repo = 'nathanaelkane/vim-indent-guides'
 repo = 'morhetz/gruvbox'
 
 # Docker
-# [[plugins]]
-# repo = 'ekalinin/Dockerfile.vim'
-
-# Golang
-# [[plugins]]
-# repo = 'fatih/vim-go'
+[[plugins]]
+repo = 'ekalinin/Dockerfile.vim'
 
 # Python
-# [[plugins]]
-# repo = 'hhatto/autopep8'
+[[plugins]]
+repo = 'hhatto/autopep8'
 
 # HTML/CSS
-# [[plugins]]
-# repo = 'mattn/emmet-vim'
+[[plugins]]
+repo = 'mattn/emmet-vim'
 
 ###################
 # Auto complete and linter
@@ -78,16 +74,6 @@ repo = 'mattn/vim-lsp-icons'
 
 [[plugins]]
 repo = 'mattn/vim-goimports'
-
-# Auto complete
-# [[plugins]]
-# repo = 'neoclide/coc.nvim'
-# merge = 0
-# rev = 'release'
-
-# Finder
-# [[plugins]]
-# repo = 'ctrlpvim/ctrlp.vim'
 
 ###################
 # Auto complete and linter
