@@ -2,33 +2,11 @@ version: '3'
 
 services:
   vim:
-    container_name: vim
+    container_name: vim-dev
     build:
       context: .
       dockerfile: vim.dockerfile
     tty: true
     restart: always
     volumes:
-      - ..:/myubuntu
-
-        #  go:
-        #    container_name: go
-        #    build:
-        #      context: .
-        #      dockerfile: go.dockerfile
-        #    ports:
-        #      - 8081:8081
-        #    tty: true
-        #    volumes:
-        #      - ./go:/go/src/github.com/hodanov
-        #
-        #  py:
-        #    container_name: py
-        #    build:
-        #      context: .
-        #      dockerfile: py.dockerfile
-        #    ports:
-        #      - 8082:8082
-        #    tty: true
-        #    volumes:
-        #      - ./python:/app
+      - ..:/my-ubuntu

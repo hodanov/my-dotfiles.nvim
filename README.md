@@ -1,39 +1,38 @@
 # Golang + Vim/Neovim on docker
 
-This is the dev-environment for Vim/Neovim and golang on docker.
-
-This environment is installed flake8 and autopep8, so simple Python coding is possible too.
+This is the dev-environment for Vim/Neovim on docker.
 
 This is using the following technologies and vim-plugins:
 
-- Environments
-  - Docker
-  - Docker Compose
-  - golang:1.13-alpine
-  - ubuntu:18.04
-  - vim:8
-  - Neovim:0.3.8
-  - python:3
-  - pip:3
-  - flake8
-  - autopep8
-- Plugins
+- Environment
+  - ubuntu: 18.04
+  - vim: > 8
+  - Neovim: > 0.3.8
+  - Go: > 1.13
+  - python: > 3
+- Linter
+  - Go
+    - gofmt
+    - go vet
+    - golint
+  - Python
+    - flake8
+    - autopep8
+    - mypy
+- Vim plugins
   - Dein.vim...Plugin manager
   - NERDTree...File manager
-  - ctrlp.vim...Finder
   - gruvbox...Color scheme
+  - vim-lsp...LSP plugin
+  - vim-lsp-settings...auto configurations for vim-lsp
   - vim-airline...Status tabline
   - vim-gitgutter...Show `git diff` in the gutter(sign column)
-  - indentLine...Add indent lines
   - Dockerfile.vim...Snippet for dockerfile and docker-compose.yml
-  - vim-go...Development tool for Golang
   - autopep8...Run autopep8 when saving file
   - emmet-vim...Support coding HTML/CSS
   - vim-surround...Do surroundings: for example {}, (), '', "" and so on.
-  - ALE...Asynchronous Lint Engine, error check 
-  - coc.nvim...Auto complete engine
-  - vim-maketable...Support making a markdown table
-  - translate.vim...Google translate in vim
+  - ALE...Asynchronous Lint Engine, error check
+  and so on...
 
 ## Requirements
 
@@ -47,34 +46,18 @@ The app requires the following to run:
 To use the environment, clone the repo and execute `docker-compose up`.
 
 ```
-git clone git@github.com:hodanov/docker-env-for-vim.git 
+git clone git@github.com:hodanov/docker-template-vim.git
 cd docker-template-vim
 docker-compose up -d
 ```
 
-After launching containers, execute the following command to attach the "vim" container. 
+After launching containers, execute the following command to attach the "vim" container.
 
 ```
-docker-compose exec vim bash --login
+docker-compose exec vim-dev bash --login
 ```
 
 The `--login` option is required to read the `.vimrc` file.
-
-After attaching the container, execute the following command. This is the command that installs dependencies to use vim-go.
-
-```
-nvim +GoInstallBinaries +q
-```
-
-If you want to use auto completion, execute `CocInstall` command as necessary. 
-
-```
-nvim +CocInstall coc-python
-```
-
-Please refer to the below about `CocInstall`.
-
-https://github.com/neoclide/coc.nvim
 
 Thank you.
 

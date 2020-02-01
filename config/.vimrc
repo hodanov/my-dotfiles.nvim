@@ -17,6 +17,7 @@ set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
 set conceallevel=0 " Show double quatations in json file and so on.
+
 augroup auto_remove_unnecessary_spaces_at_the_end_of_line
     autocmd!
     autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
@@ -74,9 +75,9 @@ endif
 """
 " dein scripts
 """
-if &compatible
-    set nocompatible
-endif
+" if &compatible
+"     set nocompatible
+" endif
 set runtimepath+=/root/.cache/dein/repos/github.com/Shougo/dein.vim
 let g:dein#auto_recache=1
 
@@ -131,7 +132,6 @@ let g:gruvbox_contrast_dark = 'medium'
 set background=dark
 set t_Co=256
 colorscheme gruvbox
-" colorscheme spring-night
 
 """
 " vim-airline setting
@@ -141,7 +141,6 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled = 1
-" let g:airline_theme = 'spring_night'
 
 """
 " gitgutter setting
@@ -150,7 +149,11 @@ let g:gitgutter_override_sign_column_highlight = 0
 set signcolumn=yes " always show signcolumns
 
 """
+<<<<<<< HEAD
+" indent_guides setting
+=======
 " indent_guide setting
+>>>>>>> 226b951be453d491e6b205d362258f96d6c1fb54
 """
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
@@ -170,73 +173,74 @@ nnoremap <Leader>o :NERDTreeToggle<CR>
 """
 " ALE
 """
-" In ~/.vim/ftplugin/javascript.vim, or somewhere similar.
-" Fix files with prettier, and then ESLint.
+" ALE enables `gofmt`, `golint` and `go vet` by default.
+" https://github.com/dense-analysis/ale/blob/master/doc/ale-go.txt
+let g:ale_fix_on_save = 1
 let b:ale_fixers = ['prettier', 'eslint']
-" Equivalent to the above.
 let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
-
-"""
-" Vim-go setting
-"""
-" let g:go_template_autocreate = 0
-let g:go_fmt_command = 'gofmt'
-let g:go_metalinter_enabled = ['vet', 'golint']
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_command='golangci-lint run --print-issued-lines=false'
-let g:go_gocode_propose_builtins = 0
-" let g:go_gopls_enabled = 0
-" let g:go_highlight_types = 1
-" let g:go_highlight_fields = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_function_calls = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_extra_types = 1
+let g:airline#extensions#ale#enabled = 1
+" let g:ale_set_loclist = 1
+" let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
 
 """
 " Python setting - autopep8
 " autopep
 " original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
 """
-let python_highlight_all = 1
-
-function! Preserve(command)
-    " Save the last search.
-    let search = @/
-    " Save the current cursor position.
-    let cursor_position = getpos('.')
-    " Save the current window position.
-    normal! H
-    let window_position = getpos('.')
-    call setpos('.', cursor_position)
-    " Execute the command.
-    execute a:command
-    " Restore the last search.
-    let @/ = search
-    " Restore the previous window position.
-    call setpos('.', window_position)
-    normal! zt
-    " Restore the previous cursor position.
-    call setpos('.', cursor_position)
-endfunction
-
-function! Autopep8()
-    "--ignote=E501: Ignore completing the length of a line."
-    call Preserve(':silent %!autopep8 --ignore=E501 -')
-endfunction
-
-augroup python_auto_lint
-    autocmd!
-    autocmd BufWrite *.py :call Autopep8()
-augroup END
+<<<<<<< HEAD
+" let python_highlight_all = 1
+"
+" function! Preserve(command)
+"     " Save the last search.
+"     let search = @/
+"     " Save the current cursor position.
+"     let cursor_position = getpos('.')
+"     " Save the current window position.
+"     normal! H
+"     let window_position = getpos('.')
+"     call setpos('.', cursor_position)
+"     " Execute the command.
+"     execute a:command
+"     " Restore the last search.
+"     let @/ = search
+"     " Restore the previous window position.
+"     call setpos('.', window_position)
+"     normal! zt
+"     " Restore the previous cursor position.
+"     call setpos('.', cursor_position)
+" endfunction
+"
+" function! Autopep8()
+"     " --ignote=E501: Ignore completing the length of a line.
+"     call Preserve(':silent %!autopep8 --ignore=E501 -')
+" endfunction
+"
+" augroup python_auto_lint
+"     autocmd!
+"     autocmd BufWrite *.py :call Autopep8()
+" augroup END
 
 """
-" coc.nvim settings
+" vim-lsp
 """
-set hidden " if hidden is not set, TextEdit might fail.
-set nobackup " Some servers have issues with backup files, see #649
-set nowritebackup
-" set cmdheight=1 " Better display for messages
-set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
-" set shortmess+=c " don't give `ins-completion-menu` messages.
+let g:lsp_fold_enabled = 0
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+" let g:asyncomplete_popup_delay = 100
+let g:lsp_text_edit_enabled = 1
+" debug
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+nmap <silent> gd :LspDefinition<CR>
+" nmap <silent> gd :LspPeekDefinition<CR>
+nmap <silent> <f2> :LspRename<CR>
+nmap <silent> <Leader>d :LspTypeDefinition<CR>
+nmap <silent> <Leader>r :LspReferences<CR>
+nmap <silent> <Leader>i :LspImplementation<CR>
+
+"""
+" vim-lsp-settings
+"""
+let g:lsp_settings_servers_dir = '/root/.vim/servers'

@@ -8,14 +8,14 @@ WORKDIR /myubuntu
 
 COPY ./config/.vimrc /root/
 COPY ./config/init.vim /root/.config/nvim/
-COPY ./config/coc-settings.json /root/.config/nvim/
-COPY ./config/coc-settings.json /root/.vim/
 COPY ./config/dein.toml /root/.vim/
 COPY ./config/dein_lazy.toml /root/.vim/
 COPY ./config/.bash_profile /root/
 COPY ./config/.eslintrc /root/
 
-RUN apt update && apt install -y \
+RUN mkdir /root/.vim/servers \
+    && mkdir /root/.vim/undo \
+    && apt update && apt install -y \
     software-properties-common \
     git \
     silversearcher-ag \
@@ -24,7 +24,7 @@ RUN apt update && apt install -y \
     wget \
     python3 \
     python3-pip \
-    build-essential cmake python3-dev \
+    build-essential cmake python3-dev python3-venv \
     nodejs npm \
     && npm install -g yarn \
     ####################
@@ -56,10 +56,5 @@ ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 
 RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
-    && nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-highlight coc-emmet coc-git coc-vimlsp coc-markdownlint coc-eslint | q"
-    # && nvim -c "execute 'silent! GoInstallBinaries' | q"
-    # nvim -c "CocInstall -sync coc-json coc-tsserver coc-html coc-css coc-yaml coc-python coc-emmet coc-git | q"
-    # && nvim +GoInstallBinaries +q
-    # Use vim's execute command to pipe commands
-    # This helps avoid "Press ENTER or type command to continue"
-    # vim -c "execute 'silent GoUpdateBinaries' | execute 'quit'"
+    && go get golang.org/x/tools/cmd/... \
+    && go get golang.org/x/lint/golint
