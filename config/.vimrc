@@ -149,11 +149,7 @@ let g:gitgutter_override_sign_column_highlight = 0
 set signcolumn=yes " always show signcolumns
 
 """
-<<<<<<< HEAD
 " indent_guides setting
-=======
-" indent_guide setting
->>>>>>> 226b951be453d491e6b205d362258f96d6c1fb54
 """
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
@@ -188,7 +184,6 @@ let g:ale_open_list = 1
 " autopep
 " original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
 """
-<<<<<<< HEAD
 " let python_highlight_all = 1
 "
 " function! Preserve(command)
