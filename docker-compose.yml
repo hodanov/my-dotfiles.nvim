@@ -9,4 +9,4 @@ services:
     tty: true
     restart: always
     volumes:
-      - ..:/my-ubuntu
+      - ..:/myubuntu

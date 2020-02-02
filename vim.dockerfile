@@ -11,7 +11,6 @@ COPY ./config/init.vim /root/.config/nvim/
 COPY ./config/dein.toml /root/.vim/
 COPY ./config/dein_lazy.toml /root/.vim/
 COPY ./config/.bash_profile /root/
-COPY ./config/.eslintrc /root/
 
 RUN mkdir /root/.vim/servers \
     && mkdir /root/.vim/undo \
