@@ -65,10 +65,10 @@ nnoremap <Esc><Esc> :nohlsearch<CR>
 """
 if has('nvim')
     nnoremap <Leader>- :split term://bash<CR>
-    nnoremap <Leader>i :vsplit term://bash<CR>
+    nnoremap <Leader>l :vsplit term://bash<CR>
 elseif !has('nvim')
     nnoremap <Leader>- :below terminal ++close ++rows=13 bash<CR>
-    nnoremap <Leader>i :vertical terminal ++close bash<CR>
+    nnoremap <Leader>l :vertical terminal ++close bash<CR>
 endif
 
 
