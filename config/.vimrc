@@ -178,6 +178,7 @@ let g:airline#extensions#ale#enabled = 1
 " let g:ale_set_loclist = 1
 " let g:ale_set_quickfix = 1
 let g:ale_open_list = 1
+let g:ale_linters = {'go': ['go vet']}
 
 """
 " Python setting - autopep8
