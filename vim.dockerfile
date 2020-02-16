@@ -56,4 +56,7 @@ ENV PYTHONIOENCODING utf-8
 
 RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
     && go get golang.org/x/tools/cmd/... \
-    && go get golang.org/x/lint/golint
+    && go get golang.org/x/lint/golint \
+    && go get github.com/motemen/gore/cmd/gore \
+    && go get github.com/mdempsky/gocode \
+    && go get github.com/k0kubun/pp
