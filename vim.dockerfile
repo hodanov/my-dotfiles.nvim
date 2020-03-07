@@ -36,7 +36,7 @@ RUN mkdir /root/.vim/servers \
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
     ####################
     # eslint, eslint-plugin-vue
-    && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node \
+    && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node eslint_d \
     ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \
