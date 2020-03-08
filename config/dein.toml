@@ -38,6 +38,10 @@ repo = 'hhatto/autopep8'
 [[plugins]]
 repo = 'mattn/emmet-vim'
 
+# Terraform
+[[plugins]]
+repo = 'hashivim/vim-terraform'
+
 ###################
 # Auto complete and linter
 ###################
