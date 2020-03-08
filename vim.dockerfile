@@ -21,6 +21,7 @@ RUN mkdir /root/.vim/servers \
     tree \
     jq \
     wget \
+    curl \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
