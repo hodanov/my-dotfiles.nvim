@@ -240,3 +240,8 @@ nmap <silent> <Leader>i :LspImplementation<CR>
 " vim-lsp-settings
 """
 let g:lsp_settings_servers_dir = '/root/.vim/servers'
+
+"""
+" terraform
+"""
+let g:terraform_fmt_on_save=1
