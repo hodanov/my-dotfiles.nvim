@@ -22,6 +22,7 @@ RUN mkdir /root/.vim/servers \
     jq \
     wget \
     curl \
+    unzip \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
@@ -38,6 +39,11 @@ RUN mkdir /root/.vim/servers \
     ####################
     # eslint, eslint-plugin-vue
     && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node eslint_d \
+    ####################
+    # Terraform
+    && TERRAFORM_URL=$(curl -sL https://releases.hashicorp.com/terraform/index.json | jq -r '.versions[].builds[].url' | egrep 'terraform_[0-9]\.[0-9]{1,2}\.[0-9]{1,2}_linux.*amd64' | sort -V | tail -1) \
+    && wget ${TERRAFORM_URL} \
+    && unzip -q `ls | egrep 'terraform_[0-9]\.[0-9]{1,2}\.[0-9]{1,2}_linux.*amd64'` -d /usr/local/bin/ \
     ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \
