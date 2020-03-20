@@ -1,9 +1,5 @@
 FROM ubuntu:18.04
 
-ENV GO_VERSION='1.13.1'
-ENV GO_NAME="go${GO_VERSION}.linux-amd64.tar.gz"
-ENV GO_URL="https://dl.google.com/go/${GO_NAME}"
-
 WORKDIR /myubuntu
 
 COPY ./config/.vimrc /root/
@@ -29,10 +25,13 @@ RUN mkdir /root/.vim/servers \
     nodejs npm \
     && npm install -g yarn \
     ####################
-    # Golang
+    # Go
+    && GO_REGEX_PATTERN='go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.linux-amd64\.tar\.gz' \
+    && GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_REGEX_PATTERN}| sort -V | tail -1` \
+    && GO_URL="https://dl.google.com/go/"`echo $GO_LATEST` \
     && wget ${GO_URL} \
-    && tar -C /usr/local -xzf ${GO_NAME} \
-    && rm ${GO_NAME} \
+    && tar -C /usr/local -xzf ${GO_LATEST} \
+    && rm ${GO_LATEST} \
     ####################
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
@@ -41,9 +40,10 @@ RUN mkdir /root/.vim/servers \
     && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node eslint_d \
     ####################
     # Terraform
-    && TERRAFORM_URL=$(curl -sL https://releases.hashicorp.com/terraform/index.json | jq -r '.versions[].builds[].url' | egrep 'terraform_[0-9]\.[0-9]{1,2}\.[0-9]{1,2}_linux.*amd64' | sort -V | tail -1) \
+    && TERRAFORM_REGEX_PATTERN='terraform_[0-9]\.[0-9]{1,2}\.[0-9]{1,2}_linux.*amd64' \
+    && TERRAFORM_URL=`curl -sL https://releases.hashicorp.com/terraform/index.json | jq -r '.versions[].builds[].url' | egrep ${TERRAFORM_REGEX_PATTERN} | sort -V | tail -1` \
     && wget ${TERRAFORM_URL} \
-    && unzip -q `ls | egrep 'terraform_[0-9]\.[0-9]{1,2}\.[0-9]{1,2}_linux.*amd64'` -d /usr/local/bin/ \
+    && unzip -q `ls | egrep ${TERRAFORM_REGEX_PATTERN}` -d /usr/local/bin/ \
     ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \
