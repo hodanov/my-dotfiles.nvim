@@ -8,8 +8,9 @@ This is using the following technologies and vim-plugins:
   - Ubuntu: 18.04
   - Vim: > 8
   - Neovim: > 0.3.8
-  - Go: > 1.13
+  - Go: latest version
   - Python: > 3
+  - Terraform: latest version
 - Linter
   - Go
     - gofmt
