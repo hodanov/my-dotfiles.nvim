@@ -1,9 +1,5 @@
 FROM ubuntu:18.04
 
-ENV GO_VERSION='1.13.1'
-ENV GO_NAME="go${GO_VERSION}.linux-amd64.tar.gz"
-ENV GO_URL="https://dl.google.com/go/${GO_NAME}"
-
 WORKDIR /myubuntu
 
 COPY ./config/.vimrc /root/
@@ -29,10 +25,13 @@ RUN mkdir /root/.vim/servers \
     nodejs npm \
     && npm install -g yarn \
     ####################
-    # Golang
+    # Go
+    && GO_LATEST='go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.linux-amd64\.tar\.gz' \
+    && GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_LATEST}| sort -V | tail -1` \
+    && GO_URL="https://dl.google.com/go/"`echo $GO_LATEST` \
     && wget ${GO_URL} \
-    && tar -C /usr/local -xzf ${GO_NAME} \
-    && rm ${GO_NAME} \
+    && tar -C /usr/local -xzf ${GO_LATEST} \
+    && rm ${GO_LATEST} \
     ####################
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
