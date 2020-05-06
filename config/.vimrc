@@ -173,12 +173,15 @@ nnoremap <Leader>o :NERDTreeToggle<CR>
 " https://github.com/dense-analysis/ale/blob/master/doc/ale-go.txt
 let g:ale_fix_on_save = 1
 let b:ale_fixers = ['prettier', 'eslint']
-let b:ale_fixers = {'javascript': ['prettier', 'eslint']}
+let b:ale_fixers = {
+        \ 'javascript': ['prettier', 'eslint'],
+        \ 'go': ['gofmt']
+        \ }
 let g:airline#extensions#ale#enabled = 1
 " let g:ale_set_loclist = 1
 " let g:ale_set_quickfix = 1
 let g:ale_open_list = 1
-let g:ale_linters = {'go': ['go vet']}
+let g:ale_linters = {'go': ['go vet', 'gofmt']}
 
 """
 " Python setting - autopep8

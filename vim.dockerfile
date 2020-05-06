@@ -25,10 +25,16 @@ RUN mkdir /root/.vim/servers \
     nodejs npm \
     && npm install -g yarn \
     ####################
-    # Go
+    # Go, goenv
+    && git clone https://github.com/syndbg/goenv.git /root/.goenv \
+    && ln -s /root/.goenv/bin/* /usr/local/bin \
+    # && GO_LATEST=`goenv install --list | sort -V | tail -1 | xargs` \
+    # && goenv install ${GO_LATEST} \
+    # && goenv global ${GO_LATEST} \
+    # && export PATH="$PATH:/root/.goenv/versions/${GO_LATEST}/bin" \
     && GO_REGEX_PATTERN='go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.linux-amd64\.tar\.gz' \
-    && GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_REGEX_PATTERN}| sort -V | tail -1` \
-    && GO_URL="https://dl.google.com/go/"`echo $GO_LATEST` \
+    && GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_REGEX_PATTERN} | sort -V | tail -1` \
+    && GO_URL="https://dl.google.com/go/${GO_LATEST}" \
     && wget ${GO_URL} \
     && tar -C /usr/local -xzf ${GO_LATEST} \
     && rm ${GO_LATEST} \
@@ -40,10 +46,10 @@ RUN mkdir /root/.vim/servers \
     && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node eslint_d \
     ####################
     # Terraform
-    && TERRAFORM_REGEX_PATTERN='terraform_[0-9]\.[0-9]{1,2}\.[0-9]{1,2}_linux.*amd64' \
-    && TERRAFORM_URL=`curl -sL https://releases.hashicorp.com/terraform/index.json | jq -r '.versions[].builds[].url' | egrep ${TERRAFORM_REGEX_PATTERN} | sort -V | tail -1` \
-    && wget ${TERRAFORM_URL} \
-    && unzip -q `ls | egrep ${TERRAFORM_REGEX_PATTERN}` -d /usr/local/bin/ \
+    && git clone https://github.com/tfutils/tfenv.git /root/.tfenv \
+    && ln -s /root/.tfenv/bin/* /usr/local/bin \
+    && tfenv install latest \
+    && tfenv use latest \
     ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \

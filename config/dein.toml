@@ -76,8 +76,8 @@ merged = '0'
 [[plugins]]
 repo = 'mattn/vim-lsp-icons'
 
-[[plugins]]
-repo = 'mattn/vim-goimports'
+# [[plugins]]
+# repo = 'mattn/vim-goimports'
 
 ###################
 # Auto complete and linter
