@@ -1,4 +1,6 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
+
+ARG DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /myubuntu
 
@@ -10,7 +12,7 @@ COPY ./config/.bash_profile /root/
 
 RUN mkdir /root/.vim/servers \
     && mkdir /root/.vim/undo \
-    && apt update && apt install -y \
+    && apt-get update && apt-get install -y \
     software-properties-common \
     git \
     silversearcher-ag \
@@ -22,8 +24,6 @@ RUN mkdir /root/.vim/servers \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
-    nodejs npm \
-    && npm install -g yarn \
     ####################
     # Go, goenv
     && git clone https://github.com/syndbg/goenv.git /root/.goenv \
@@ -42,9 +42,6 @@ RUN mkdir /root/.vim/servers \
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
     ####################
-    # eslint, eslint-plugin-vue
-    && npm install -g eslint eslint-plugin-vue eslint-plugin-react eslint-plugin-node eslint_d \
-    ####################
     # Terraform
     && git clone https://github.com/tfutils/tfenv.git /root/.tfenv \
     && ln -s /root/.tfenv/bin/* /usr/local/bin \
@@ -53,11 +50,11 @@ RUN mkdir /root/.vim/servers \
     ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \
-    && apt install -y vim \
+    && apt-get install -y --no-install-recommends vim \
     ####################
     # NeoVim
     && add-apt-repository ppa:neovim-ppa/stable \
-    && apt install -y neovim python3-neovim \
+    && apt-get install -y --no-install-recommends neovim python3-neovim \
     ####################
     # Dein.vim
     && wget "https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh" \
@@ -67,8 +64,7 @@ RUN mkdir /root/.vim/servers \
 ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 
-RUN /bin/bash -c 'nvim -c ":silent! call dein#install() | :q"' \
-    && go get golang.org/x/tools/cmd/... \
+RUN go get golang.org/x/tools/cmd/... \
     && go get golang.org/x/lint/golint \
     && go get github.com/motemen/gore/cmd/gore \
     && go get github.com/mdempsky/gocode \
