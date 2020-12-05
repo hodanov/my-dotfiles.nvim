@@ -5,7 +5,7 @@ This is the dev-environment for Vim/Neovim on docker.
 This is using the following technologies and vim-plugins:
 
 - Environment
-  - Ubuntu: 18.04
+  - Ubuntu: 20.04
   - Vim: > 8
   - Neovim: > 0.3.8
   - Go: latest version
@@ -34,7 +34,7 @@ This is using the following technologies and vim-plugins:
   - emmet-vim...Support coding HTML/CSS
   - vim-surround...Do surroundings: for example {}, (), '', "" and so on.
   - ALE...Asynchronous Lint Engine, error check
-  and so on...
+    and so on...
 
 ## Requirements
 
