@@ -24,14 +24,11 @@ RUN mkdir /root/.vim/servers \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
+    nodejs npm \
     ####################
     # Go, goenv
     && git clone https://github.com/syndbg/goenv.git /root/.goenv \
     && ln -s /root/.goenv/bin/* /usr/local/bin \
-    # && GO_LATEST=`goenv install --list | sort -V | tail -1 | xargs` \
-    # && goenv install ${GO_LATEST} \
-    # && goenv global ${GO_LATEST} \
-    # && export PATH="$PATH:/root/.goenv/versions/${GO_LATEST}/bin" \
     && GO_REGEX_PATTERN='go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.linux-amd64\.tar\.gz' \
     && GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_REGEX_PATTERN} | sort -V | tail -1` \
     && GO_URL="https://dl.google.com/go/${GO_LATEST}" \
