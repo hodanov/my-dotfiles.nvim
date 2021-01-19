@@ -24,7 +24,13 @@ RUN mkdir /root/.vim/servers \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
-    nodejs npm \
+    # nodejs npm \
+    ####################
+    # Node.js, nodenv, node-build
+    && git clone https://github.com/nodenv/nodenv.git /root/.nodenv \
+    && ln -s /root/.nodenv/bin/* /usr/local/bin \
+    && mkdir -p "$(nodenv root)"/plugins \
+    && git clone https://github.com/nodenv/node-build.git "$(nodenv root)"/plugins/node-build \
     ####################
     # Go, goenv
     && git clone https://github.com/syndbg/goenv.git /root/.goenv \
