@@ -31,6 +31,10 @@ RUN mkdir /root/.vim/servers \
     && ln -s /root/.nodenv/bin/* /usr/local/bin \
     && mkdir -p "$(nodenv root)"/plugins \
     && git clone https://github.com/nodenv/node-build.git "$(nodenv root)"/plugins/node-build \
+    && NODE_REGEX_PATTERN='^[0-9][02468]\.[0-9]{1,2}\.[0-9]{1,2}$' \
+    && NODE_LATEST_LTS_VERSION=`nodenv install -l | egrep -o ${NODE_REGEX_PATTERN} | sort -V | tail -1` \
+    && nodenv install ${NODE_LATEST_LTS_VERSION} \
+    && nodenv global ${NODE_LATEST_LTS_VERSION} \
     ####################
     # Go, goenv
     && git clone https://github.com/syndbg/goenv.git /root/.goenv \
