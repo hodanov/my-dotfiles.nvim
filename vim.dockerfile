@@ -24,20 +24,31 @@ RUN mkdir /root/.vim/servers \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
+    # nodejs npm \
+    ####################
+    # Node.js, nodenv, node-build
+    && git clone https://github.com/nodenv/nodenv.git /root/.nodenv \
+    && ln -s /root/.nodenv/bin/* /usr/local/bin \
+    && mkdir -p "$(nodenv root)"/plugins \
+    && git clone https://github.com/nodenv/node-build.git "$(nodenv root)"/plugins/node-build \
+    && NODE_REGEX_PATTERN='^[0-9][02468]\.[0-9]{1,2}\.[0-9]{1,2}$' \
+    && NODE_LATEST_LTS_VERSION=`nodenv install -l | egrep -o ${NODE_REGEX_PATTERN} | sort -V | tail -1` \
+    && nodenv install ${NODE_LATEST_LTS_VERSION} \
+    && nodenv global ${NODE_LATEST_LTS_VERSION} \
     ####################
     # Go, goenv
     && git clone https://github.com/syndbg/goenv.git /root/.goenv \
     && ln -s /root/.goenv/bin/* /usr/local/bin \
-    # && GO_LATEST=`goenv install --list | sort -V | tail -1 | xargs` \
-    # && goenv install ${GO_LATEST} \
-    # && goenv global ${GO_LATEST} \
-    # && export PATH="$PATH:/root/.goenv/versions/${GO_LATEST}/bin" \
-    && GO_REGEX_PATTERN='go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.linux-amd64\.tar\.gz' \
-    && GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_REGEX_PATTERN} | sort -V | tail -1` \
-    && GO_URL="https://dl.google.com/go/${GO_LATEST}" \
-    && wget ${GO_URL} \
-    && tar -C /usr/local -xzf ${GO_LATEST} \
-    && rm ${GO_LATEST} \
+    && GO_REGEX_PATTERN='[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}$' \
+    && GO_LATEST=`goenv install --list | egrep -o ${GO_REGEX_PATTERN} | sort -V | tail -1 | xargs` \
+    && goenv install ${GO_LATEST} \
+    && goenv global ${GO_LATEST} \
+    #&& GO_REGEX_PATTERN='go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.linux-amd64\.tar\.gz' \
+    #&& GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_REGEX_PATTERN} | sort -V | tail -1` \
+    #&& GO_URL="https://dl.google.com/go/${GO_LATEST}" \
+    #&& wget ${GO_URL} \
+    #&& tar -C /usr/local -xzf ${GO_LATEST} \
+    #&& rm ${GO_LATEST} \
     ####################
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
@@ -64,7 +75,17 @@ RUN mkdir /root/.vim/servers \
 ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 
-RUN go get golang.org/x/tools/cmd/... \
+RUN : \
+    ####################
+    # Add PATH to use 'go' command.
+    && export GOENV_ROOT="$HOME/.goenv" \
+    && export PATH="$GOENV_ROOT/bin:$PATH" \
+    && eval "$(goenv init -)" \
+    && export PATH="$GOROOT/bin:$PATH" \
+    && export PATH="$PATH:$GOPATH/bin" \
+    ####################
+    # Install some packages.
+    && go get golang.org/x/tools/cmd/... \
     && go get golang.org/x/lint/golint \
     && go get github.com/motemen/gore/cmd/gore \
     && go get github.com/mdempsky/gocode \

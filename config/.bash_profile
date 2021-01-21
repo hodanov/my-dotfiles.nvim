@@ -4,6 +4,7 @@ END="\[\e[m\]"
 HOST_NAME="my-vim"
 export PS1="${BEGIN} \u@${HOST_NAME} ${MIDDLE} \w ${END} "
 
+# goenv
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"
 eval "$(goenv init -)"
@@ -11,3 +12,6 @@ eval "$(goenv init -)"
 # export PATH=$PATH:$GOROOT/bin
 export GOPATH=`go env GOPATH`
 export PATH=$PATH:$GOPATH/bin
+
+# nodenv
+eval "$(nodenv init -)"
