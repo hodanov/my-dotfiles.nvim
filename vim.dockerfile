@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG TZ=Asia/Tokyo
 
 WORKDIR /myubuntu
 
@@ -12,7 +13,9 @@ COPY ./config/.bash_profile /root/
 
 RUN mkdir /root/.vim/servers \
     && mkdir /root/.vim/undo \
-    && apt-get update && apt-get install -y \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+    && apt update && apt install -y \
     software-properties-common \
     git \
     silversearcher-ag \
@@ -24,7 +27,11 @@ RUN mkdir /root/.vim/servers \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
-    # nodejs npm \
+    sysstat \
+    ####################
+    # Enable sysstat
+    && sed -i 's/ENABLED="false"/ENABLED="true"/' /etc/default/sysstat \
+    && service sysstat restart \
     ####################
     # Node.js, nodenv, node-build
     && git clone https://github.com/nodenv/nodenv.git /root/.nodenv \
@@ -61,11 +68,11 @@ RUN mkdir /root/.vim/servers \
     ####################
     # Vim
     && add-apt-repository ppa:jonathonf/vim \
-    && apt-get install -y --no-install-recommends vim \
+    && apt install -y --no-install-recommends vim \
     ####################
     # NeoVim
     && add-apt-repository ppa:neovim-ppa/stable \
-    && apt-get install -y --no-install-recommends neovim python3-neovim \
+    && apt install -y --no-install-recommends neovim python3-neovim \
     ####################
     # Dein.vim
     && wget "https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh" \
