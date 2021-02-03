@@ -39,8 +39,10 @@ endif
 
 augroup html_css_js_and_others_indent
     autocmd!
-    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml,*.tmpl :set tabstop=2
-    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php,*.yml,*.yaml,*.tmpl :set shiftwidth=2
+    autocmd BufNewFile,BufRead *.yml,*.yaml,*.tmpl :set tabstop=2
+    autocmd BufNewFile,BufRead *.yml,*.yaml,*.tmpl :set shiftwidth=2
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set tabstop=4
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set shiftwidth=4
     autocmd BufNewFile,BufRead *.go :set tabstop=8
     autocmd BufNewFile,BufRead *.go :set shiftwidth=8
 augroup END
