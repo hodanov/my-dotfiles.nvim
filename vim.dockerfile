@@ -30,8 +30,8 @@ RUN mkdir /root/.vim/servers \
     sysstat \
     ####################
     # Enable sysstat
-    && sed -i 's/ENABLED="false"/ENABLED="true"/' /etc/default/sysstat \
-    && service sysstat restart \
+    # && sed -i 's/ENABLED="false"/ENABLED="true"/' /etc/default/sysstat \
+    # && service sysstat restart \
     ####################
     # Node.js, nodenv, node-build
     && git clone https://github.com/nodenv/nodenv.git /root/.nodenv \
@@ -50,12 +50,6 @@ RUN mkdir /root/.vim/servers \
     && GO_LATEST=`goenv install --list | egrep -o ${GO_REGEX_PATTERN} | sort -V | tail -1 | xargs` \
     && goenv install ${GO_LATEST} \
     && goenv global ${GO_LATEST} \
-    #&& GO_REGEX_PATTERN='go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.linux-amd64\.tar\.gz' \
-    #&& GO_LATEST=`curl -s https://golang.org/dl/ | egrep -o ${GO_REGEX_PATTERN} | sort -V | tail -1` \
-    #&& GO_URL="https://dl.google.com/go/${GO_LATEST}" \
-    #&& wget ${GO_URL} \
-    #&& tar -C /usr/local -xzf ${GO_LATEST} \
-    #&& rm ${GO_LATEST} \
     ####################
     # Python linter, formatter and so on.
     && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
