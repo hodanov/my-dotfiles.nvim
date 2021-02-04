@@ -10,6 +10,6 @@ services:
     restart: always
     volumes:
       - ..:/myubuntu
-      - ../MyVM/MyDocker/docker-template-go/code:/root/go/src
-      - ../MyVM/MyDocker/ci-cd-test/code:/root/go/src/ci-cd-test
-      - ../MyVM/MyDocker/snippetbox/code:/root/go/src/github.com/hodanov
+        # - ../MyVM/MyDocker/docker-template-go/code:/root/go/src
+        # - ../MyVM/MyDocker/ci-cd-test/code:/root/go/src/ci-cd-test
+        # - ../MyVM/MyDocker/snippetbox/code:/root/go/src/github.com/hodanov
