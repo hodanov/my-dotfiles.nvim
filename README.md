@@ -7,7 +7,7 @@ This is using the following technologies and vim-plugins:
 - Environment
   - Ubuntu: 20.04
   - Vim: > 8
-  - Neovim: > 0.3.8
+  - Neovim: > 0.4.4
   - Go: latest version
   - Python: > 3
   - Terraform: latest version
@@ -15,8 +15,6 @@ This is using the following technologies and vim-plugins:
   - Go
     - gofmt
     - go vet
-    - goimports
-    - golint
   - Python
     - flake8
     - autopep8
