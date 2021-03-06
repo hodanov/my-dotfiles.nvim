@@ -71,7 +71,11 @@ RUN mkdir /root/.vim/servers \
     # Dein.vim
     && wget "https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh" \
     && sh ./installer.sh ~/.cache/dein \
-    && rm ./installer.sh
+    && rm ./installer.sh \
+    ####################
+    # apt clean
+    && apt autoremove -y \
+    && apt clean -y
 
 ENV PATH $PATH:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
@@ -87,7 +91,6 @@ RUN : \
     ####################
     # Install some packages.
     && go get golang.org/x/tools/cmd/... \
-    && go get golang.org/x/lint/golint \
+    && go get golang.org/x/tools/gopls \
     && go get github.com/motemen/gore/cmd/gore \
-    && go get github.com/mdempsky/gocode \
-    && go get github.com/k0kubun/pp
+    && go get github.com/go-delve/delve/cmd/dlv
