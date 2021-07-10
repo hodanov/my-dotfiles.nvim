@@ -73,14 +73,14 @@ repo = 'prabirshrestha/vim-lsp'
 repo = 'mattn/vim-lsp-settings'
 merged = '0'
 
-[[plugins]]
-repo = 'mattn/vim-lsp-icons'
+# [[plugins]]
+# repo = 'mattn/vim-lsp-icons'
 
 # [[plugins]]
 # repo = 'mattn/vim-goimports'
 
 ###################
-# Auto complete and linter
+# Others
 ###################
 
 # Markdown preview
