@@ -179,24 +179,27 @@ let b:ale_fixers = {
         \ 'javascript': ['prettier', 'eslint'],
         \ 'go': ['gofmt']
         \ }
-let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#enabled = 0
 " let g:ale_set_loclist = 1
 " let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
+let g:ale_open_list = 0
 let g:ale_linters = {'go': ['go vet', 'gofmt']}
 
 """
 " vim-lsp
 """
 let g:lsp_fold_enabled = 0
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-" let g:asyncomplete_popup_delay = 100
-let g:lsp_text_edit_enabled = 1
+let g:lsp_diagnostics_enabled = 0
+let g:lsp_signs_enabled = 0
+let g:lsp_diagnostics_echo_cursor = 0
+let g:lsp_document_highlight_enabled = 0
+" let g:asyncomplete_popup_delay = 500
+" let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
+let g:lsp_text_edit_enabled = 0
 " debug
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
-let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
+" let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 nmap <silent> gd :LspDefinition<CR>
 " nmap <silent> gd :LspPeekDefinition<CR>
 nmap <silent> <f2> :LspRename<CR>
