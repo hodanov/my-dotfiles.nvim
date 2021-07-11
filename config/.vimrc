@@ -173,29 +173,29 @@ nnoremap <Leader>o :NERDTreeToggle<CR>
 """
 " ALE enables `gofmt`, `golint` and `go vet` by default.
 " https://github.com/dense-analysis/ale/blob/master/doc/ale-go.txt
+let g:ale_enabled = 1
 let g:ale_fix_on_save = 1
 let b:ale_fixers = ['prettier', 'eslint']
 let b:ale_fixers = {
         \ 'javascript': ['prettier', 'eslint'],
-        \ 'go': ['gofmt']
+        \ 'go': ['goimports']
         \ }
 let g:airline#extensions#ale#enabled = 0
 " let g:ale_set_loclist = 1
 " let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
-let g:ale_linters = {'go': ['go vet', 'gofmt']}
+let g:ale_linters = {'go': ['go vet']}
 
 """
 " vim-lsp
 """
 let g:lsp_fold_enabled = 0
 let g:lsp_diagnostics_enabled = 0
-let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 0
+let g:lsp_diagnostics_virtual_text_enabled = 1
+let g:lsp_diagnostics_virtual_text_prefix = ' > '
 let g:lsp_document_highlight_enabled = 0
-" let g:asyncomplete_popup_delay = 500
-" let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
-let g:lsp_text_edit_enabled = 0
+let g:lsp_document_code_action_signs_enabled = 0
 " debug
 " let g:lsp_log_verbose = 1
 " let g:lsp_log_file = expand('~/vim-lsp.log')
@@ -215,4 +215,4 @@ let g:lsp_settings_servers_dir = '/root/.vim/servers'
 """
 " terraform
 """
-let g:terraform_fmt_on_save=1
+let g:terraform_fmt_on_save = 1
