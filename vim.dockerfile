@@ -90,7 +90,7 @@ RUN : \
     && export PATH="$PATH:$GOPATH/bin" \
     ####################
     # Install some packages.
-    && go get golang.org/x/tools/cmd/... \
-    && go get golang.org/x/tools/gopls \
-    && go get github.com/motemen/gore/cmd/gore \
-    && go get github.com/go-delve/delve/cmd/dlv
+    && go install golang.org/x/tools/cmd/...@latest \
+    && go get golang.org/x/tools/gopls@latest \
+    && go install github.com/x-motemen/gore/cmd/gore@latest \
+    && go install github.com/go-delve/delve/cmd/dlv@latest
