@@ -4,7 +4,7 @@
 
 # File manager
 [[plugins]]
-repo = 'scrooloose/nerdtree'
+repo = 'lambdalisue/fern.vim'
 
 # Status/tabline
 [[plugins]]
@@ -35,8 +35,8 @@ repo = 'ekalinin/Dockerfile.vim'
 repo = 'hhatto/autopep8'
 
 # HTML/CSS
-[[plugins]]
-repo = 'mattn/emmet-vim'
+# [[plugins]]
+# repo = 'mattn/emmet-vim'
 
 # Terraform
 [[plugins]]
@@ -54,14 +54,14 @@ repo = 'tpope/vim-surround'
 repo = 'dense-analysis/ale'
 
 # Auto complete
-[[plugins]]
-repo = 'prabirshrestha/async.vim'
+# [[plugins]]
+# repo = 'prabirshrestha/async.vim'
 
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
 
-[[plugins]]
-repo = 'yami-beta/asyncomplete-omni.vim'
+# [[plugins]]
+# repo = 'yami-beta/asyncomplete-omni.vim'
 
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
@@ -74,27 +74,4 @@ repo = 'mattn/vim-lsp-settings'
 merged = '0'
 
 # [[plugins]]
-# repo = 'mattn/vim-lsp-icons'
-
-# [[plugins]]
 # repo = 'mattn/vim-goimports'
-
-###################
-# Others
-###################
-
-# Markdown preview
-# [[plugins]]
-# repo = 'iamcco/markdown-preview.nvim'
-# on_ft = ['markdown', 'pandoc.markdown', 'rmd']
-# build = '''
-# cd app & yarn install
-# '''
-
-# Support making a table
-# [[plugins]]
-# repo = 'mattn/vim-maketable'
-
-# Google translate in vim
-# [[plugins]]
-# repo = 'skanehira/translate.vim'
