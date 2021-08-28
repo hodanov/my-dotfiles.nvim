@@ -49,12 +49,6 @@ augroup END
 
 let g:mapleader = "\<Space>" " Set a space key to a leader.
 
-" Move up to the splitted window
-" nnoremap <C-J> <C-W><C-J>
-" nnoremap <C-K> <C-W><C-K>
-" nnoremap <C-L> <C-W><C-L>
-" nnoremap <C-H> <C-W><C-H>
-
 " Open .vimrc and 'source' it
 nnoremap <Leader>. :vs ~/.vimrc<CR>
 nnoremap <Leader>s :source ~/.vimrc<CR>
@@ -149,6 +143,7 @@ let g:airline#extensions#branch#enabled = 1
 """
 let g:gitgutter_override_sign_column_highlight = 0
 set signcolumn=yes " always show signcolumns
+set updatetime=250 " default 4000ms
 
 """
 " indent_guides setting
@@ -159,14 +154,9 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
 
 """
-" NERDTree setting
+" fern.vim setting
 """
-let g:NERDTreeDirArrowExpandable = '+'
-let g:NERDTreeDirArrowCollapsible = '-'
-let NERDTreeShowHidden = 1
-let g:NERDTreeWinSize = 30
-let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', '\.svn$', '\.clean$', '\.swp$']
-nnoremap <Leader>o :NERDTreeToggle<CR>
+nnoremap <Leader>o :Fern . -drawer -reveal=% -width=30 -toggle<CR>
 
 """
 " ALE
