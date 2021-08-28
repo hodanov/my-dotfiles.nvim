@@ -3,8 +3,6 @@ FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 
-WORKDIR /myubuntu
-
 COPY ./config/.vimrc /root/
 COPY ./config/init.vim /root/.config/nvim/
 COPY ./config/dein.toml /root/.vim/
@@ -65,8 +63,9 @@ RUN mkdir /root/.vim/servers \
     && apt install -y --no-install-recommends vim \
     ####################
     # NeoVim
-    && add-apt-repository ppa:neovim-ppa/stable \
-    && apt install -y --no-install-recommends neovim python3-neovim \
+    && wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage \
+    && chmod u+x ./nvim.appimage \
+    && ./nvim.appimage --appimage-extract \
     ####################
     # Dein.vim
     && wget "https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh" \
@@ -77,7 +76,7 @@ RUN mkdir /root/.vim/servers \
     && apt autoremove -y \
     && apt clean -y
 
-ENV PATH $PATH:/usr/local/go/bin
+ENV PATH $PATH:/squashfs-root/usr/bin:/usr/local/go/bin
 ENV PYTHONIOENCODING utf-8
 
 RUN : \
@@ -94,3 +93,5 @@ RUN : \
     && go get golang.org/x/tools/gopls@latest \
     && go install github.com/x-motemen/gore/cmd/gore@latest \
     && go install github.com/go-delve/delve/cmd/dlv@latest
+
+WORKDIR /myubuntu
