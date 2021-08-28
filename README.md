@@ -7,7 +7,7 @@ This is using the following technologies and vim-plugins:
 - Environment
   - Ubuntu: 20.04
   - Vim: > 8
-  - Neovim: > 0.4.4
+  - Neovim: > 0.5.0
   - Go: latest version
   - Python: > 3
   - Terraform: latest version
@@ -21,7 +21,7 @@ This is using the following technologies and vim-plugins:
     - mypy
 - Vim plugins
   - dein.vim...Plugin manager
-  - NERDTree...File manager
+  - fern.vim...File manager
   - gruvbox...Color scheme
   - vim-lsp...LSP plugin
   - vim-lsp-settings...auto configurations for vim-lsp
