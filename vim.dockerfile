@@ -93,7 +93,6 @@ RUN : \
     && go get golang.org/x/tools/gopls@latest \
     && go install github.com/x-motemen/gore/cmd/gore@latest \
     && go install github.com/go-delve/delve/cmd/dlv@latest \
-    && go install github.com/jfeliu007/goplantuml/parser \
-    && go install github.com/jfeliu007/goplantuml/cmd/goplantuml
+    && go install github.com/kazukousen/gouml/cmd/gouml@latest
 
 WORKDIR /myubuntu
