@@ -157,6 +157,7 @@ let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'unite']
 " fern.vim setting
 """
 nnoremap <Leader>o :Fern . -drawer -reveal=% -width=30 -toggle<CR>
+let g:fern#default_hidden = 1
 
 """
 " ALE
