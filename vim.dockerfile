@@ -81,6 +81,9 @@ ENV PYTHONIOENCODING utf-8
 
 RUN : \
     ####################
+    # Install yarn.
+    && /root/.nodenv/shims/npm install --global yarn \
+    ####################
     # Add PATH to use 'go' command.
     && export GOENV_ROOT="$HOME/.goenv" \
     && export PATH="$GOENV_ROOT/bin:$PATH" \
