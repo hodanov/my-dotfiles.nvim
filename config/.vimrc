@@ -175,7 +175,9 @@ let g:airline#extensions#ale#enabled = 0
 " let g:ale_set_loclist = 1
 " let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
-let g:ale_linters = {'go': ['go vet']}
+" let g:ale_linters = {'go': ['go vet']}
+let g:ale_linters = {'go': ['golangci-lint']}
+let g:ale_go_golangci_lint_package = 0
 
 """
 " vim-lsp
@@ -187,6 +189,8 @@ let g:lsp_diagnostics_virtual_text_enabled = 1
 let g:lsp_diagnostics_virtual_text_prefix = ' > '
 let g:lsp_document_highlight_enabled = 0
 let g:lsp_document_code_action_signs_enabled = 0
+" let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver'] "
+" Must install 'golangci-lint-langserver if using the line.
 " debug
 " let g:lsp_log_verbose = 1
 " let g:lsp_log_file = expand('~/vim-lsp.log')
