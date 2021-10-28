@@ -27,8 +27,8 @@ repo = 'nathanaelkane/vim-indent-guides'
 repo = 'morhetz/gruvbox'
 
 # Docker
-[[plugins]]
-repo = 'ekalinin/Dockerfile.vim'
+# [[plugins]]
+# repo = 'ekalinin/Dockerfile.vim'
 
 # Python
 [[plugins]]
@@ -50,18 +50,15 @@ repo = 'hashivim/vim-terraform'
 repo = 'tpope/vim-surround'
 
 # Asynchronous Lint Engine, error check
-[[plugins]]
-repo = 'dense-analysis/ale'
+# [[plugins]]
+# repo = 'dense-analysis/ale'
 
 # Auto complete
-# [[plugins]]
-# repo = 'prabirshrestha/async.vim'
+[[plugins]]
+repo = 'prabirshrestha/async.vim'
 
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
-
-# [[plugins]]
-# repo = 'yami-beta/asyncomplete-omni.vim'
 
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
@@ -73,5 +70,5 @@ repo = 'prabirshrestha/vim-lsp'
 repo = 'mattn/vim-lsp-settings'
 merged = '0'
 
-# [[plugins]]
-# repo = 'mattn/vim-goimports'
+[[plugins]]
+repo = 'mattn/vim-goimports'
