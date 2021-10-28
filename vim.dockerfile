@@ -76,13 +76,15 @@ RUN mkdir /root/.vim/servers \
     && apt autoremove -y \
     && apt clean -y
 
-ENV PATH $PATH:/squashfs-root/usr/bin:/usr/local/go/bin
+ENV PATH $PATH:/squashfs-root/usr/bin
 ENV PYTHONIOENCODING utf-8
 
 RUN : \
     ####################
     # Install yarn.
-    && /root/.nodenv/shims/npm install --global yarn \
+    && eval "$(nodenv init -)" \
+    # && /root/.nodenv/shims/npm install --global yarn \
+    && npm install --global yarn \
     ####################
     # Add PATH to use 'go' command.
     && export GOENV_ROOT="$HOME/.goenv" \
@@ -93,10 +95,11 @@ RUN : \
     ####################
     # Install some packages.
     && go install golang.org/x/tools/cmd/...@latest \
-    && go get golang.org/x/tools/gopls@latest \
+    && go install golang.org/x/tools/gopls@latest \
     && go install github.com/x-motemen/gore/cmd/gore@latest \
     && go install github.com/go-delve/delve/cmd/dlv@latest \
     && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest \
+    && go install github.com/nametake/golangci-lint-langserver@latest \
     && go install github.com/kazukousen/gouml/cmd/gouml@latest
 
 WORKDIR /myubuntu
