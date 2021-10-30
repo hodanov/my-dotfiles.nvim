@@ -50,12 +50,12 @@ repo = 'hashivim/vim-terraform'
 repo = 'tpope/vim-surround'
 
 # Asynchronous Lint Engine, error check
-# [[plugins]]
-# repo = 'dense-analysis/ale'
+[[plugins]]
+repo = 'dense-analysis/ale'
 
 # Auto complete
-[[plugins]]
-repo = 'prabirshrestha/async.vim'
+# [[plugins]]
+# repo = 'prabirshrestha/async.vim'
 
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
