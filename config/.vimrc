@@ -164,27 +164,24 @@ let g:fern#default_hidden = 1
 """
 " ALE enables `gofmt`, `golint` and `go vet` by default.
 " https://github.com/dense-analysis/ale/blob/master/doc/ale-go.txt
-" let g:ale_enabled = 1
-" let g:ale_completion_enabled = 1
-" let g:ale_fix_on_save = 1
-" let b:ale_fixers = ['prettier', 'eslint']
+let g:ale_enabled = 1
+let g:ale_completion_enabled = 0
+let g:ale_fix_on_save = 1
 " let b:ale_fixers = {
 "         \ 'javascript': ['prettier', 'eslint'],
 "         \ 'go': ['goimports']
 "         \ }
-" let g:airline#extensions#ale#enabled = 0
-" " let g:ale_set_loclist = 1
-" " let g:ale_set_quickfix = 1
-" let g:ale_open_list = 0
-" " let g:ale_linters = {'go': ['go vet']}
-" let g:ale_linters = {'go': ['golangci-lint']}
-" let g:ale_go_golangci_lint_package = 0
+let g:airline#extensions#ale#enabled = 0
+let g:ale_open_list = 0
+let g:ale_linters = {'go': ['golangci-lint']}
+let g:ale_go_golangci_lint_options = ''
+let g:ale_go_golangci_lint_package = 0
 
 """
 " vim-lsp
 """
 let g:lsp_fold_enabled = 0
-let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 0
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 80
@@ -200,7 +197,7 @@ highlight link LspErrorText Normal
 highlight link LspWarningText Normal
 let g:lsp_document_highlight_enabled = 0
 let g:lsp_document_code_action_signs_enabled = 0
-let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
+" let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
 
 " debug
 " let g:lsp_log_verbose = 1
@@ -208,7 +205,6 @@ let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
 " let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 nmap <silent> gd :LspDefinition<CR>
 " nmap <silent> gd :LspPeekDefinition<CR>
-nmap <silent> <f2> :LspRename<CR>
 nmap <silent> <Leader>d :LspTypeDefinition<CR>
 nmap <silent> <Leader>r :LspReferences<CR>
 nmap <silent> <Leader>i :LspImplementation<CR>
