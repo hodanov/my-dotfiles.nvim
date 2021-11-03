@@ -172,10 +172,12 @@ let g:ale_fix_on_save = 1
 "         \ 'go': ['goimports']
 "         \ }
 let g:airline#extensions#ale#enabled = 0
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
 let g:ale_linters = {'go': ['golangci-lint']}
-let g:ale_go_golangci_lint_options = ''
-let g:ale_go_golangci_lint_package = 0
+" let g:ale_go_golangci_lint_options = ''
+let g:ale_go_golangci_lint_package = 1
 
 """
 " vim-lsp
@@ -215,12 +217,12 @@ nmap <silent> <Leader>i :LspImplementation<CR>
 let g:lsp_settings_servers_dir = '/root/.vim/servers'
 
 """
-" asyncomplete.vim
-"""
-" let g:asyncomplete_auto_completeopt = 0
-" set completeopt=menuone,noinsert,noselect,preview
-
-"""
 " terraform
 """
 let g:terraform_fmt_on_save = 1
+
+"""
+" vim-delve
+"""
+nmap <silent> <Leader>9 :DlvToggleBreakpoint<CR>
+nmap <silent> <Leader>5 :DlvDebug<CR>
