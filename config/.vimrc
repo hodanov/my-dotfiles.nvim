@@ -12,7 +12,7 @@ set shiftwidth=4 " Change the number of spaces inserted for indentation
 " set softtabstop=4 " Make spaces feel like real tabs
 set expandtab " Convert tabs to spaces
 set smartindent " Add a new line with autoindent
-set colorcolumn=80 " Add a color on 80'th column
+set colorcolumn=120 " Add a color on 80'th column
 set hlsearch " Highlight searched characters
 set incsearch " Highlight when inputting chars
 set wildmenu " Show completion suggestions at command line mode
@@ -176,7 +176,7 @@ let g:airline#extensions#ale#enabled = 0
 " let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
 let g:ale_linters = {'go': ['golangci-lint']}
-" let g:ale_go_golangci_lint_options = ''
+let g:ale_go_golangci_lint_options = '--enable-all --disable wrapcheck --disable varnamelen --disable tagliatelle --disable lll'
 let g:ale_go_golangci_lint_package = 1
 
 """
@@ -226,3 +226,5 @@ let g:terraform_fmt_on_save = 1
 """
 nmap <silent> <Leader>9 :DlvToggleBreakpoint<CR>
 nmap <silent> <Leader>5 :DlvDebug<CR>
+nmap <silent> <Leader>0 :DlvClearAll<CR>
+let g:delve_sign_priority = 100
