@@ -176,7 +176,7 @@ let g:airline#extensions#ale#enabled = 0
 " let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
 let g:ale_linters = {'go': ['golangci-lint']}
-let g:ale_go_golangci_lint_options = '--enable-all --disable wrapcheck --disable varnamelen --disable tagliatelle --disable lll'
+let g:ale_go_golangci_lint_options = '--enable-all --disable wrapcheck --disable varnamelen --disable tagliatelle --disable lll --disable errorlint --disable godox --disable godot --disable gocritic'
 let g:ale_go_golangci_lint_package = 1
 
 """
