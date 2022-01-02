@@ -8,8 +8,14 @@ services:
       dockerfile: vim.dockerfile
     tty: true
     restart: always
+    networks:
+      - my-vim
     volumes:
       - ..:/myubuntu
         # - ../MyVM/MyDocker/docker-template-go/code:/root/go/src
         # - ../MyVM/MyDocker/ci-cd-test/code:/root/go/src/ci-cd-test
         # - ../MyVM/MyDocker/snippetbox/code:/root/go/src/github.com/hodanov
+networks:
+  my-vim:
+    driver: bridge
+    external: true
