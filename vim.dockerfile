@@ -26,6 +26,7 @@ RUN mkdir /root/.vim/servers \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
     sysstat \
+    mysql-client \
     ####################
     # Enable sysstat
     # && sed -i 's/ENABLED="false"/ENABLED="true"/' /etc/default/sysstat \
