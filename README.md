@@ -5,9 +5,9 @@ This is the dev-environment for Vim/Neovim on docker.
 This is using the following technologies and vim-plugins:
 
 - Environment
-  - Ubuntu: 20.04
+  - Ubuntu: 22.04
   - Vim: > 8
-  - Neovim: > 0.5.0
+  - Neovim: latest version
   - Go: latest version
   - Python: > 3
   - Terraform: latest version
@@ -48,13 +48,14 @@ To use the environment, clone the repo and execute `docker-compose up`.
 ```
 git clone git@github.com:hodanov/docker-template-vim.git
 cd docker-template-vim
-docker-compose up -d
+docker network create my-vim
+docker compose up -d
 ```
 
 After launching containers, execute the following command to attach the "vim" container.
 
 ```
-docker-compose exec vim-dev bash --login
+docker compose exec vim-dev bash --login
 ```
 
 The `--login` option is required to read the `.vimrc` file.
