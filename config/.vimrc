@@ -54,7 +54,7 @@ nnoremap <Leader>. :vs ~/.vimrc<CR>
 nnoremap <Leader>s :source ~/.vimrc<CR>
 
 " Clear highlighted characters
-nnoremap <Esc><Esc> :nohlsearch<CR>
+nnoremap <C-[><C-[> :nohlsearch<CR>
 
 """
 " vimshell setting
@@ -176,7 +176,7 @@ let g:airline#extensions#ale#enabled = 0
 " let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
 let g:ale_linters = {'go': ['golangci-lint']}
-let g:ale_go_golangci_lint_options = '--enable-all --disable wrapcheck --disable varnamelen --disable tagliatelle --disable lll --disable errorlint --disable godox --disable godot --disable gocritic'
+let g:ale_go_golangci_lint_options = '--enable-all --disable wrapcheck --disable varnamelen --disable tagliatelle --disable lll --disable errorlint --disable godox --disable godot --disable gocritic --disable exhaustivestruct --disable nlreturn --disable wsl'
 let g:ale_go_golangci_lint_package = 1
 
 """
@@ -228,3 +228,4 @@ nmap <silent> <Leader>9 :DlvToggleBreakpoint<CR>
 nmap <silent> <Leader>5 :DlvDebug<CR>
 nmap <silent> <Leader>0 :DlvClearAll<CR>
 let g:delve_sign_priority = 100
+let g:delve_new_command = 'enew'
