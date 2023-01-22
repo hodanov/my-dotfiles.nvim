@@ -68,11 +68,6 @@ RUN mkdir /root/.vim/servers \
     && chmod u+x ./nvim.appimage \
     && ./nvim.appimage --appimage-extract \
     ####################
-    # Dein.vim
-    && wget "https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh" \
-    && sh ./installer.sh ~/.cache/dein \
-    && rm ./installer.sh \
-    ####################
     # apt clean
     && apt autoremove -y \
     && apt clean -y
