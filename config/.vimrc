@@ -22,8 +22,9 @@ augroup auto_remove_unnecessary_spaces_at_the_end_of_line
     autocmd!
     autocmd BufWritePre * :%s/\s\+$//ge "Auto remove unnecessary spaces at the end of line.
 augroup END
-" set mouse=a " Use mouse
-" set ttymouse=xterm2 " Use mouse
+
+set mouse= " Don't use a mouse.
+set ttymouse= " Don't use a mouse.
 
 " Copy to the system clipboard
 if has('clipboard')
