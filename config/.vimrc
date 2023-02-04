@@ -24,7 +24,7 @@ augroup auto_remove_unnecessary_spaces_at_the_end_of_line
 augroup END
 
 set mouse= " Don't use a mouse.
-set ttymouse= " Don't use a mouse.
+" set ttymouse=xterm2
 
 " Copy to the system clipboard
 if has('clipboard')
