@@ -191,9 +191,10 @@ let g:airline#extensions#ale#enabled = 0
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
-let g:ale_linters = {'go': ['golangci-lint']}
-let g:ale_go_golangci_lint_options = '--enable-all --disable wrapcheck --disable varnamelen --disable tagliatelle --disable lll --disable errorlint --disable godox --disable godot --disable gocritic --disable exhaustivestruct --disable nlreturn --disable wsl'
-let g:ale_go_golangci_lint_package = 1
+let g:ale_linters = {'go': ['gopls']}
+" let g:ale_linters = {'go': ['golangci-lint']}
+" let g:ale_go_golangci_lint_options = '--enable-all --disable wrapcheck --disable varnamelen --disable tagliatelle --disable lll --disable errorlint --disable godox --disable godot --disable gocritic --disable exhaustivestruct --disable nlreturn --disable wsl'
+" let g:ale_go_golangci_lint_package = 1
 
 """
 " vim-lsp
