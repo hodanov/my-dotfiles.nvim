@@ -1,37 +1,34 @@
-# Go + Vim/Neovim on docker
+# Go + Neovim on docker
 
-This is the dev-environment for Vim/Neovim on docker.
+This is the dev-environment for Neovim on docker.
 
 This is using the following technologies and vim-plugins:
 
 - Environment
   - Ubuntu: 22.04
-  - Vim: > 8
   - Neovim: latest version
   - Go: latest version
   - Python: > 3
   - Terraform: latest version
 - Linter
   - Go
-    - gofmt
-    - go vet
+    - goimports
+    - gopls
+    - golangci-lint
   - Python
     - flake8
     - autopep8
     - mypy
-- Vim plugins
-  - dein.vim...Plugin manager
+- Plugins
+  - packer.nvim...Plugin manager
+  - nvim-lspconfig...Setting LSP
+  - null-ls.nvim...diagnostic, autoformatter
+  - nvim-cmp...Completion
   - fern.vim...File manager
   - gruvbox...Color scheme
-  - vim-lsp...LSP plugin
-  - vim-lsp-settings...auto configurations for vim-lsp
   - vim-airline...Status tabline
   - vim-gitgutter...Show `git diff` in the gutter(sign column)
-  - Dockerfile.vim...Snippet for dockerfile and docker-compose.yml
-  - autopep8...Run autopep8 when saving file
-  - emmet-vim...Support coding HTML/CSS
-  - vim-surround...Do surroundings: for example {}, (), '', "" and so on.
-  - ALE...Asynchronous Lint Engine, error check
+  - vim-indent-guides...Show an indent guides
     and so on...
 
 ## Requirements
