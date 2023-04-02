@@ -124,6 +124,15 @@ nnoremap <Leader>o :Fern . -drawer -reveal=% -width=30 -toggle<CR>
 let g:fern#default_hidden = 1
 
 " ----------------------------------------
+" vim-delve
+" ----------------------------------------
+nmap <silent> <Leader>9 :DlvToggleBreakpoint<CR>
+nmap <silent> <Leader>5 :DlvDebug<CR>
+nmap <silent> <Leader>0 :DlvClearAll<CR>
+let g:delve_sign_priority = 100
+let g:delve_new_command = 'enew'
+
+" ----------------------------------------
 " Load lua files.
 " ----------------------------------------
 lua require('nvim_lspconfig')
