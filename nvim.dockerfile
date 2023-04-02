@@ -3,14 +3,12 @@ FROM ubuntu:22.04
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 
-COPY ./config/.vimrc /root/
 COPY ./config/init.vim /root/.config/nvim/
-COPY ./config/dein.toml /root/.vim/
-COPY ./config/dein_lazy.toml /root/.vim/
+COPY ./config/lua/* /root/.config/nvim/lua/
 COPY ./config/.bash_profile /root/
 
-RUN mkdir /root/.vim/servers \
-    && mkdir /root/.vim/undo \
+RUN : \
+    && mkdir -p /root/.vim/undo \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && apt update && apt install -y \
@@ -25,12 +23,7 @@ RUN mkdir /root/.vim/servers \
     python3 \
     python3-pip \
     build-essential cmake python3-dev python3-venv \
-    sysstat \
     mysql-client \
-    ####################
-    # Enable sysstat
-    # && sed -i 's/ENABLED="false"/ENABLED="true"/' /etc/default/sysstat \
-    # && service sysstat restart \
     ####################
     # Node.js, nodenv, node-build
     && git clone https://github.com/nodenv/nodenv.git /root/.nodenv \
@@ -59,14 +52,14 @@ RUN mkdir /root/.vim/servers \
     && tfenv install latest \
     && tfenv use latest \
     ####################
-    # Vim
-    && add-apt-repository ppa:jonathonf/vim \
-    && apt install -y --no-install-recommends vim \
-    ####################
     # NeoVim
     && wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage \
     && chmod u+x ./nvim.appimage \
     && ./nvim.appimage --appimage-extract \
+    && git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/start/packer.nvim \
+    ####################
+    # Install some linters and formatters.
+    && apt install shellcheck \
     ####################
     # apt clean
     && apt autoremove -y \
@@ -80,7 +73,7 @@ RUN : \
     # Install yarn.
     && eval "$(nodenv init -)" \
     # && /root/.nodenv/shims/npm install --global yarn \
-    && npm install --global yarn \
+    && npm install --global yarn markdownlint markdownlint-cli eslint prettier bash-language-server \
     ####################
     # Add PATH to use 'go' command.
     && export GOENV_ROOT="$HOME/.goenv" \
@@ -94,6 +87,10 @@ RUN : \
     && go install golang.org/x/tools/gopls@latest \
     && go install github.com/go-delve/delve/cmd/dlv@latest \
     && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest \
-    && go install github.com/nametake/golangci-lint-langserver@latest
+    && go install github.com/nametake/golangci-lint-langserver@latest \
+    ####################
+    # Execute `:PackerCompile`.
+    && nvim --headless +PackerCompile +q \
+    && nvim --headless +PackerUpdate +q
 
 WORKDIR /myubuntu
