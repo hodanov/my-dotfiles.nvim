@@ -11,8 +11,9 @@ return require('packer').startup(function(use)
   use 'lambdalisue/fern.vim'
 
   -- Color schema
-  -- use 'ellisonleao/gruvbox.nvim'
   use 'Morhetz/gruvbox'
+  use 'sainnhe/gruvbox-material'
+  use 'catppuccin/nvim'
 
   -- Appearance
   use 'nathanaelkane/vim-indent-guides'

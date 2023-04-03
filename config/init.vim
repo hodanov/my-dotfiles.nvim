@@ -89,10 +89,11 @@ augroup end
 " Colorscheme setting.
 " ----------------------------------------
 "syntax enable
-let g:gruvbox_contrast_dark = 'medium'
-set background=dark
-set t_Co=256
-colorscheme gruvbox
+" let g:gruvbox_contrast_dark = 'hard'
+" set background=dark
+" set t_Co=256
+" colorscheme gruvbox
+colorscheme catppuccin-mocha " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 
 " ----------------------------------------
 " vim-airline setting.
