@@ -2,7 +2,7 @@
 -- LSP configuration.
 -- ----------------------------------------
 require'lspconfig'.gopls.setup{}
-require'lspconfig'.golangci_lint_ls.setup{}
+-- require'lspconfig'.golangci_lint_ls.setup{}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -41,3 +41,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
+
+-- Turn off the virtual_text
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    {
+        virtual_text = false,
+    }
+)
