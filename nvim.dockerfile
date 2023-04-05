@@ -72,7 +72,7 @@ RUN : \
     ####################
     # Install yarn.
     && eval "$(nodenv init -)" \
-    && npm install --global yarn eslint prettier bash-language-server \
+    && npm install --global yarn eslint prettier prettier-plugin-go-template bash-language-server \
     ####################
     # Add PATH to use 'go' command.
     && export GOENV_ROOT="$HOME/.goenv" \
