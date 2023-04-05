@@ -72,8 +72,7 @@ RUN : \
     ####################
     # Install yarn.
     && eval "$(nodenv init -)" \
-    # && /root/.nodenv/shims/npm install --global yarn \
-    && npm install --global yarn markdownlint markdownlint-cli eslint prettier bash-language-server \
+    && npm install --global yarn eslint prettier bash-language-server \
     ####################
     # Add PATH to use 'go' command.
     && export GOENV_ROOT="$HOME/.goenv" \

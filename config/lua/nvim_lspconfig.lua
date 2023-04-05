@@ -3,6 +3,7 @@
 -- ----------------------------------------
 require'lspconfig'.gopls.setup{}
 -- require'lspconfig'.golangci_lint_ls.setup{}
+require'lspconfig'.eslint.setup{}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
