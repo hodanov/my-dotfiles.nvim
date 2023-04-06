@@ -9,6 +9,7 @@ This is using the following technologies and vim-plugins:
   - Neovim: latest version
   - Go: latest version
   - Python: > 3
+  - Node.js: latest version
   - Terraform: latest version
 - Linter
   - Go
@@ -19,6 +20,9 @@ This is using the following technologies and vim-plugins:
     - flake8
     - autopep8
     - mypy
+  - JavaScript
+    - eslint
+    - prettier
 - Plugins
   - packer.nvim...Plugin manager
   - nvim-lspconfig...Setting LSP
@@ -43,19 +47,19 @@ The app requires the following to run:
 To use the environment, clone the repo and execute `docker-compose up`.
 
 ```
-git clone git@github.com:hodanov/docker-template-vim.git
-cd docker-template-vim
-docker network create my-vim
+git clone git@github.com:hodanov/docker-template-nvim.git
+cd docker-template-nvim
+docker network create my-nvim
 docker compose up -d
 ```
 
-After launching containers, execute the following command to attach the "vim" container.
+After launching containers, execute the following command to attach the "nvim" container.
 
 ```
-docker compose exec vim-dev bash --login
+docker compose exec nvim-dev bash --login
 ```
 
-The `--login` option is required to read the `.vimrc` file.
+The `--login` option is required to read the `.bash_profile` file.
 
 Thank you.
 
