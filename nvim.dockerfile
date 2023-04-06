@@ -11,19 +11,8 @@ RUN : \
     && mkdir -p /root/.vim/undo \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
-    && apt update && apt install -y \
-    software-properties-common \
-    git \
-    silversearcher-ag \
-    tree \
-    jq \
-    wget \
-    curl \
-    unzip \
-    python3 \
-    python3-pip \
-    build-essential cmake python3-dev python3-venv \
-    mysql-client \
+    && apt update && apt install -y software-properties-common git silversearcher-ag tree jq wget curl unzip \
+    python3 python3-pip build-essential cmake python3-dev python3-venv mysql-client \
     ####################
     # Node.js, nodenv, node-build
     && git clone https://github.com/nodenv/nodenv.git /root/.nodenv \
@@ -72,7 +61,8 @@ RUN : \
     ####################
     # Install yarn.
     && eval "$(nodenv init -)" \
-    && npm install --global yarn eslint prettier prettier-plugin-go-template bash-language-server \
+    && npm install --global yarn typescript typescript-language-server eslint vscode-langservers-extracted \
+    prettier prettier-plugin-go-template bash-language-server \
     ####################
     # Add PATH to use 'go' command.
     && export GOENV_ROOT="$HOME/.goenv" \
@@ -89,7 +79,6 @@ RUN : \
     && go install github.com/nametake/golangci-lint-langserver@latest \
     ####################
     # Execute `:PackerCompile`.
-    && nvim --headless +PackerCompile +q \
-    && nvim --headless +PackerUpdate +q
+    && nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 WORKDIR /myubuntu
