@@ -33,7 +33,13 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/vim-vsnip'
 
-  -- vim-delve
+  -- Debug Adapter Protocol
+  use 'mfussenegger/nvim-dap'
+
+  -- Debug Adapter
+  use 'leoluz/nvim-dap-go'
+
+  -- Debugger
   use 'sebdah/vim-delve'
 
 end)
