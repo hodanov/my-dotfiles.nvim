@@ -50,7 +50,7 @@ endif
 augroup html_css_js_and_others_indent
     autocmd!
     autocmd BufNewFile,BufRead *.yml,*.yaml,*.tmpl :set tabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.php :set tabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.html,*.css,*.js,*.ts,*.php :set tabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.go :set noexpandtab tabstop=8 shiftwidth=8
 augroup END
 
@@ -110,6 +110,9 @@ let g:airline#extensions#branch#enabled = 1
 let g:gitgutter_override_sign_column_highlight = 0
 set signcolumn=yes " always show signcolumns
 set updatetime=100 " default 4000ms
+highlight GitGutterAdd    guifg=#A6E3A1 ctermfg=2
+highlight GitGutterChange guifg=#FAB387 ctermfg=3
+highlight GitGutterDelete guifg=#EBA0AC ctermfg=1
 
 " ----------------------------------------
 " indent_guides setting.
@@ -125,17 +128,9 @@ nnoremap <Leader>o :Fern . -drawer -reveal=% -width=30 -toggle<CR>
 let g:fern#default_hidden = 1
 
 " ----------------------------------------
-" vim-delve
-" ----------------------------------------
-nmap <silent> <Leader>9 :DlvToggleBreakpoint<CR>
-nmap <silent> <Leader>5 :DlvDebug<CR>
-nmap <silent> <Leader>0 :DlvClearAll<CR>
-let g:delve_sign_priority = 100
-let g:delve_new_command = 'enew'
-
-" ----------------------------------------
 " Load lua files.
 " ----------------------------------------
 lua require('nvim_lspconfig')
 lua require('null_ls')
 lua require('nvim_cmp')
+lua require('nvim_dap')
