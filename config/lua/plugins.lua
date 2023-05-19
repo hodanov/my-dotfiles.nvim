@@ -42,4 +42,7 @@ return require('packer').startup(function(use)
   -- Debugger
   use 'sebdah/vim-delve'
 
+  -- GitHub Copilot
+  use 'github/copilot.vim'
+
 end)
