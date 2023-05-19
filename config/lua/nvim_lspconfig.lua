@@ -5,6 +5,17 @@ require'lspconfig'.gopls.setup{}
 -- require'lspconfig'.golangci_lint_ls.setup{}
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.eslint.setup{}
+require'lspconfig'.pylsp.setup{
+    settings = {
+        pylsp = {
+            plugins = {
+                pylint = {enabled = true},
+                -- mypy = {enabled = true},
+                rope_autoimport = {enabled = true},
+            }
+        }
+    }
+}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
