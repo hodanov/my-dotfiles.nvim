@@ -33,7 +33,7 @@ RUN : \
     && goenv global ${GO_LATEST} \
     ####################
     # Python linter, formatter and so on.
-    && pip3 install flake8 autopep8 mypy python-language-server vim-vint \
+    && pip3 install pylint mypy black python-lsp-server pylsp-mypy vim-vint \
     ####################
     # Terraform
     && git clone https://github.com/tfutils/tfenv.git /root/.tfenv \

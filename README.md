@@ -17,9 +17,9 @@ This is using the following technologies and vim-plugins:
     - gopls
     - golangci-lint
   - Python
-    - flake8
-    - autopep8
+    - pylint
     - mypy
+    - black
   - JavaScript
     - eslint
     - prettier
