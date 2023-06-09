@@ -1,5 +1,6 @@
 -- ----------------------------------------
 -- LSP configuration.
+-- https://github.com/python-lsp/python-lsp-server
 -- ----------------------------------------
 require'lspconfig'.gopls.setup{}
 -- require'lspconfig'.golangci_lint_ls.setup{}
@@ -9,9 +10,14 @@ require'lspconfig'.pylsp.setup{
     settings = {
         pylsp = {
             plugins = {
-                pylint = {enabled = true},
-                -- mypy = {enabled = true},
-                rope_autoimport = {enabled = true},
+                pycodestyle = {
+                    enabled = true,
+                    maxLineLength = 120,
+                },
+                mccabe = {enabled = false},
+                pyflakes = {enabled = true},
+                flake8 = {enabled = false},
+                mypy = {enabled = true},
             }
         }
     }

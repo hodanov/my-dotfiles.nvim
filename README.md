@@ -11,19 +11,21 @@ This is using the following technologies and vim-plugins:
   - Python: > 3
   - Node.js: latest version
   - Terraform: latest version
-- Linter
+- Linter/Formatter
   - Go
     - goimports
     - gopls
     - golangci-lint
   - Python
-    - pylint
+    - pycodestyle
     - mypy
     - black
+    - isort
   - JavaScript
     - eslint
     - prettier
 - Plugins
+  - copilot...AI pair programmer
   - packer.nvim...Plugin manager
   - nvim-lspconfig...Setting LSP
   - null-ls.nvim...diagnostic, autoformatter
