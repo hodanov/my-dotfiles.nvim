@@ -49,7 +49,7 @@ endif
 " ----------------------------------------
 augroup html_css_js_and_others_indent
     autocmd!
-    autocmd BufNewFile,BufRead *.yml,*.yaml,*.tmpl :set tabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.yml,*.yaml,*.tmpl,*json :set tabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.html,*.css,*.js,*.ts,*.php :set tabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.go :set noexpandtab tabstop=8 shiftwidth=8
 augroup END
