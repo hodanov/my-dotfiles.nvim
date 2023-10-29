@@ -26,7 +26,7 @@ return require('packer').startup(function(use)
 
   -- Formatt and lint runner
   use 'nvim-lua/plenary.nvim'
-  use 'jose-elias-alvarez/null-ls.nvim'
+  use 'nvimtools/none-ls.nvim'
 
   -- Auto completion
   use 'hrsh7th/nvim-cmp'
