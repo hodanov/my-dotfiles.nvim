@@ -18,11 +18,10 @@ return require('packer').startup(function(use)
   -- Appearance
   use 'nathanaelkane/vim-indent-guides'
   use 'airblade/vim-gitgutter'
-  use 'vim-airline/vim-airline'
-  use 'vim-airline/vim-airline-themes'
+  use 'nvim-lualine/lualine.nvim'
 
-  -- LSP
-  use 'neovim/nvim-lspconfig' -- Configurations for Nvim LSP
+  -- Configurations for Nvim LSP
+  use 'neovim/nvim-lspconfig'
 
   -- Formatt and lint runner
   use 'nvim-lua/plenary.nvim'
@@ -38,9 +37,6 @@ return require('packer').startup(function(use)
 
   -- Debug Adapter
   use 'leoluz/nvim-dap-go'
-
-  -- Debugger
-  use 'sebdah/vim-delve'
 
   -- GitHub Copilot
   use 'github/copilot.vim'

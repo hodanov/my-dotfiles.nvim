@@ -32,7 +32,7 @@ This is using the following technologies and vim-plugins:
   - nvim-cmp...Completion
   - fern.vim...File manager
   - gruvbox...Color scheme
-  - vim-airline...Status tabline
+  - nvim-lualine...Status tabline
   - vim-gitgutter...Show `git diff` in the gutter(sign column)
   - vim-indent-guides...Show an indent guides
     and so on...
