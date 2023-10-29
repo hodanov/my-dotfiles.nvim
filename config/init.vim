@@ -93,17 +93,7 @@ augroup end
 " set background=dark
 " set t_Co=256
 " colorscheme gruvbox
-colorscheme catppuccin-mocha " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-
-" ----------------------------------------
-" vim-airline setting.
-" ----------------------------------------
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#branch#enabled = 1
-let g:airline_theme = 'catppuccin'
+colorscheme catppuccin-mocha" catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 
 " ----------------------------------------
 " gitgutter setting.
@@ -135,3 +125,4 @@ lua require('nvim_lspconfig')
 lua require('null_ls')
 lua require('nvim_cmp')
 lua require('nvim_dap')
+lua require('nvim_lualine')
