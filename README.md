@@ -28,7 +28,7 @@ This is using the following technologies and vim-plugins:
   - copilot...AI pair programmer
   - packer.nvim...Plugin manager
   - nvim-lspconfig...Setting LSP
-  - null-ls.nvim...diagnostic, autoformatter
+  - none-ls.nvim...diagnostic, autoformatter
   - nvim-cmp...Completion
   - fern.vim...File manager
   - gruvbox...Color scheme
