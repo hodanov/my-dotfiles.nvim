@@ -10,7 +10,6 @@ This is using the following technologies and vim-plugins:
   - Go: latest version
   - Python: > 3
   - Node.js: latest version
-  - Terraform: latest version
 - Linter/Formatter
   - Go
     - goimports
@@ -31,7 +30,6 @@ This is using the following technologies and vim-plugins:
   - none-ls.nvim...diagnostic, autoformatter
   - nvim-cmp...Completion
   - fern.vim...File manager
-  - gruvbox...Color scheme
   - nvim-lualine...Status tabline
   - vim-gitgutter...Show `git diff` in the gutter(sign column)
   - vim-indent-guides...Show an indent guides
