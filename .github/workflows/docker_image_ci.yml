@@ -1,0 +1,20 @@
+name: Docker image CI
+
+on:
+  push:
+    branches:
+      - mani
+      - feature/*
+    paths:
+      - nvim.dockerfile
+      - .github/workflows/docker_image_ci.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: |
+          docker network create my-nvim
+          docker compose up -d
