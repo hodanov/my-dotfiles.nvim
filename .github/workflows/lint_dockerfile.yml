@@ -2,6 +2,9 @@ name: Lint-Dockerfile
 
 on:
   push:
+    branches:
+      - mani
+      - feature/*
     paths:
       - nvim.dockerfile
 

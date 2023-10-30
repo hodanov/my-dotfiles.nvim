@@ -2,6 +2,9 @@ name: Docker image CI
 
 on:
   push:
+    branches:
+      - mani
+      - feature/*
     paths:
       - nvim.dockerfile
 
