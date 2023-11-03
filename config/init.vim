@@ -88,22 +88,7 @@ augroup end
 " ----------------------------------------
 " Colorscheme setting.
 " ----------------------------------------
-"syntax enable
-" let g:gruvbox_contrast_dark = 'hard'
-" set background=dark
-" set t_Co=256
-" colorscheme gruvbox
 colorscheme catppuccin-mocha" catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-
-" ----------------------------------------
-" gitgutter setting.
-" ----------------------------------------
-let g:gitgutter_override_sign_column_highlight = 0
-set signcolumn=yes " always show signcolumns
-set updatetime=100 " default 4000ms
-highlight GitGutterAdd    guifg=#A6E3A1 ctermfg=2
-highlight GitGutterChange guifg=#FAB387 ctermfg=3
-highlight GitGutterDelete guifg=#EBA0AC ctermfg=1
 
 " ----------------------------------------
 " indent_guides setting.
@@ -126,3 +111,5 @@ lua require('null_ls')
 lua require('nvim_cmp')
 lua require('nvim_dap')
 lua require('nvim_lualine')
+lua require('gitsigns_nvim')
+lua require('indent_blankline_nvim')
