@@ -2,12 +2,10 @@ name: Docker image CI
 
 on:
   push:
-    branches:
-      - mani
-      - feature/*
     paths:
       - nvim.dockerfile
       - .github/workflows/docker_image_ci.yml
+      - config/dependencies/requirements.txt
 
 jobs:
   build:

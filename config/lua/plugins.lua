@@ -11,14 +11,12 @@ return require('packer').startup(function(use)
   use 'lambdalisue/fern.vim'
 
   -- Color schema
-  use 'Morhetz/gruvbox'
-  use 'sainnhe/gruvbox-material'
   use 'catppuccin/nvim'
 
   -- Appearance
-  use 'nathanaelkane/vim-indent-guides'
-  use 'airblade/vim-gitgutter'
+  use 'lukas-reineke/indent-blankline.nvim'
   use 'nvim-lualine/lualine.nvim'
+  use 'lewis6991/gitsigns.nvim'
 
   -- Configurations for Nvim LSP
   use 'neovim/nvim-lspconfig'

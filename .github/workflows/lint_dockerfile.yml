@@ -2,9 +2,6 @@ name: Lint-Dockerfile
 
 on:
   push:
-    branches:
-      - mani
-      - feature/*
     paths:
       - nvim.dockerfile
       - .github/workflows/lint_dockerfile.yml
