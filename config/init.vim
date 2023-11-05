@@ -19,6 +19,7 @@ set wildmenu " Show completion suggestions at command line mode
 set conceallevel=0 " Show double quatations in json file and so on.
 let g:mapleader = "\<Space>" " Set a space key to a leader.
 set mouse= " Don't use a mouse.
+set signcolumn=yes "Always show signcolumn to prevent rattling.
 
 " ----------------------------------------
 " Remove unnecessary spaces at the end of line.
