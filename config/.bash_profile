@@ -5,11 +5,13 @@ HOST_NAME="my-vim"
 export PS1="${BEGIN} \u@${HOST_NAME} ${MIDDLE} \w ${END} "
 
 # goenv
-export GOENV_ROOT="$HOME/.goenv" # /root/.goenv
-export PATH="$GOENV_ROOT/bin:$PATH" # /root/.goenv/bin:$PATH
-eval "$(goenv init -)"
-export PATH="$GOROOT/bin:$PATH" # /root/.goenv/versions/1.1x.x:$PATH
-export PATH="$PATH:$GOPATH/bin" # $PATH:/root/go/1.16.0/bin
+export PATH="$PATH:/usr/local/go/bin"
+
+GOROOT=$(go env GOROOT)
+export PATH="$PATH:${GOROOT}/bin"
+
+GOPATH=$(go env GOPATH)
+export PATH="$PATH:${GOPATH}/bin"
 
 # nodenv
 eval "$(nodenv init -)"
