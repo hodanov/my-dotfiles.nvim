@@ -1,19 +1,26 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
-  - package-ecosystem: 'pip' # See documentation for possible values
-    directory: './config/dependencies' # Location of package manifests
+  - package-ecosystem: "pip"
+    directory: "./config/dependencies"
     schedule:
-      interval: 'weekly'
-  - package-ecosystem: 'docker'
-    directory: './'
+      interval: "weekly"
+    groups:
+      pip-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "./"
     schedule:
-      interval: 'weekly'
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+      interval: "weekly"
+    groups:
+      docker-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'monthly'
+      interval: "monthly"
+    groups:
+      workflow-dependencies:
+        patterns:
+          - "*"
