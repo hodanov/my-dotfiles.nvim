@@ -38,7 +38,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     && rm $GO_LATEST_PACKAGE \
     ####################
     # Python linter, formatter and so on.
-    && pip3 install --no-cache-dir --requirement /root/requirements.txt \
+    && python3 -m venv .venv \
+    && source .venv/bin/activate \
+    && python3 -m pip3 install --no-cache-dir --requirement /root/requirements.txt \
     ####################
     # Neovim
     && wget --progress=dot:giga https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz \
