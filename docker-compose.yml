@@ -2,6 +2,7 @@ version: '3'
 
 services:
   nvim:
+    platform: linux/amd64
     container_name: nvim-dev
     build:
       context: .
