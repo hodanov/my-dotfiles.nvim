@@ -5,7 +5,7 @@ This is the dev-environment for Neovim on docker.
 This is using the following technologies and vim-plugins:
 
 - Environment
-  - Ubuntu: 22.04
+  - Ubuntu: 24.04
   - Neovim: latest version
   - Go: latest version
   - Python: > 3
@@ -46,7 +46,7 @@ The app requires the following to run:
 
 To use the environment, clone the repo and execute `docker compose up`.
 
-```
+```sh
 git clone git@github.com:hodanov/docker-template-nvim.git
 cd docker-template-nvim
 docker network create my-nvim
@@ -55,10 +55,17 @@ docker compose up -d
 
 After launching containers, execute the following command to attach the "nvim" container.
 
-```
+```sh
 docker compose exec nvim-dev bash --login
 ```
 
 The `--login` option is required to read the `.bash_profile` file.
 
-Thank you.
+## Python coding
+
+When writing Python code with static analysis and a linter enabled, switch environments using venv beforehand.
+
+```sh
+source /root/.venv/bin/activate
+python3 -m pip install --no-cache-dir --requirement /root/requirements.txt
+```
