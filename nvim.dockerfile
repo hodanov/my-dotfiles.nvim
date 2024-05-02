@@ -40,10 +40,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     # Python linter, formatter and so on.
     && pip3 install --no-cache-dir --requirement /root/requirements.txt \
     ####################
-    # NeoVim
-    && wget --progress=dot:giga https://github.com/neovim/neovim/releases/download/stable/nvim.appimage \
-    && chmod u+x ./nvim.appimage \
-    && ./nvim.appimage --appimage-extract \
+    # Neovim
+    && wget --progress=dot:giga https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz \
+    && tar xzvf nvim-linux64.tar.gz \
     && git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/start/packer.nvim \
     ####################
     # Install some linters and formatters.
@@ -51,7 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-ENV PATH $PATH:/squashfs-root/usr/bin
+ENV PATH $PATH:/nvim-linux64/bin
 ENV PYTHONIOENCODING utf-8
 
 RUN : \

@@ -44,7 +44,7 @@ The app requires the following to run:
 
 ## Getting Started
 
-To use the environment, clone the repo and execute `docker-compose up`.
+To use the environment, clone the repo and execute `docker compose up`.
 
 ```
 git clone git@github.com:hodanov/docker-template-nvim.git
@@ -62,7 +62,3 @@ docker compose exec nvim-dev bash --login
 The `--login` option is required to read the `.bash_profile` file.
 
 Thank you.
-
-## Author
-
-[Hoda](https://hodalog.com)
