@@ -38,8 +38,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     && rm $GO_LATEST_PACKAGE \
     ####################
     # Python linter, formatter and so on.
-    && python3 -m venv .venv \
-    && source .venv/bin/activate \
+    && python3 -m venv /root/.venv \
+    && source /root/.venv/bin/activate \
     && python3 -m pip install --no-cache-dir --requirement /root/requirements.txt \
     ####################
     # Neovim
