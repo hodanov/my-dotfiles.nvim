@@ -5,7 +5,7 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
   -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+  use { 'wbthomason/packer.nvim', opt = true }
 
   -- File manager
   use 'lambdalisue/fern.vim'
@@ -14,27 +14,65 @@ return require('packer').startup(function(use)
   use 'catppuccin/nvim'
 
   -- Appearance
-  use 'lukas-reineke/indent-blankline.nvim'
-  use 'nvim-lualine/lualine.nvim'
-  use 'lewis6991/gitsigns.nvim'
+  -- The below plugins will be loaded when reading a file.
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    event = { 'BufRead' },
+  }
+
+  use {
+    'nvim-lualine/lualine.nvim',
+    event = { 'BufRead' },
+    config = function() require('nvim_lualine') end,
+  }
+
+  use {
+    'lewis6991/gitsigns.nvim',
+    event = { 'BufRead' },
+    config = function() require('gitsigns_nvim') end,
+  }
 
   -- Configurations for Nvim LSP
-  use 'neovim/nvim-lspconfig'
+  use {
+    'neovim/nvim-lspconfig',
+    config = function() require('nvim_lspconfig') end,
+  }
 
   -- Formatt and lint runner
-  use 'nvim-lua/plenary.nvim'
-  use 'nvimtools/none-ls.nvim'
+  -- The below plugins will be loaded when executing `:wq`.
+  use {
+    'nvimtools/none-ls.nvim',
+    event = { 'BufWritePost' },
+    requires = {
+      { 'nvim-lua/plenary.nvim', event = { 'BufWritePost' } },
+    },
+    config = function() require('null_ls') end,
+  }
 
   -- Auto completion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/vim-vsnip'
+  -- The below plugins will be loaded when entering insert mode.
+  use {
+    'hrsh7th/nvim-cmp',
+    event = { 'InsertEnter' },
+    requires = {
+      { 'hrsh7th/cmp-nvim-lsp', event = { 'InsertEnter' } },
+      { 'hrsh7th/vim-vsnip', event = { 'InsertEnter' } },
+    },
+    config = function() require('nvim_cmp') end,
+  }
 
   -- Debug Adapter Protocol
-  use 'mfussenegger/nvim-dap'
+  use {
+    'mfussenegger/nvim-dap',
+    event = { 'BufRead' },
+    config = function() require('nvim_dap') end,
+  }
 
   -- Debug Adapter
-  use 'leoluz/nvim-dap-go'
+  use {
+    'leoluz/nvim-dap-go',
+    event = { 'BufRead' },
+  }
 
   -- GitHub Copilot
   use 'github/copilot.vim'

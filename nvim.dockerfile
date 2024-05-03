@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     # Neovim
     && wget --progress=dot:giga https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz \
     && tar xzvf nvim-linux64.tar.gz \
-    && git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/start/packer.nvim \
+    && git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/opt/packer.nvim \
     ####################
     # Install some linters and formatters.
     && apt-get autoremove -y \
@@ -60,7 +60,7 @@ RUN : \
     # Install yarn.
     && eval "$(nodenv init -)" \
     && npm install --global yarn@latest typescript@latest typescript-language-server@latest eslint@latest \
-    vscode-langservers-extracted@latest prettier@latest prettier-plugin-go-template@latest bash-language-server@latest \
+    vscode-langservers-extracted@latest @fsouza/prettierd@latest prettier-plugin-go-template@latest bash-language-server@latest \
     ####################
     # Add PATH to use 'go' command.
     && export PATH="$PATH:/usr/local/go/bin" \
