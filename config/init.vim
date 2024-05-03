@@ -89,7 +89,7 @@ augroup end
 " ----------------------------------------
 " Colorscheme setting.
 " ----------------------------------------
-colorscheme catppuccin-mocha" catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+colorscheme catppuccin-mocha " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 
 " ----------------------------------------
 " indent_guides setting.
@@ -107,10 +107,4 @@ let g:fern#default_hidden = 1
 " ----------------------------------------
 " Load lua files.
 " ----------------------------------------
-lua require('nvim_lspconfig')
-lua require('null_ls')
-lua require('nvim_cmp')
 lua require('nvim_dap')
-lua require('nvim_lualine')
-lua require('gitsigns_nvim')
-lua require('indent_blankline_nvim')

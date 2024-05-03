@@ -40,5 +40,4 @@ vim.fn.sign_define('DapBreakpoint',          { text='●', texthl='mocha_maroon'
 vim.fn.sign_define('DapStopped',             { text='▶︎', texthl='mocha_green', linehl='DapStopped', numhl='DapStopped' })
 -- vim.fn.sign_define('DapLogPoint',            { text='●', texthl='rosewater', linehl='DapLogPoint', numhl='DapLogPoint' })
 
--- nvim-dap-go: keymap
 vim.keymap.set('n', '<Leader>dt', function() require('dap-go').debug_test() end)
