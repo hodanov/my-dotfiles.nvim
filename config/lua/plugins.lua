@@ -15,36 +15,37 @@ return require('packer').startup(function(use)
 
   -- Appearance
   -- The below plugins will be loaded when reading a file.
+  -- https://neovim.io/doc/user/autocmd.html#autocmd-events
   use {
     'lukas-reineke/indent-blankline.nvim',
-    event = { 'BufRead' },
+    event = { 'BufRead', 'BufNewFile' },
   }
 
   use {
     'nvim-lualine/lualine.nvim',
-    event = { 'BufRead' },
+    event = { 'BufRead', 'BufNewFile' },
     config = function() require('nvim_lualine') end,
   }
 
   use {
     'lewis6991/gitsigns.nvim',
-    event = { 'BufRead' },
+    event = { 'BufRead', 'BufNewFile' },
     config = function() require('gitsigns_nvim') end,
   }
 
   -- Configurations for Nvim LSP
   use {
     'neovim/nvim-lspconfig',
+    event = { 'BufRead', 'BufNewFile' },
     config = function() require('nvim_lspconfig') end,
   }
 
   -- Formatt and lint runner
-  -- The below plugins will be loaded when executing `:wq`.
   use {
     'nvimtools/none-ls.nvim',
-    event = { 'BufWritePost' },
+    event = { 'BufRead', 'BufNewFile' },
     requires = {
-      { 'nvim-lua/plenary.nvim', event = { 'BufWritePost' } },
+      { 'nvim-lua/plenary.nvim', event = { 'BufRead', 'BufNewFile' } },
     },
     config = function() require('null_ls') end,
   }
@@ -62,17 +63,8 @@ return require('packer').startup(function(use)
   }
 
   -- Debug Adapter Protocol
-  use {
-    'mfussenegger/nvim-dap',
-    event = { 'BufRead' },
-    config = function() require('nvim_dap') end,
-  }
-
-  -- Debug Adapter
-  use {
-    'leoluz/nvim-dap-go',
-    event = { 'BufRead' },
-  }
+  use 'mfussenegger/nvim-dap'
+  use 'leoluz/nvim-dap-go'
 
   -- GitHub Copilot
   use 'github/copilot.vim'
