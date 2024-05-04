@@ -35,6 +35,8 @@ This is using the following technologies and vim-plugins:
   - indent-blankline.nvim...Show indent guides
     and so on...
 
+This dev-env assumed to operate in a Mac(arm64).
+
 ## Requirements
 
 The app requires the following to run:

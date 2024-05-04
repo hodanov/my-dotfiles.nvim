@@ -87,11 +87,6 @@ augroup packer_user_config
 augroup end
 
 " ----------------------------------------
-" Colorscheme setting.
-" ----------------------------------------
-colorscheme catppuccin-mocha " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-
-" ----------------------------------------
 " indent_guides setting.
 " ----------------------------------------
 let g:indent_guides_enable_on_vim_startup = 1
@@ -103,8 +98,3 @@ let g:indent_guides_guide_size = 1
 " ----------------------------------------
 nnoremap <Leader>o :Fern . -drawer -reveal=% -width=30 -toggle<CR>
 let g:fern#default_hidden = 1
-
-" ----------------------------------------
-" Load lua files.
-" ----------------------------------------
-lua require('nvim_dap')
