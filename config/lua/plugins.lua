@@ -11,7 +11,10 @@ return require('packer').startup(function(use)
   use 'lambdalisue/fern.vim'
 
   -- Color schema
-  use 'catppuccin/nvim'
+  use {
+    'catppuccin/nvim',
+    config = function() vim.cmd('colorscheme catppuccin-mocha') end,
+  }
 
   -- Appearance
   -- The below plugins will be loaded when reading a file.
@@ -63,8 +66,15 @@ return require('packer').startup(function(use)
   }
 
   -- Debug Adapter Protocol
-  use 'mfussenegger/nvim-dap'
-  use 'leoluz/nvim-dap-go'
+  use {
+    'mfussenegger/nvim-dap',
+    event = { 'BufRead', 'BufNewFile' },
+    requires = {
+      { 'leoluz/nvim-dap-go', event = { 'BufRead', 'BufNewFile' } },
+    },
+    -- wants = { 'leoluz/nvim-dap-go' },
+    config = function() require('nvim_dap') end,
+  }
 
   -- GitHub Copilot
   use 'github/copilot.vim'
