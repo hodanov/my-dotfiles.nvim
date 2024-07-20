@@ -72,13 +72,13 @@ RUN : \
 # https://github.com/neovim/neovim/blob/master/BUILD.md#quick-start
 # https://github.com/neovim/neovim/issues/15143
 # https://github.com/neovim/neovim/pull/15542
-COPY ./config/init.vim /root/.config/nvim/
+COPY ./config/init.lua /root/.config/nvim/
 COPY ./config/lua/* /root/.config/nvim/lua/
 WORKDIR /neovim
 RUN git checkout stable \
     && make CMAKE_BUILD_TYPE=RelWithDebInfo \
-    && make install \
-    && git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/opt/packer.nvim \
-    && nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+    && make install
+    # && git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/opt/packer.nvim \
+    # && nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 WORKDIR /myubuntu
