@@ -1,82 +1,75 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
-
-return require('packer').startup(function(use)
-  -- Packer can manage itself
-  use { 'wbthomason/packer.nvim', opt = true }
-
+return {
   -- File manager
-  use 'lambdalisue/fern.vim'
-
-  -- Color schema
-  use {
+  'lambdalisue/fern.vim',
+  { -- colorscheme
     'catppuccin/nvim',
     config = function() vim.cmd('colorscheme catppuccin-mocha') end,
-  }
-
-  -- Appearance
-  -- The below plugins will be loaded when reading a file.
-  -- https://neovim.io/doc/user/autocmd.html#autocmd-events
-  use {
+  },
+  { -- Appearance
     'lukas-reineke/indent-blankline.nvim',
-    event = { 'BufRead', 'BufNewFile' },
-  }
-
-  use {
+    lazy = true,
+    event = { 'BufRead', 'BufNewFile' }
+  },
+  { -- Appearance
     'nvim-lualine/lualine.nvim',
+    lazy = true,
     event = { 'BufRead', 'BufNewFile' },
-    config = function() require('nvim_lualine') end,
-  }
-
-  use {
+    config = function() require('nvim_lualine') end
+  },
+  { -- Appearance
     'lewis6991/gitsigns.nvim',
+    lazy = true,
     event = { 'BufRead', 'BufNewFile' },
-    config = function() require('gitsigns_nvim') end,
-  }
-
-  -- Configurations for Nvim LSP
-  use {
+    config = function() require('gitsigns_nvim') end
+  },
+  { -- Configurations for Nvim LSP
     'neovim/nvim-lspconfig',
+    lazy = true,
     event = { 'BufRead', 'BufNewFile' },
-    config = function() require('nvim_lspconfig') end,
-  }
-
-  -- Formatt and lint runner
-  use {
+    config = function() require('nvim_lspconfig') end
+  },
+  { -- Formatt and lint runner
     'nvimtools/none-ls.nvim',
+    lazy = true,
     event = { 'BufRead', 'BufNewFile' },
-    requires = {
-      { 'nvim-lua/plenary.nvim', event = { 'BufRead', 'BufNewFile' } },
+    dependencies = {
+      {
+        'nvim-lua/plenary.nvim',
+        lazy = true,
+        event = { 'BufRead', 'BufNewFile' },
+      }
     },
-    config = function() require('null_ls') end,
-  }
-
-  -- Auto completion
-  -- The below plugins will be loaded when entering insert mode.
-  use {
+    config = function() require('null_ls') end
+  },
+  { -- Auto completion
     'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter' },
-    requires = {
-      { 'hrsh7th/cmp-nvim-lsp', event = { 'InsertEnter' } },
-      { 'hrsh7th/vim-vsnip', event = { 'InsertEnter' } },
+    dependencies = {
+      {
+        'hrsh7th/cmp-nvim-lsp',
+        lazy = true,
+        event = { 'InsertEnter' }
+      },
+      {
+        'hrsh7th/vim-vsnip',
+        lazy = true,
+        event = { 'InsertEnter' }
+      },
     },
-    config = function() require('nvim_cmp') end,
-  }
-
-  -- Debug Adapter Protocol
-  use {
+    config = function() require('nvim_cmp') end
+  },
+  { -- Debug Adapter Protocol
     'mfussenegger/nvim-dap',
+    lazy = true,
     event = { 'BufRead', 'BufNewFile' },
-    requires = {
-      { 'leoluz/nvim-dap-go', event = { 'BufRead', 'BufNewFile' } },
+    dependencies = {
+      {
+        'leoluz/nvim-dap-go',
+        lazy = true,
+        event = { 'BufRead', 'BufNewFile' }
+      },
     },
-    -- wants = { 'leoluz/nvim-dap-go' },
-    config = function() require('nvim_dap') end,
-  }
-
+    config = function() require('nvim_dap') end
+  },
   -- GitHub Copilot
-  use 'github/copilot.vim'
-
-end)
+  'github/copilot.vim'
+}
