@@ -78,7 +78,5 @@ WORKDIR /neovim
 RUN git checkout stable \
     && make CMAKE_BUILD_TYPE=RelWithDebInfo \
     && make install
-    # && git clone --depth 1 https://github.com/wbthomason/packer.nvim  ~/.local/share/nvim/site/pack/packer/opt/packer.nvim \
-    # && nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 WORKDIR /myubuntu
