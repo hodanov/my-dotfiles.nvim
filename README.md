@@ -8,7 +8,7 @@ This is using the following technologies and vim-plugins:
   - Ubuntu: 24.04
   - Neovim: latest version
   - Go: latest version
-  - Python: > 3
+  - Python: > latest version
   - Node.js: latest version
 - Linter/Formatter
   - Go
@@ -25,7 +25,7 @@ This is using the following technologies and vim-plugins:
     - prettier
 - Plugins
   - copilot...AI pair programmer
-  - packer.nvim...Plugin manager
+  - lazy.nvim...Plugin manager
   - nvim-lspconfig...Setting LSP
   - none-ls.nvim...diagnostic, autoformatter
   - nvim-cmp...Completion
