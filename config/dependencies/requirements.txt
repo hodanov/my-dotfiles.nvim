@@ -4,4 +4,6 @@ isort==5.13.2
 black==24.4.2
 python-lsp-server==1.11.0
 pylsp-mypy==0.6.8
+pytest==8.3.2
+pytest-mock==3.14.0
 vim-vint==0.3.21
