@@ -8,8 +8,9 @@ This is using the following technologies and vim-plugins:
   - Ubuntu: 24.04
   - Neovim: latest version
   - Go: latest version
-  - Python: > latest version
+  - Python: latest version
   - Node.js: latest version
+  - Rust: latest version
 - Linter/Formatter
   - Go
     - goimports
@@ -23,6 +24,8 @@ This is using the following technologies and vim-plugins:
   - JavaScript
     - eslint
     - prettier
+  - Lua
+    - stylua
 - Plugins
   - copilot...AI pair programmer
   - lazy.nvim...Plugin manager
