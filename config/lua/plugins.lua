@@ -37,18 +37,11 @@ return {
 		end,
 	},
 	{ -- Formatt and lint runner
-		"nvimtools/none-ls.nvim",
+		"stevearc/conform.nvim",
 		lazy = true,
 		event = { "BufRead", "BufNewFile" },
-		dependencies = {
-			{
-				"nvim-lua/plenary.nvim",
-				lazy = true,
-				event = { "BufRead", "BufNewFile" },
-			},
-		},
 		config = function()
-			require("null_ls")
+			require("conform_nvim")
 		end,
 	},
 	{ -- Auto completion

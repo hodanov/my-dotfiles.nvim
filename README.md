@@ -17,10 +17,8 @@ This is using the following technologies and vim-plugins:
     - gopls
     - golangci-lint
   - Python
-    - pycodestyle
     - mypy
-    - black
-    - isort
+    - ruff
   - JavaScript
     - eslint
     - prettier
@@ -30,7 +28,7 @@ This is using the following technologies and vim-plugins:
   - copilot...AI pair programmer
   - lazy.nvim...Plugin manager
   - nvim-lspconfig...Setting LSP
-  - none-ls.nvim...diagnostic, autoformatter
+  - conform.nvim...Autoformatter
   - nvim-cmp...Completion
   - fern.vim...File manager
   - nvim-lualine...Status tabline
