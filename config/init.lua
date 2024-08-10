@@ -95,17 +95,6 @@ else
 end
 
 -- ----------------------------------------
--- Load plugins and automatically run `:PackerCompile` whenever plugins.lua is updated.
--- ----------------------------------------
--- require('plugins')
--- vim.api.nvim_create_augroup("packer_user_config", { clear = true })
--- vim.api.nvim_create_autocmd("BufWritePost", {
---     group = "packer_user_config",
---     pattern = "plugins.lua",
---     command = "source <afile> | PackerCompile"
--- })
-
--- ----------------------------------------
 -- indent_guides setting.
 -- ----------------------------------------
 vim.g.indent_guides_enable_on_vim_startup = 1
