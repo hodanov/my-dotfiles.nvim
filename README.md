@@ -17,7 +17,7 @@ This is using the following technologies and vim-plugins:
     - gopls
     - golangci-lint
   - Python
-    - mypy
+    - pyright
     - ruff
   - JavaScript
     - eslint
