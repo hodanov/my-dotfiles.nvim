@@ -44,21 +44,6 @@ return {
 			require("conform_nvim")
 		end,
 	},
-	-- { -- Formatt and lint runner
-	-- 	"nvimtools/none-ls.nvim",
-	-- 	lazy = true,
-	-- 	event = { "BufRead", "BufNewFile" },
-	-- 	dependencies = {
-	-- 		{
-	-- 			"nvim-lua/plenary.nvim",
-	-- 			lazy = true,
-	-- 			event = { "BufRead", "BufNewFile" },
-	-- 		},
-	-- 	},
-	-- 	config = function()
-	-- 		require("null_ls")
-	-- 	end,
-	-- },
 	{ -- Auto completion
 		"hrsh7th/nvim-cmp",
 		dependencies = {
