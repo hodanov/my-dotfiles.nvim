@@ -6,6 +6,15 @@ require("lspconfig").gopls.setup({})
 require("lspconfig").golangci_lint_ls.setup({})
 require("lspconfig").tsserver.setup({})
 require("lspconfig").eslint.setup({})
+require("lspconfig").pylsp.setup({
+	settings = {
+		pylsp = {
+			plugins = {
+				mypy = { enabled = true },
+			},
+		},
+	},
+})
 require("lspconfig").ruff.setup({})
 
 -- Global mappings.
