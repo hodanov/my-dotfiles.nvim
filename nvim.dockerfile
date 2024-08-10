@@ -38,7 +38,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     && source /root/.venv/bin/activate \
     && python3 -m pip install --no-cache-dir --requirement /root/requirements.txt \
     ####################
-    # Install some linters and formatters.
+    # Rust, stylua
+    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+    && source $HOME/.cargo/env \
+    && cargo install stylua \
+    ####################
+    # Auto remove and clean up.
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
@@ -47,7 +52,7 @@ ENV PATH $PATH:/nvim-linux64/bin
 ENV PYTHONIOENCODING utf-8
 RUN : \
     ####################
-    # Install yarn.
+    # Install yarn, eslint, prettier.
     && eval "$(nodenv init -)" \
     && npm install --global yarn@latest typescript@latest typescript-language-server@latest eslint@latest \
     vscode-langservers-extracted@latest @fsouza/prettierd@latest prettier-plugin-go-template@latest bash-language-server@latest \
