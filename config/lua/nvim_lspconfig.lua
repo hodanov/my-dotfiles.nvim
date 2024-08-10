@@ -3,25 +3,9 @@
 -- https://github.com/python-lsp/python-lsp-server
 -- ----------------------------------------
 require("lspconfig").gopls.setup({})
--- require'lspconfig'.golangci_lint_ls.setup{}
+require("lspconfig").golangci_lint_ls.setup({})
 require("lspconfig").tsserver.setup({})
 require("lspconfig").eslint.setup({})
--- require'lspconfig'.pylsp.setup{
---     settings = {
---         pylsp = {
---             plugins = {
---                 pycodestyle = {
---                     enabled = true,
---                     maxLineLength = 120,
---                 },
---                 mccabe = {enabled = false},
---                 pyflakes = {enabled = true},
---                 flake8 = {enabled = false},
---                 mypy = {enabled = true},
---             }
---         }
---     }
--- }
 require("lspconfig").ruff.setup({})
 
 -- Global mappings.
