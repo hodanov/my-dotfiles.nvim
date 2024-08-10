@@ -1,4 +1,4 @@
-mypy==1.11.0
+mypy==1.11.1
 ruff==0.5.7
 python-lsp-server==1.11.0
 pylsp-mypy==0.6.8
