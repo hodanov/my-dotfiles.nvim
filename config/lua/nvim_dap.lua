@@ -1,4 +1,5 @@
 require("dap-go").setup()
+require("dap-python").setup("python")
 
 -- nvim-dap: keymap
 vim.keymap.set("n", "<Leader>5", function()
