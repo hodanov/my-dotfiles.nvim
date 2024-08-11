@@ -2,4 +2,4 @@ pyright==1.1.375
 ruff==0.5.7
 pytest==8.3.2
 pytest-mock==3.14.0
-vim-vint==0.3.21
+debugpy==1.8.5

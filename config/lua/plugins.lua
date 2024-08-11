@@ -72,6 +72,11 @@ return {
 				lazy = true,
 				event = { "BufRead", "BufNewFile" },
 			},
+			{
+				"mfussenegger/nvim-dap-python",
+				lazy = true,
+				event = { "BufRead", "BufNewFile" },
+			},
 		},
 		config = function()
 			require("nvim_dap")
