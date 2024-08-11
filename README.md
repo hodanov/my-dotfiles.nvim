@@ -25,11 +25,12 @@ This is using the following technologies and vim-plugins:
   - Lua
     - stylua
 - Plugins
-  - copilot...AI pair programmer
   - lazy.nvim...Plugin manager
+  - copilot...AI pair programmer
   - nvim-lspconfig...Setting LSP
   - conform.nvim...Autoformatter
   - nvim-cmp...Completion
+  - nvim-dap...Debug adapter protocol
   - fern.vim...File manager
   - nvim-lualine...Status tabline
   - gitsigns.nvim...Show `git diff` in the gutter(sign column)
