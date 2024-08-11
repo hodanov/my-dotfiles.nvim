@@ -1,5 +1,6 @@
 require("dap-go").setup()
 require("dap-python").setup("python")
+require("dap-python").test_runner = "pytest"
 
 -- nvim-dap: keymap
 vim.keymap.set("n", "<Leader>5", function()

@@ -1,4 +1,6 @@
 return {
+	-- GitHub Copilot
+	"github/copilot.vim",
 	-- File manager
 	"lambdalisue/fern.vim",
 	{ -- colorscheme
@@ -26,6 +28,12 @@ return {
 		event = { "BufRead", "BufNewFile" },
 		config = function()
 			require("gitsigns_nvim")
+		end,
+	},
+	{ -- Appearance
+		"nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("nvim_treesitter")
 		end,
 	},
 	{ -- Configurations for Nvim LSP
@@ -82,6 +90,4 @@ return {
 			require("nvim_dap")
 		end,
 	},
-	-- GitHub Copilot
-	"github/copilot.vim",
 }
