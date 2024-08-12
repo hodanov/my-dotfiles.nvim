@@ -65,3 +65,11 @@ vim.fn.sign_define(
 vim.keymap.set("n", "<Leader>dt", function()
 	require("dap-go").debug_test()
 end)
+
+vim.keymap.set("n", "<Leader>dn", function()
+	require("dap-python").test_method()
+end)
+
+-- vim.keymap.set("n", "<Leader>dn", function()
+-- 	require("dap-python").test_class()
+-- end)
