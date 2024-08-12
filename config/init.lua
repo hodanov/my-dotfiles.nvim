@@ -113,6 +113,11 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_var("fern#default_hidden", 1)
 
 -- ----------------------------------------
+-- lazy.nvim setting.
+-- ----------------------------------------
+require("lazy_nvim")
+
+-- ----------------------------------------
 -- Setting transparent background.
 -- ----------------------------------------
 vim.cmd([[
@@ -123,8 +128,3 @@ vim.cmd([[
   highlight NormalNC guibg=none
   highlight NormalSB guibg=none
 ]])
-
--- ----------------------------------------
--- lazy.nvim setting.
--- ----------------------------------------
-require("lazy_nvim")
