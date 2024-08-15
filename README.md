@@ -1,8 +1,22 @@
-# Go + Neovim on docker
+# My dotfiles for Neovim
 
-This is the dev-environment for Neovim on docker.
+This is my personal Neovim configuration and dev-environment on docker.
 
-This is using the following technologies and vim-plugins:
+![](assets/screenshot_nvim_window.avif)
+
+
+## Introduction
+
+This dev-env assumed to operate in a Mac(arm64) and Docker.
+
+However, it is possible to use it on other platforms by modifying the Dockerfile.
+
+The dotfiles will work in any environment. You can find [the dotfiles here](./config).
+
+
+## Features
+
+This is using the following technologies and plugins:
 
 - Environment
   - Ubuntu: 24.04
@@ -37,35 +51,27 @@ This is using the following technologies and vim-plugins:
   - indent-blankline.nvim...Show indent guides
     and so on...
 
-This dev-env assumed to operate in a Mac(arm64).
-
-## Requirements
-
-The app requires the following to run:
-
-- Docker
-- Docker Compose
 
 ## Getting Started
 
 To use the environment, clone the repo and execute `docker compose up`.
 
 ```sh
-git clone git@github.com:hodanov/docker-template-nvim.git
-cd docker-template-nvim
+git clone git@github.com:hodanov/my-dotfiles.nvim.git
 docker network create my-nvim
+cd my-dotfiles.nvim
 docker compose up -d
 ```
 
 After launching containers, execute the following command to attach the "nvim" container.
 
 ```sh
-docker compose exec nvim-dev bash --login
+docker container exec -it nvim-dev bash --login
 ```
 
 The `--login` option is required to read the `.bash_profile` file.
 
-## Python coding
+### Python coding
 
 When writing Python code with static analysis and a linter enabled, switch environments using venv beforehand.
 
