@@ -4,7 +4,7 @@
 -- ----------------------------------------
 require("lspconfig").gopls.setup({})
 require("lspconfig").golangci_lint_ls.setup({})
-require("lspconfig").tsserver.setup({})
+require("lspconfig").ts_ls.setup({})
 require("lspconfig").eslint.setup({})
 require("lspconfig").pyright.setup({})
 require("lspconfig").ruff.setup({})
