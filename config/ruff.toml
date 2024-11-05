@@ -1,0 +1,3 @@
+select = ["ALL"]
+ignore = ["D"]
+line-length = 120

@@ -79,6 +79,7 @@ RUN : \
 # https://github.com/neovim/neovim/pull/15542
 COPY ./config/init.lua /root/.config/nvim/
 COPY ./config/lua/* /root/.config/nvim/lua/
+COPY ./config/ruff.toml /root/.config/ruff/
 WORKDIR /neovim
 RUN git checkout stable \
     && make CMAKE_BUILD_TYPE=RelWithDebInfo \
