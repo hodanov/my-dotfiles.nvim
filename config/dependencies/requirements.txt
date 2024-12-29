@@ -1,5 +1,5 @@
-pyright==1.1.390
-ruff==0.8.3
+pyright==1.1.391
+ruff==0.8.4
 pytest==8.3.4
 pytest-mock==3.14.0
 debugpy==1.8.11
