@@ -48,8 +48,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-ENV PATH $PATH:/nvim-linux64/bin
-ENV PYTHONIOENCODING utf-8
+ENV PATH=$PATH:/nvim-linux64/bin
+ENV PYTHONIOENCODING=utf-8
 RUN : \
     ####################
     # Install yarn, eslint, prettier.
@@ -64,7 +64,7 @@ RUN : \
     && go install golang.org/x/tools/cmd/...@latest \
     && go install golang.org/x/tools/gopls@latest \
     && go install github.com/go-delve/delve/cmd/dlv@latest \
-    && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest \
+    && go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest \
     && go install github.com/nametake/golangci-lint-langserver@latest \
     ####################
     # Clone neovim.
