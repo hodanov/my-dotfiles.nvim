@@ -1,13 +1,13 @@
 FROM ubuntu:24.04
 
 COPY ./config/.bash_profile /root/
-COPY ./config/dependencies/requirements.txt /root/
+COPY ./config/dependencies/pyproject.toml ./
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common ninja-build gettext cmake \
-    curl unzip build-essential wget python3 python3-pip build-essential cmake python3-dev python3-venv mysql-client \
+    curl unzip build-essential wget python3 build-essential cmake python3-dev python3-venv mysql-client \
     shellcheck git silversearcher-ag \
     ####################
     # Set up timezone and locale.
@@ -34,14 +34,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     && rm $GO_LATEST_PACKAGE \
     ####################
     # Python linter, formatter and so on.
-    && python3 -m venv /root/.venv \
-    && source /root/.venv/bin/activate \
-    && python3 -m pip install --no-cache-dir --requirement /root/requirements.txt \
+    && curl -LsSf https://astral.sh/uv/install.sh | sh \
+    && source $HOME/.local/bin/env \
+    && uv sync \
     ####################
     # Rust, stylua
-    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
-    && source $HOME/.cargo/env \
-    && cargo install stylua \
+    # && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+    # && source $HOME/.cargo/env \
+    # && cargo install stylua \
     ####################
     # Auto remove and clean up.
     && apt-get autoremove -y \

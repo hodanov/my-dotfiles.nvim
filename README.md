@@ -76,6 +76,6 @@ The `--login` option is required to read the `.bash_profile` file.
 When writing Python code with static analysis and a linter enabled, switch environments using venv beforehand.
 
 ```sh
-source /root/.venv/bin/activate
-python3 -m pip install --no-cache-dir --requirement /root/requirements.txt
+source /.venv/bin/activate # Activte
+deactivate # Deactivate
 ```
