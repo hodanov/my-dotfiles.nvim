@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 COPY ./config/.bash_profile /root/
-COPY ./config/dependencies/pyproject.toml ./
+COPY ./config/dependencies/pyproject.toml /
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 
