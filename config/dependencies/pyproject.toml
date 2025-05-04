@@ -1,0 +1,14 @@
+[project]
+name = "my_dotfiles"
+version = "0.0.1"
+required-python = ">=3.12.3"
+dependencies = [
+    "pyright==1.1.400",
+    "ruff==0.11.7",
+    "pytest==8.3.5",
+    "pytest-mock==3.14.0",
+    "debugpy==1.8.14",
+]
+
+[tool.uv]
+package = false
