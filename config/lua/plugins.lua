@@ -8,11 +8,7 @@ return {
 		"nvim-telescope/telescope.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "Find Files" })
-			vim.keymap.set("n", "<Leader>fg", builtin.live_grep, { desc = "Live Grep" })
-			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+			require("telescope")
 		end,
 	},
 	{ -- colorscheme
@@ -65,21 +61,12 @@ return {
 		end,
 	},
 	{ -- Auto completion
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			{
-				"hrsh7th/cmp-nvim-lsp",
-				lazy = true,
-				event = { "InsertEnter" },
-			},
-			{
-				"hrsh7th/vim-vsnip",
-				lazy = true,
-				event = { "InsertEnter" },
-			},
-		},
+		"saghen/blink.cmp",
+		lazy = true,
+		event = { "BufRead", "BufNewFile" },
+		version = "1.*",
 		config = function()
-			require("nvim_cmp")
+			require("blink_cmp")
 		end,
 	},
 	{ -- Debug Adapter Protocol
