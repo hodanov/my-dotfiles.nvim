@@ -128,3 +128,8 @@ vim.cmd([[
   highlight NormalNC guibg=none
   highlight NormalSB guibg=none
 ]])
+
+-- ----------------------------------------
+-- lsp setting.
+-- ----------------------------------------
+require("lsp_native")
