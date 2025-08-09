@@ -36,14 +36,6 @@ return {
 			require("nvim_treesitter")
 		end,
 	},
-	{ -- Configurations for Nvim LSP
-		"neovim/nvim-lspconfig",
-		lazy = true,
-		event = { "BufRead", "BufNewFile" },
-		config = function()
-			require("nvim_lspconfig")
-		end,
-	},
 	{ -- Formatt and lint runner
 		"stevearc/conform.nvim",
 		lazy = true,
