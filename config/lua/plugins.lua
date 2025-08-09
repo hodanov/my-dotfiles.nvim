@@ -3,6 +3,18 @@ return {
 	"github/copilot.vim",
 	-- File manager
 	"lambdalisue/fern.vim",
+	-- Fuzzy search
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "Find Files" })
+			vim.keymap.set("n", "<Leader>fg", builtin.live_grep, { desc = "Live Grep" })
+			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+		end,
+	},
 	{ -- colorscheme
 		"catppuccin/nvim",
 		config = function()

@@ -46,6 +46,7 @@ This is using the following technologies and plugins:
   - nvim-cmp...Completion
   - nvim-dap...Debug adapter protocol
   - fern.vim...File manager
+  - telescope.nvim...Fuzzy finder
   - nvim-lualine...Status tabline
   - gitsigns.nvim...Show `git diff` in the gutter(sign column)
   - indent-blankline.nvim...Show indent guides
