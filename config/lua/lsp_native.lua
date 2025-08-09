@@ -8,14 +8,14 @@
 
 -- Enable LSP if the virtual environment is active.
 if vim.env.VIRTUAL_ENV then
-  vim.lsp.enable('pyright')
-  vim.lsp.enable('ruff')
+	vim.lsp.enable("pyright")
+	vim.lsp.enable("ruff")
 end
 
-vim.lsp.enable('gopls')
-vim.lsp.enable('golangci_lint_ls')
-vim.lsp.enable('ts_ls')
-vim.lsp.enable('eslint')
+vim.lsp.enable("gopls")
+vim.lsp.enable("golangci_lint_ls")
+vim.lsp.enable("ts_ls")
+vim.lsp.enable("eslint")
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
