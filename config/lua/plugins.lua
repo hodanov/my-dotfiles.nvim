@@ -3,12 +3,15 @@ return {
 	"github/copilot.vim",
 	-- File manager
 	"lambdalisue/fern.vim",
-	-- Fuzzy search
+	-- Fuzzy finder
 	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		"nvim-telescope/telescope-file-browser.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
 		config = function()
-			require("telescope")
+			require("telescope_config")
 		end,
 	},
 	{ -- colorscheme
