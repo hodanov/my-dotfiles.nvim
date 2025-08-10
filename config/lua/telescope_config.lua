@@ -11,8 +11,25 @@ vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help ta
 -- telescope-file-browser.nvim
 -- ----------
 local telescope = require("telescope")
+telescope.setup({
+	defaults = {
+		sorting_strategy = "ascending", -- 上から順番に表示
+		file_sorter = require("telescope.sorters").get_fuzzy_file, -- アルファベット順ベース
+		layout_config = {
+			prompt_position = "top", -- 検索窓を上に
+		},
+	},
+	extensions = {
+		file_browser = {
+			sorting_strategy = "ascending",
+			layout_config = {
+				prompt_position = "top",
+			},
+			grouped = true, -- ディレクトリを上にまとめる
+		},
+	},
+})
 telescope.load_extension("file_browser")
-vim.keymap.set("n", "<space>fo", ":Telescope file_browser<CR>", { desc = "Telescope File Browser" })
 -- vim.keymap.set("n", "<space>fo", ":Telescope file_browser<CR>", { desc = "Telescope File Browser" })
 vim.keymap.set("n", "<space>fo", function()
 	require("telescope").extensions.file_browser.file_browser({
