@@ -16,6 +16,7 @@ vim.lsp.enable("gopls")
 vim.lsp.enable("golangci_lint_ls")
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("eslint")
+vim.lsp.enable("yamlls")
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
