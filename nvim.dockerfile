@@ -56,7 +56,7 @@ RUN : \
     && eval "$(nodenv init -)" \
     && npm install --global yarn@latest typescript@latest typescript-language-server@latest eslint@latest \
     vscode-langservers-extracted@latest @fsouza/prettierd@latest prettier-plugin-go-template@latest bash-language-server@latest \
-    textlint@latest yaml-language-server@latest \
+    textlint@latest yaml-language-server@latest tombi@latest \
     ####################
     # Add PATH to use 'go' command.
     && export PATH="$PATH:/usr/local/go/bin" \
