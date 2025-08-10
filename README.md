@@ -38,6 +38,9 @@ This is using the following technologies and plugins:
     - prettier
   - Lua
     - stylua
+  - Others
+    - yamlls
+    - textlint
 - Plugins
   - lazy.nvim...Plugin manager
   - copilot...AI pair programmer
