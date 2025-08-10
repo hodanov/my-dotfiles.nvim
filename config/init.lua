@@ -133,3 +133,16 @@ vim.cmd([[
 -- lsp setting.
 -- ----------------------------------------
 require("lsp_native")
+
+-- ----------------------------------------
+-- textlint setting.
+-- ----------------------------------------
+local textlint = require("textlint_nvim")
+textlint.setup({
+	cmd = "textlint",
+	filetypes = { "markdown", "text", "plaintext" },
+	debounce = 500,
+})
+
+vim.keymap.set("n", "<leader>tl", textlint.lint, { desc = "Run textlint" })
+vim.keymap.set("n", "<leader>tc", textlint.clear, { desc = "Clear textlint diagnostics" })
