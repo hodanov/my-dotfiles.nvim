@@ -3,12 +3,15 @@ return {
 	"github/copilot.vim",
 	-- File manager
 	"lambdalisue/fern.vim",
-	-- Fuzzy search
+	-- Fuzzy finder
 	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		"nvim-telescope/telescope-file-browser.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
 		config = function()
-			require("telescope")
+			require("telescope_config")
 		end,
 	},
 	{ -- colorscheme
@@ -48,9 +51,6 @@ return {
 		"neovim/nvim-lspconfig",
 		lazy = true,
 		event = { "BufRead", "BufNewFile" },
-		config = function()
-			require("lsp_native")
-		end,
 	},
 	{ -- Formatt and lint runner
 		"stevearc/conform.nvim",
