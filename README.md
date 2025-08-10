@@ -39,7 +39,8 @@ This is using the following technologies and plugins:
   - Lua
     - stylua
   - Others
-    - yamlls
+    - yamlls...LSP for yaml
+    - tombi...LSP for toml
     - textlint
 - Plugins
   - lazy.nvim...Plugin manager
