@@ -3,12 +3,13 @@
 FROM ubuntu:24.04 AS nvim-builder
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ARG NEOVIM_VERSION=0.11.3
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ninja-build gettext cmake curl unzip git build-essential ca-certificates \
   && update-ca-certificates \
   && git clone https://github.com/neovim/neovim /neovim \
   && cd /neovim \
-  && git checkout stable \
+  && git checkout "v$NEOVIM_VERSION" \
   && make CMAKE_BUILD_TYPE=RelWithDebInfo \
   && make install DESTDIR=/neovim-install \
   && apt-get clean -y \
@@ -23,6 +24,10 @@ COPY ./config/dependencies/pyproject.toml /
 COPY ./config/npm-tools/ /opt/npm-tools/
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
+ARG NODE_VERSION=24.5.0
+ARG GO_VERSION=1.24.6
+ARG RUST_TOOLCHAIN=stable
+ARG NPM_VERSION=11.5.1
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV NODENV_ROOT="/root/.nodenv"
@@ -43,10 +48,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && git clone https://github.com/nodenv/nodenv.git "$NODENV_ROOT" \
   && mkdir -p "$NODENV_ROOT/plugins" \
   && git clone https://github.com/nodenv/node-build.git "$NODENV_ROOT/plugins/node-build" \
-  && NODE_REGEX_PATTERN='^[0-9][02468]\.[0-9]{1,2}\.[0-9]{1,2}$' \
-  && NODE_LATEST_LTS_VERSION=`nodenv install -l | grep -E $NODE_REGEX_PATTERN | sort -V | tail -1` \
-  && nodenv install "$NODE_LATEST_LTS_VERSION" \
-  && nodenv global "$NODE_LATEST_LTS_VERSION" \
+  && nodenv install -s "$NODE_VERSION" && nodenv global "$NODE_VERSION" \
+  && nodenv rehash \
+  && npm install -g npm@"$NPM_VERSION" \
   ####################
   # Go, goenv
   && ARCH="$(dpkg --print-architecture)" \
@@ -55,12 +59,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   arm64) GO_ARCH="linux-arm64" ;; \
   *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
   esac \
-  && GO_REGEX_PATTERN="go[0-9]\.[0-9]{1,2}\.[0-9]{1,2}\.${GO_ARCH}\.tar\.gz" \
-  && GO_LATEST_PACKAGE="$(curl -s https://go.dev/dl/?mode=json | grep -Eo "$GO_REGEX_PATTERN" | sort -V | tail -1)" \
-  && GO_URL="https://go.dev/dl/${GO_LATEST_PACKAGE}" \
+  && GO_TARBALL="go${GO_VERSION}.${GO_ARCH}.tar.gz" \
+  && GO_URL="https://go.dev/dl/${GO_TARBALL}" \
   && wget --progress=dot:giga "$GO_URL" \
-  && tar -C /usr/local -xzf "$GO_LATEST_PACKAGE" \
-  && rm "$GO_LATEST_PACKAGE" \
+  && tar -C /usr/local -xzf "$GO_TARBALL" \
+  && rm "$GO_TARBALL" \
   ####################
   # Python linter, formatter and so on.
   && curl -LsSf https://astral.sh/uv/install.sh | sh \
@@ -69,7 +72,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && uv sync \
   ####################
   # Rust, stylua
-  && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+  && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain "${RUST_TOOLCHAIN:-stable}" \
   && source $HOME/.cargo/env \
   && cargo install stylua \
   ####################
