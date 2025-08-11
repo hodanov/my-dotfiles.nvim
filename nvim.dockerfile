@@ -1,3 +1,21 @@
+####################
+# Stage 1: Build Neovim from source
+FROM ubuntu:24.04 AS nvim-builder
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  ninja-build gettext cmake curl unzip git build-essential ca-certificates \
+  && update-ca-certificates \
+  && git clone https://github.com/neovim/neovim /neovim \
+  && cd /neovim \
+  && git checkout stable \
+  && make CMAKE_BUILD_TYPE=RelWithDebInfo \
+  && make install DESTDIR=/neovim-install \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
+
+####################
+# Stage 2: Runtime and tooling
 FROM ubuntu:24.04
 
 COPY ./config/.bash_profile /root/
@@ -6,23 +24,23 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ENV NODENV_ROOT="/root/.nodenv"
+ENV PATH="/root/.nodenv/shims:/root/.nodenv/bin:/usr/local/go/bin:/root/go/bin:/root/.cargo/bin:/root/.local/bin:${PATH}"
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  software-properties-common ninja-build gettext cmake \
-  curl unzip wget \
-  python3 cmake python3-dev python3-venv \
-  build-essential \
+  curl unzip wget ca-certificates ripgrep build-essential \
+  python3 python3-dev python3-venv \
   mysql-client shellcheck git \
   ####################
   # Set up timezone and locale.
-  && mkdir -p /root/.vim/undo \
+  && mkdir -p /root/.local/state/nvim/undo \
   && ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime \
   && echo "$TZ" > /etc/timezone \
+  && update-ca-certificates \
   ####################
   # Node.js, nodenv, node-build
-  && git clone https://github.com/nodenv/nodenv.git /root/.nodenv \
-  && ln -s /root/.nodenv/bin/* /usr/local/bin \
-  && mkdir -p "$(nodenv root)"/plugins \
-  && git clone https://github.com/nodenv/node-build.git "$(nodenv root)"/plugins/node-build \
+  && git clone https://github.com/nodenv/nodenv.git "$NODENV_ROOT" \
+  && mkdir -p "$NODENV_ROOT/plugins" \
+  && git clone https://github.com/nodenv/node-build.git "$NODENV_ROOT/plugins/node-build" \
   && NODE_REGEX_PATTERN='^[0-9][02468]\.[0-9]{1,2}\.[0-9]{1,2}$' \
   && NODE_LATEST_LTS_VERSION=`nodenv install -l | grep -E $NODE_REGEX_PATTERN | sort -V | tail -1` \
   && nodenv install "$NODE_LATEST_LTS_VERSION" \
@@ -51,14 +69,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   # Rust, stylua
   && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
   && source $HOME/.cargo/env \
-  && cargo install stylua ripgrep \
+  && cargo install stylua \
   ####################
   # Auto remove and clean up.
   && apt-get autoremove -y \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/usr/local/go/bin:/root/go/bin:/root/.cargo/bin:/root/.local/bin:${PATH}"
+ENV NODENV_ROOT="/root/.nodenv"
+ENV PATH="/root/.nodenv/shims:/root/.nodenv/bin:/usr/local/go/bin:/root/go/bin:/root/.cargo/bin:/root/.local/bin:${PATH}"
 ENV PYTHONIOENCODING=utf-8
 RUN : \
   ####################
@@ -69,6 +88,7 @@ RUN : \
   textlint@latest yaml-language-server@latest tombi@latest textlint-rule-preset-ja-technical-writing@latest \
   textlint-rule-preset-japanese@latest \
   && nodenv rehash \
+  && apt-get purge -y build-essential \
   ####################
   # Add PATH to use 'go' command.
   && export PATH="$PATH:/usr/local/go/bin" \
@@ -78,24 +98,16 @@ RUN : \
   && go install golang.org/x/tools/gopls@latest \
   && go install github.com/go-delve/delve/cmd/dlv@latest \
   && go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest \
-  && go install github.com/nametake/golangci-lint-langserver@latest \
-  ####################
-  # Clone neovim.
-  && git clone https://github.com/neovim/neovim
+  && go install github.com/nametake/golangci-lint-langserver@latest
 
 ####################
-# Build Neovim
-# The nvim-linux64 is not compatible with the ARM64 architecture at May 4, 2024.
-# So, we need to build Neovim from the source code.
-# https://github.com/neovim/neovim/blob/master/BUILD.md#quick-start
-# https://github.com/neovim/neovim/issues/15143
-# https://github.com/neovim/neovim/pull/15542
+# Bring Neovim artifacts from builder
+COPY --from=nvim-builder /neovim-install/ /
+
+####################
+# Copy Neovim configs after build for better caching
 COPY ./config/init.lua /root/.config/nvim/
 COPY ./config/lua/ /root/.config/nvim/lua/
 COPY ./config/ruff.toml /root/.config/ruff/
-WORKDIR /neovim
-RUN git checkout stable \
-  && make CMAKE_BUILD_TYPE=RelWithDebInfo \
-  && make install
 
 WORKDIR /myubuntu
