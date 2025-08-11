@@ -1,0 +1,91 @@
+name: Bump tool versions (Node/Go/Rust/Neovim/npm)
+
+on:
+  schedule:
+    - cron: '0 3 * * 1' # every Monday 03:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Resolve latest versions
+        id: resolve
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Node LTS latest
+          NODE_VERSION=$(curl -s https://nodejs.org/dist/index.json \
+            | jq -r '[.[] | select(.lts!=false) | .version] \
+            | map(ltrimstr("v")) \
+            | sort_by(split(".")|map(tonumber)) \
+            | last')
+
+          # Go latest stable
+          GO_VERSION=$(curl -s https://go.dev/dl/?mode=json \
+            | jq -r '[.[] | select(.stable==true)][0].version' \
+            | sed 's/^go//')
+
+          # Neovim latest release version
+          NEOVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest \
+            | jq -r '.tag_name' \
+            | sed 's/^v//')
+
+          # Rust toolchain (keep stable)
+          RUST_TOOLCHAIN="stable"
+
+          # npm cli latest
+          NPM_VERSION=$(curl -s https://registry.npmjs.org/npm/latest \
+            | jq -r '.version')
+
+          echo "node=$NODE_VERSION" >> $GITHUB_OUTPUT
+          echo "go=$GO_VERSION" >> $GITHUB_OUTPUT
+          echo "neovim=$NEOVIM_VERSION" >> $GITHUB_OUTPUT
+          echo "rust=$RUST_TOOLCHAIN" >> $GITHUB_OUTPUT
+          echo "npm=$NPM_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update Dockerfile ARGs
+        shell: bash
+        run: |
+          set -euo pipefail
+          sed -i.bak -E "s/^ARG NODE_VERSION(=.*)?$/ARG NODE_VERSION=${{ steps.resolve.outputs.node }}/" nvim.dockerfile
+          sed -i.bak -E "s/^ARG GO_VERSION(=.*)?$/ARG GO_VERSION=${{ steps.resolve.outputs.go }}/" nvim.dockerfile
+          sed -i.bak -E "s/^ARG RUST_TOOLCHAIN(=.*)?$/ARG RUST_TOOLCHAIN=${{ steps.resolve.outputs.rust }}/" nvim.dockerfile
+          sed -i.bak -E "s/^ARG NEOVIM_VERSION(=.*)?$/ARG NEOVIM_VERSION=${{ steps.resolve.outputs.neovim }}/" nvim.dockerfile
+          sed -i.bak -E "s/^ARG NPM_VERSION(=.*)?$/ARG NPM_VERSION=${{ steps.resolve.outputs.npm }}/" nvim.dockerfile
+          rm -f nvim.dockerfile.bak
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: |-
+            chore: bump tool versions
+
+            - Node: ${{ steps.resolve.outputs.node }}
+            - Go: ${{ steps.resolve.outputs.go }}
+            - Neovim: ${{ steps.resolve.outputs.neovim }}
+            - Rust: ${{ steps.resolve.outputs.rust }}
+            - npm: ${{ steps.resolve.outputs.npm }}
+          title: "chore: bump tool versions"
+          body: |-
+            This PR bumps toolchain versions used in `nvim.dockerfile`.
+
+            - Node: `${{ steps.resolve.outputs.node }}`
+            - Go: `${{ steps.resolve.outputs.go }}`
+            - Neovim: `${{ steps.resolve.outputs.neovim }}`
+            - Rust toolchain: `${{ steps.resolve.outputs.rust }}`
+            - npm CLI: `${{ steps.resolve.outputs.npm }}`
+
+            Automated by scheduled workflow.
+          branch: chore/bump-tool-versions
+          labels: dependencies
