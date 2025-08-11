@@ -20,12 +20,14 @@ FROM ubuntu:24.04
 
 COPY ./config/.bash_profile /root/
 COPY ./config/dependencies/pyproject.toml /
+COPY ./config/npm-tools/ /opt/npm-tools/
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV NODENV_ROOT="/root/.nodenv"
-ENV PATH="/root/.nodenv/shims:/root/.nodenv/bin:/usr/local/go/bin:/root/go/bin:/root/.cargo/bin:/root/.local/bin:${PATH}"
+ENV PATH="/root/.nodenv/shims:/root/.nodenv/bin:/usr/local/go/bin:/root/go/bin:/root/.cargo/bin:/root/.local/bin:/opt/npm-tools/node_modules/.bin:${PATH}"
+ENV NODE_PATH="/opt/npm-tools/node_modules"
 RUN apt-get update && apt-get install -y --no-install-recommends \
   curl unzip wget ca-certificates ripgrep build-essential \
   python3 python3-dev python3-venv \
@@ -77,16 +79,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 ENV NODENV_ROOT="/root/.nodenv"
-ENV PATH="/root/.nodenv/shims:/root/.nodenv/bin:/usr/local/go/bin:/root/go/bin:/root/.cargo/bin:/root/.local/bin:${PATH}"
+ENV PATH="/root/.nodenv/shims:/root/.nodenv/bin:/usr/local/go/bin:/root/go/bin:/root/.cargo/bin:/root/.local/bin:/opt/npm-tools/node_modules/.bin:${PATH}"
 ENV PYTHONIOENCODING=utf-8
 RUN : \
   ####################
-  # Install yarn, eslint, prettier.
+  # Install pinned npm tools with package.json
   && eval "$(nodenv init -)" \
-  && npm install --global yarn@latest typescript@latest typescript-language-server@latest eslint@latest \
-  vscode-langservers-extracted@latest @fsouza/prettierd@latest prettier-plugin-go-template@latest bash-language-server@latest \
-  textlint@latest yaml-language-server@latest tombi@latest textlint-rule-preset-ja-technical-writing@latest \
-  textlint-rule-preset-japanese@latest \
+  && npm --version >/dev/null \
+  && cd /opt/npm-tools && npm install --omit=dev --no-audit --no-fund \
   && nodenv rehash \
   && apt-get purge -y build-essential \
   ####################

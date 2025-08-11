@@ -8,6 +8,14 @@ updates:
       pip-dependencies:
         patterns:
           - "*"
+  - package-ecosystem: "npm"
+    directory: "/config/npm-tools"
+    schedule:
+      interval: "weekly"
+    groups:
+      npm-tools:
+        patterns:
+          - "*"
   - package-ecosystem: "docker"
     directory: "./"
     schedule:
