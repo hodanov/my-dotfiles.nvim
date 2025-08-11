@@ -4,10 +4,10 @@ version = "0.0.1"
 required-python = ">=3.12.3"
 dependencies = [
     "pyright==1.1.403",
-    "ruff==0.12.7",
+    "ruff==0.12.8",
     "pytest==8.4.1",
     "pytest-mock==3.14.1",
-    "debugpy==1.8.15",
+    "debugpy==1.8.16",
 ]
 
 [tool.uv]
