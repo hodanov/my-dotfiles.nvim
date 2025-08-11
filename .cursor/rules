@@ -1,0 +1,80 @@
+# Cursor Rules for my_dotfiles_nvim
+
+## Overview
+- This repository contains Neovim configuration and a Docker-based dev environment. Primary code is under `config/`.
+- Languages/stack: Lua (Neovim), Docker, YAML, Python, Go, Node.js tooling.
+
+## Editor/Repo Conventions
+- Use UTF-8 for all files. Line length guideline is 120 chars (see `config/init.lua` and `config/ruff.toml`).
+- Indentation:
+  - Default: 4 spaces (see `config/init.lua`).
+  - For `*.yml`, `*.yaml`, `*.tmpl`, `*json`, `*.html`, `*.css`, `*.js`, `*.ts`, `*.php`: 2 spaces.
+  - For Go: tabs with width 8, `noexpandtab`.
+- Trim trailing whitespace on save (Neovim autocmd in `config/init.lua`).
+- Avoid adding editor-specific files outside `config/` and `.cursor/`.
+
+## Neovim Setup Structure
+- Entry point: `config/init.lua`.
+  - Loads `lazy_nvim` then `plugins.lua` via `require("lazy").setup("plugins")`.
+  - Sets global options and keymaps.
+  - Loads LSP via `require("lsp_native")` and textlint via `require("textlint_nvim")`.
+- Plugins are defined in `config/lua/plugins.lua`. Each plugin’s config is in its own Lua module in `config/lua/`.
+
+## LSP/Format/Lint
+- LSP (native 0.11 style) enabled in `config/lua/lsp_native.lua`:
+  - Always enable: `gopls`, `golangci_lint_ls`, `ts_ls`, `eslint`, `yamlls`, `tombi`.
+  - Python: enable `pyright`, `ruff` only if `VIRTUAL_ENV` is set.
+  - Disable `virtual_text` diagnostics (use float, loclist, signs).
+- Formatting via `conform.nvim` (`config/lua/conform_nvim.lua`):
+  - Go: `goimports`
+  - JS/JSON/YAML: prefer `prettierd`, fallback to `prettier`
+  - Lua: `stylua`
+  - Python: `ruff_fix`, `ruff_format`, `ruff_organize_imports`
+  - `format_on_save` with 500ms timeout, LSP fallback.
+- Treesitter installs `go`, `python`.
+- Textlint integration (`config/lua/textlint_nvim.lua`):
+  - Command `textlint` with JSON output, debounce 500ms.
+  - Filetypes: `markdown`, `text`, `plaintext`.
+  - Mapped commands: `<leader>tl` (lint), `<leader>tc` (clear).
+
+## Keymaps (high-signal)
+- Leader is space.
+- Editing/config: `<Leader>.` open `init.lua`, `<Leader>s` source it.
+- Search: `<Leader>ff` files, `<Leader>fg` live grep, `<Leader>fb` buffers, `<Leader>fh` help tags.
+- File browser: `<space>fo` open file-browser on current file dir.
+- Terminal splits: `<Leader>-` horizontal, `<Leader>l` vertical.
+- LSP diagnostics: `<space>e` float, `[d`/`]d` prev/next, `<space>q` loclist.
+- DAP: `<Leader>5` continue, `<Leader>1`/`2`/`3` step over/into/out, `<Leader>9` toggle bp, `<Leader>0` clear bps, others in `nvim_dap.lua`.
+
+## Docker/Environment
+- Dev container `nvim-dev` built from `nvim.dockerfile` via `docker-compose.yml`.
+- Base: Ubuntu 24.04. Installs Node LTS, Go latest, Rust, uv, yarn, ESLint/Prettier/BLS, textlint with Japanese presets, Go tools, and builds Neovim from source (ARM64-safe).
+- Python tooling pinned in `config/dependencies/pyproject.toml`.
+
+## Coding Guidelines for this Repo
+- Lua modules should be small, focused, and placed under `config/lua/` with `require`-friendly names.
+- Prefer explicit setup functions when adding plugins; configure via dedicated module loaded from `plugins.lua`.
+- When adding LSPs/formatters:
+  - Register LSP via native `vim.lsp.enable("server")` in `lsp_native.lua`.
+  - Add formatter mapping in `conform_nvim.lua`.
+  - Respect Python venv guard (`VIRTUAL_ENV`) for Python LSPs.
+- For new keymaps, add descriptive `desc` in mappings.
+- Keep `treesitter` `ensure_installed` aligned with languages actually used.
+
+## Cursor Behaviors
+- Prefer edits in existing modules rather than inlining large configs inside `plugins.lua`.
+- When asked to add a plugin:
+  1) Add entry in `config/lua/plugins.lua`.
+  2) Create a new module under `config/lua/<plugin_name>.lua` exporting a `setup`/config call.
+- When asked to change formatting/linting:
+  - Update `config/lua/conform_nvim.lua`; avoid duplicating formatter definitions.
+- When asked to adjust LSP settings:
+  - Modify `config/lua/lsp_native.lua`; keep keymaps in the LspAttach callback.
+- When touching Docker or tooling versions, prefer latest stable and align with existing install methods.
+
+## Commit/PR
+- Commit messages: short imperative, explain “why” in 1–2 sentences.
+- Do not commit secrets. Do not change git config.
+
+## Testing
+- After significant Lua changes, open Neovim to verify no startup errors. If CI/testing needed, run lint/checks locally in container.
