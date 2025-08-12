@@ -47,9 +47,16 @@
 - DAP: `<Leader>5` continue, `<Leader>1`/`2`/`3` step over/into/out, `<Leader>9` toggle bp, `<Leader>0` clear bps, others in `nvim_dap.lua`.
 
 ## Docker/Environment
-- Dev container `nvim-dev` built from `nvim.dockerfile` via `docker-compose.yml`.
-- Base: Ubuntu 24.04. Installs Node LTS, Go latest, Rust, uv, yarn, ESLint/Prettier/BLS, textlint with Japanese presets, Go tools, and builds Neovim from source (ARM64-safe).
-- Python tooling pinned in `config/dependencies/pyproject.toml`.
+- Dev container `nvim-dev` built from `nvim.dockerfile` (multi-stage) via `docker-compose.yml`.
+- Base: Ubuntu 24.04. Multi-stage layout:
+  - `nvim-builder`: build Neovim from source and install to a staging dir
+  - `node-builder`: install Node.js from official tarball into `/opt/node` and install npm CLI tools from `config/npm-tools/package.json` into `/opt/npm-tools`
+  - `go-builder`: install Go toolchain from official tarball and build Go-based tools into `/root/go/bin`
+  - `rust-builder`: install Rust toolchain (rustup) and build `stylua`
+  - `python-builder`: install `uv` and create base `.venv` from `config/dependencies/pyproject.toml`
+  - final stage: minimal runtime; copies only built artifacts and adds small utilities (ripgrep, git, etc.)
+- Versions are pinned via ARGs in `nvim.dockerfile` and are bumped by a scheduled GitHub Actions workflow. Dependabot monitors `config/npm-tools` and `config/dependencies`.
+- Python dependencies are declared in `config/dependencies/pyproject.toml`. Use `uv venv`/`uv sync` (do not rely on `python -m venv`).
 
 ## Coding Guidelines for this Repo
 - Lua modules should be small, focused, and placed under `config/lua/` with `require`-friendly names.
@@ -70,7 +77,10 @@
   - Update `config/lua/conform_nvim.lua`; avoid duplicating formatter definitions.
 - When asked to adjust LSP settings:
   - Modify `config/lua/lsp_native.lua`; keep keymaps in the LspAttach callback.
-- When touching Docker or tooling versions, prefer latest stable and align with existing install methods.
+- When touching Docker or tooling versions, update ARGs in `nvim.dockerfile` (do not change install methods without discussion).
+- Node.js: use official tarball approach under `/opt/node` (do not reintroduce `nodenv`).
+- npm CLI tools: manage via `config/npm-tools/package.json`, installed into `/opt/npm-tools` (avoid global `npm -g` installs).
+- Python: prefer `uv venv` and `uv sync`; a base venv exists at `/opt/python/.venv`.
 
 ## Commit/PR
 - Commit messages: short imperative, explain “why” in 1–2 sentences.

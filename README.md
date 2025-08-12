@@ -16,13 +16,14 @@ The dotfiles will work in any environment. You can find [the dotfiles here](./co
 
 This is using the following technologies and plugins:
 
-- Environment
-  - Ubuntu: 24.04
-  - Neovim: latest version
-  - Go: latest version
-  - Python: latest version
-  - Node.js: latest version
-  - Rust: latest version
+- Environment (versions are pinned via Dockerfile ARGs; see `nvim.dockerfile`)
+  - Ubuntu (base image): 24.04
+  - Neovim (built from source in builder stage)
+  - Go (official tarball)
+  - Python (system Python + uv-managed virtualenvs)
+  - Node.js (official tarball under `/opt/node`)
+  - npm (pinned during build)
+  - Rust (toolchain installed in builder stage)
 - Linter/Formatter
   - Go
     - goimports
@@ -75,9 +76,42 @@ The `--login` option is required to read the `.bash_profile` file.
 
 ### Python coding
 
-When writing Python code with static analysis and a linter enabled, switch environments using venv beforehand.
+Python environments are managed by uv. A base virtualenv is prebuilt at `/opt/python/.venv`. You can also create per-project venvs with uv.
 
 ```sh
-source /.venv/bin/activate # Activte
-deactivate # Deactivate
+# Use the prebuilt base venv (global tools)
+source /opt/python/.venv/bin/activate
+
+# Or create a project venv via uv
+uv venv .venv
+source .venv/bin/activate
+
+# Sync dependencies from pyproject.toml (and uv.lock if present)
+uv sync
+
+# Deactivate when done
+deactivate
 ```
+
+### Node.js tooling
+
+CLI tools (eslint, typescript-language-server, textlint, etc.) are managed via `config/npm-tools/package.json` and installed into `/opt/npm-tools` during the image build. They are on `PATH` via `/opt/npm-tools/node_modules/.bin`.
+
+- To add/update tools, edit `config/npm-tools/package.json` and rebuild. Dependabot monitors this directory and will propose updates.
+
+### Dockerfile architecture (multi-stage)
+
+The `nvim.dockerfile` is split into multiple stages to keep the final image slim and maintainable:
+
+- `nvim-builder`: builds Neovim from source and installs to an install dir copied to the final stage
+- `node-builder`: downloads the official Node.js tarball into `/opt/node` and installs npm tools from `config/npm-tools`
+- `go-builder`: installs Go toolchain and Go-based tools (gopls, dlv, golangci-lint, etc.)
+- `rust-builder`: installs Rust toolchain and builds `stylua`
+- `python-builder`: installs uv and creates a base `.venv` from `config/dependencies/pyproject.toml`
+- final stage: installs minimal runtime packages and copies only the necessary artifacts from each builder
+
+### Version management and CI
+
+- Versions for Node/Go/Rust/Neovim/npm are defined as ARGs in `nvim.dockerfile` and hardcoded by default.
+- GitHub Actions workflow `bump-tool-versions` creates weekly PRs to bump these versions automatically.
+- `pr-docker-build` workflow builds the Docker image on dependency-related PRs (Dependabot PRs, version bump PRs, or PRs labeled `dependencies`).
