@@ -24,10 +24,10 @@ COPY ./config/dependencies/pyproject.toml /
 COPY ./config/npm-tools/ /opt/npm-tools/
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
-ARG NODE_VERSION=24.5.0
+ARG NODE_VERSION=22.18.0
 ARG GO_VERSION=1.24.6
 ARG RUST_TOOLCHAIN=stable
-ARG NPM_VERSION=11.5.1
+ARG NPM_VERSION=11.5.2
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV NODENV_ROOT="/root/.nodenv"
