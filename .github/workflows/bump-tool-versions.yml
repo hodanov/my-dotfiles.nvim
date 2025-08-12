@@ -31,7 +31,7 @@ jobs:
           GO_VERSION=$(curl -s https://go.dev/dl/?mode=json | jq -r '[.[] | select(.stable==true)][0].version | ltrimstr("go")')
 
           # Neovim latest release version
-          NEOVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name' | ltrimstr("v")')
+          NEOVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name | ltrimstr("v")')
 
           # Rust toolchain (keep stable)
           RUST_TOOLCHAIN="stable"
