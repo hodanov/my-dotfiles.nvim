@@ -4,7 +4,6 @@ This is my personal Neovim configuration and dev-environment on docker.
 
 ![](assets/screenshot_nvim_window.avif)
 
-
 ## Introduction
 
 This dev-env assumed to operate in a Mac(arm64) and Docker.
@@ -12,7 +11,6 @@ This dev-env assumed to operate in a Mac(arm64) and Docker.
 However, it is possible to use it on other platforms by modifying the Dockerfile.
 
 The dotfiles will work in any environment. You can find [the dotfiles here](./config).
-
 
 ## Features
 
@@ -55,7 +53,6 @@ This is using the following technologies and plugins:
   - gitsigns.nvim...Show `git diff` in the gutter(sign column)
   - indent-blankline.nvim...Show indent guides
     and so on...
-
 
 ## Getting Started
 
