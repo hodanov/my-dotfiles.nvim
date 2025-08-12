@@ -1,0 +1,20 @@
+# Exclude everything by default, then opt-in
+**
+
+# Include only what the Docker build needs
+!nvim.dockerfile
+!docker-compose.yml
+!config/**
+!config/.bash_profile
+!config/dependencies/pyproject.toml
+
+# Node/npm caches
+node_modules
+**/node_modules
+
+# Git
+.git
+.gitignore
+
+# macOS
+.DS_Store
