@@ -6,16 +6,19 @@
 -- - https://zenn.dev/kawarimidoll/articles/b202e546bca344
 -- ----------------------------------------
 
--- Enable LSP if the virtual environment is active.
-if vim.env.VIRTUAL_ENV then
-	vim.lsp.enable("pyright")
-	vim.lsp.enable("ruff")
-end
-
+-- Go
 vim.lsp.enable("gopls")
 vim.lsp.enable("golangci_lint_ls")
+
+-- JavaScript, Node.js
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("eslint")
+
+-- Python
+vim.lsp.enable("pyright")
+vim.lsp.enable("ruff")
+
+-- Config files
 vim.lsp.enable("yamlls")
 vim.lsp.enable("tombi")
 

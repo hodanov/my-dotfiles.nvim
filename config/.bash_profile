@@ -13,9 +13,6 @@ export PATH="$PATH:${GOROOT}/bin"
 GOPATH=$(go env GOPATH)
 export PATH="$PATH:${GOPATH}/bin"
 
-# nodenv
-eval "$(nodenv init -)"
-
 # shell autocompletion about uv/uvx
 eval "$(uv generate-shell-completion bash)"
 eval "$(uvx --generate-shell-completion bash)"
