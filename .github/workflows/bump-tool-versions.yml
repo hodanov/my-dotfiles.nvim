@@ -2,7 +2,7 @@ name: Bump tool versions (Node/Go/Rust/Neovim/npm)
 
 on:
   schedule:
-    - cron: '0 3 * * 1' # every Monday 03:00 UTC
+    - cron: "0 3 * * 1" # every Monday 03:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -26,20 +26,21 @@ jobs:
           set -euo pipefail
           # Node LTS latest
           NODE_VERSION=$(curl -s https://nodejs.org/dist/index.json \
-            | jq -r '[.[] | select(.lts!=false) | .version] \
-            | map(ltrimstr("v")) \
-            | sort_by(split(".")|map(tonumber)) \
-            | last')
+            | jq -r '[.[] \
+            | select(.lts != false)] \
+            | max_by(.version | ltrimstr("v") | split(".") | map(tonumber)) \
+            | .version \
+            | ltrimstr("v")')
 
           # Go latest stable
           GO_VERSION=$(curl -s https://go.dev/dl/?mode=json \
             | jq -r '[.[] | select(.stable==true)][0].version' \
-            | sed 's/^go//')
+            | ltrimstr("go")')
 
           # Neovim latest release version
           NEOVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest \
             | jq -r '.tag_name' \
-            | sed 's/^v//')
+            | ltrimstr("v")')
 
           # Rust toolchain (keep stable)
           RUST_TOOLCHAIN="stable"
