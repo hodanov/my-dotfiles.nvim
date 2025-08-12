@@ -9,16 +9,13 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends \
   # Common tools
   curl unzip wget ca-certificates git build-essential pkg-config \
-
   # Japanese fonts and locales
   fonts-noto-cjk fonts-noto-cjk-extra language-pack-ja \
   locales locales-all \
   && update-ca-certificates \
-
   # Japanese local settings
   && locale-gen ja_JP.UTF-8 \
   && update-locale LANG=ja_JP.UTF-8 \
-
   # TimeZone settings
   && ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime \
   && echo "$TZ" > /etc/timezone \
@@ -105,6 +102,7 @@ RUN go install golang.org/x/tools/cmd/...@latest \
 FROM base AS rust-builder
 
 ARG RUST_TOOLCHAIN=stable
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain "$RUST_TOOLCHAIN"
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN cargo install stylua
@@ -113,6 +111,7 @@ RUN cargo install stylua
 # Stage 5: Build Python venv with uv
 FROM base AS python-builder
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-venv \
   && curl -LsSf https://astral.sh/uv/install.sh | sh \
   && export PATH="$HOME/.local/bin:$PATH" \
