@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && git clone https://github.com/neovim/neovim /neovim \
   && cd /neovim \
   && git checkout "v$NEOVIM_VERSION" \
-  && make CMAKE_BUILD_TYPE=RelWithDebInfo \
+  && make -j"$(nproc)" CMAKE_BUILD_TYPE=RelWithDebInfo \
   && make install DESTDIR=/neovim-install \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
