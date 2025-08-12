@@ -92,7 +92,7 @@ RUN ARCH="$(dpkg --print-architecture)" \
   && rm "$GO_TARBALL"
 
 ENV PATH="/usr/local/go/bin:${PATH}"
-COPY ./config/go-tools.txt /tmp/go-tools.txt
+COPY ./config/go-tools/go-tools.txt /tmp/go-tools.txt
 RUN while read -r pkg; do go install "$pkg"; done < /tmp/go-tools.txt
 
 ####################

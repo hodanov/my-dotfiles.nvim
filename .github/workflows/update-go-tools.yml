@@ -1,0 +1,74 @@
+name: Update Go Tools
+
+on:
+  schedule:
+    - cron: "0 3 * * 1" # every Monday 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  update-go-tools:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.21"
+          cache: true
+
+      - name: Update Go tools
+        run: |
+          chmod +x ./scripts/update-go-tools.sh
+          ./scripts/update-go-tools.sh
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet config/go-tools/go-tools.txt; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No updates needed"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Updates found"
+          fi
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update Go tools to latest versions"
+          title: "🤖 Auto-update Go tools"
+          body: |
+            ## 🤖 Goツールの自動更新
+
+            このPRは、`config/go-tools/go-tools.txt`で指定されているGoツールを最新バージョンに更新します。
+
+            ### 📋 変更内容
+            - Goツールのバージョンを最新に更新
+            - セキュリティとパフォーマンスの向上
+
+            ### 🔍 更新されたツール
+            <details>
+            <summary>変更内容を表示</summary>
+
+            ```diff
+            $(git diff config/go-tools/go-tools.txt)
+            ```
+            </details>
+
+            ---
+
+            *このPRは自動生成されています*
+          branch: update/go-tools
+          delete-branch: true
+          labels: |
+            automated
+            go-tools
+            dependencies
