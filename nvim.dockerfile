@@ -22,9 +22,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
 
-ENV LANG=ja_JP.UTF-8
-ENV LANGUAGE=ja_JP:ja
-ENV LC_ALL=ja_JP.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+ENV LC_CTYPE=ja_JP.UTF-8
 
 ####################
 # Stage 1: Build Neovim from source
@@ -91,11 +92,8 @@ RUN ARCH="$(dpkg --print-architecture)" \
   && rm "$GO_TARBALL"
 
 ENV PATH="/usr/local/go/bin:${PATH}"
-RUN go install golang.org/x/tools/cmd/...@latest \
-  && go install golang.org/x/tools/gopls@latest \
-  && go install github.com/go-delve/delve/cmd/dlv@latest \
-  && go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest \
-  && go install github.com/nametake/golangci-lint-langserver@latest
+COPY ./config/go-tools.txt /tmp/go-tools.txt
+RUN while read -r pkg; do go install "$pkg"; done < /tmp/go-tools.txt
 
 ####################
 # Stage 4: Build Rust-based tools
@@ -163,5 +161,5 @@ COPY ./config/ruff.toml /root/.config/ruff/
 
 WORKDIR /myubuntu
 
-HEALTHCHECK --interval=10m --timeout=30s --start-period=5m --retries=1 \
+HEALTHCHECK --interval=10m --timeout=1m --start-period=10m --retries=1 \
   CMD nvim --headless -c 'lua vim.health.check("checkhealth")' -c 'qa!' 2>/dev/null || exit 1
