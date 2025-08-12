@@ -3,7 +3,7 @@
 FROM ubuntu:24.04 AS nvim-builder
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-ARG NEOVIM_VERSION=0.11.3
+ARG NEOVIM_VERSION=
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ninja-build gettext cmake curl unzip git build-essential ca-certificates \
   && update-ca-certificates \
@@ -24,10 +24,10 @@ COPY ./config/dependencies/pyproject.toml /
 COPY ./config/npm-tools/ /opt/npm-tools/
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
-ARG NODE_VERSION=24.5.0
-ARG GO_VERSION=1.24.6
-ARG RUST_TOOLCHAIN=stable
-ARG NPM_VERSION=11.5.1
+ARG NODE_VERSION=22.18.0
+ARG GO_VERSION=
+ARG RUST_TOOLCHAIN=
+ARG NPM_VERSION=
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV NODENV_ROOT="/root/.nodenv"
