@@ -32,28 +32,28 @@ jobs:
             | .version \
             | ltrimstr("v")')
 
-          # Go latest stable
-          GO_VERSION=$(curl -s https://go.dev/dl/?mode=json \
-            | jq -r '[.[] | select(.stable==true)][0].version' \
-            | ltrimstr("go")')
+          ## Go latest stable
+          #GO_VERSION=$(curl -s https://go.dev/dl/?mode=json \
+          #  | jq -r '[.[] | select(.stable==true)][0].version' \
+          #  | ltrimstr("go")')
 
-          # Neovim latest release version
-          NEOVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest \
-            | jq -r '.tag_name' \
-            | ltrimstr("v")')
+          ## Neovim latest release version
+          #NEOVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest \
+          #  | jq -r '.tag_name' \
+          #  | ltrimstr("v")')
 
-          # Rust toolchain (keep stable)
-          RUST_TOOLCHAIN="stable"
+          ## Rust toolchain (keep stable)
+          #RUST_TOOLCHAIN="stable"
 
-          # npm cli latest
-          NPM_VERSION=$(curl -s https://registry.npmjs.org/npm/latest \
-            | jq -r '.version')
+          ## npm cli latest
+          #NPM_VERSION=$(curl -s https://registry.npmjs.org/npm/latest \
+          #  | jq -r '.version')
 
           echo "node=$NODE_VERSION" >> $GITHUB_OUTPUT
-          echo "go=$GO_VERSION" >> $GITHUB_OUTPUT
-          echo "neovim=$NEOVIM_VERSION" >> $GITHUB_OUTPUT
-          echo "rust=$RUST_TOOLCHAIN" >> $GITHUB_OUTPUT
-          echo "npm=$NPM_VERSION" >> $GITHUB_OUTPUT
+          #echo "go=$GO_VERSION" >> $GITHUB_OUTPUT
+          #echo "neovim=$NEOVIM_VERSION" >> $GITHUB_OUTPUT
+          #echo "rust=$RUST_TOOLCHAIN" >> $GITHUB_OUTPUT
+          #echo "npm=$NPM_VERSION" >> $GITHUB_OUTPUT
 
       - name: Update Dockerfile ARGs
         shell: bash
