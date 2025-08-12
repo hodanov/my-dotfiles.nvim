@@ -28,7 +28,7 @@ jobs:
           NODE_VERSION=$(curl -s https://nodejs.org/dist/index.json | jq -r '[.[] | select(.lts != false)] | max_by(.version | ltrimstr("v") | split(".") | map(tonumber)) | .version | ltrimstr("v")')
 
           ## Go latest stable
-          GO_VERSION=$(curl -s https://go.dev/dl/?mode=json | jq -r '[.[] | select(.stable==true)][0].version' | ltrimstr("go")')
+          GO_VERSION=$(curl -s https://go.dev/dl/?mode=json | jq -r '[.[] | select(.stable==true)][0].version | ltrimstr("go")')
 
           # Neovim latest release version
           NEOVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name' | ltrimstr("v")')
