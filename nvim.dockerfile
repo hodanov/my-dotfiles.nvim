@@ -1,12 +1,41 @@
 ####################
-# Stage 1: Build Neovim from source
-FROM ubuntu:24.04 AS nvim-builder
+# Base image with common dependencies and Japanese fonts
+FROM ubuntu:24.04 AS base
 
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TZ=Asia/Tokyo
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  # Common tools
+  curl unzip wget ca-certificates git build-essential pkg-config \
+
+  # Japanese fonts and locales
+  fonts-noto-cjk fonts-noto-cjk-extra language-pack-ja \
+  locales locales-all \
+  && update-ca-certificates \
+
+  # Japanese local settings
+  && locale-gen ja_JP.UTF-8 \
+  && update-locale LANG=ja_JP.UTF-8 \
+
+  # TimeZone settings
+  && ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime \
+  && echo "$TZ" > /etc/timezone \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV LANG=ja_JP.UTF-8
+ENV LANGUAGE=ja_JP:ja
+ENV LC_ALL=ja_JP.UTF-8
+
+####################
+# Stage 1: Build Neovim from source
+FROM base AS nvim-builder
+
 ARG NEOVIM_VERSION=0.11.3
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  ninja-build gettext cmake curl unzip git build-essential ca-certificates \
-  && update-ca-certificates \
+  ninja-build gettext cmake \
   && git clone https://github.com/neovim/neovim /neovim \
   && cd /neovim \
   && git checkout "v$NEOVIM_VERSION" \
@@ -17,15 +46,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ####################
 # Stage 2: Build Node runtime and npm tools
-FROM ubuntu:24.04 AS node-builder
+FROM base AS node-builder
 
 ARG NODE_VERSION=22.18.0
 ARG NPM_VERSION=11.5.2
 ENV NODE_HOME="/opt/node"
 ENV PATH="${NODE_HOME}/bin:${PATH}"
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl xz-utils \
-  && update-ca-certificates \
+
+RUN apt-get update && apt-get install -y --no-install-recommends xz-utils \
   && ARCH="$(dpkg --print-architecture)" \
   && case "$ARCH" in \
     amd64) NODE_ARCH="linux-x64" ;; \
@@ -40,20 +68,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
   && mkdir -p "$NODE_HOME" \
   && mv "/tmp/node-v${NODE_VERSION}-${NODE_ARCH}"/* "$NODE_HOME"/ \
   && rm -rf "/tmp/node-v${NODE_VERSION}-${NODE_ARCH}" "$NODE_TARBALL" \
-  && npm install -g npm@"$NPM_VERSION"
+  && npm install -g npm@"$NPM_VERSION" \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY ./config/npm-tools/ /opt/npm-tools/
 RUN cd /opt/npm-tools && npm install --omit=dev --no-audit --no-fund
 
 ####################
 # Stage 3: Build Go toolchain and tools
-FROM ubuntu:24.04 AS go-builder
+FROM base AS go-builder
 
 ARG GO_VERSION=1.24.6
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl wget git \
-  && update-ca-certificates \
-  && ARCH="$(dpkg --print-architecture)" \
+
+RUN ARCH="$(dpkg --print-architecture)" \
   && case "$ARCH" in \
     amd64) GO_ARCH="linux-amd64" ;; \
     arm64) GO_ARCH="linux-arm64" ;; \
@@ -64,6 +92,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
   && wget --progress=dot:giga "$GO_URL" \
   && tar -C /usr/local -xzf "$GO_TARBALL" \
   && rm "$GO_TARBALL"
+
 ENV PATH="/usr/local/go/bin:${PATH}"
 RUN go install golang.org/x/tools/cmd/...@latest \
   && go install golang.org/x/tools/gopls@latest \
@@ -73,26 +102,24 @@ RUN go install golang.org/x/tools/cmd/...@latest \
 
 ####################
 # Stage 4: Build Rust-based tools
-FROM ubuntu:24.04 AS rust-builder
+FROM base AS rust-builder
 
 ARG RUST_TOOLCHAIN=stable
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl build-essential pkg-config \
-  && update-ca-certificates \
-  && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain "$RUST_TOOLCHAIN"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain "$RUST_TOOLCHAIN"
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN cargo install stylua
 
 ####################
 # Stage 5: Build Python venv with uv
-FROM ubuntu:24.04 AS python-builder
+FROM base AS python-builder
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl python3 python3-venv \
-  && update-ca-certificates \
+RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-venv \
   && curl -LsSf https://astral.sh/uv/install.sh | sh \
   && export PATH="$HOME/.local/bin:$PATH" \
-  && uv --version >/dev/null
+  && uv --version >/dev/null \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY ./config/dependencies/pyproject.toml /opt/python/
 WORKDIR /opt/python
 RUN export PATH="$HOME/.local/bin:$PATH" \
@@ -100,19 +127,14 @@ RUN export PATH="$HOME/.local/bin:$PATH" \
 WORKDIR /
 
 ####################
-FROM ubuntu:24.04
+# Final stage
+FROM base
 
 COPY ./config/.bash_profile /root/
-ARG DEBIAN_FRONTEND=noninteractive
-ARG TZ=Asia/Tokyo
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  curl unzip wget ca-certificates ripgrep python3 mysql-client shellcheck git build-essential \
+  ripgrep python3 mysql-client shellcheck \
   && mkdir -p /root/.local/state/nvim/undo \
-  && ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime \
-  && echo "$TZ" > /etc/timezone \
-  && update-ca-certificates \
   && apt-get autoremove -y \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
@@ -141,3 +163,6 @@ COPY ./config/lua/ /root/.config/nvim/lua/
 COPY ./config/ruff.toml /root/.config/ruff/
 
 WORKDIR /myubuntu
+
+HEALTHCHECK --interval=10m --timeout=30s --start-period=5m --retries=1 \
+  CMD nvim --headless -c 'lua vim.health.check("checkhealth")' -c 'qa!' 2>/dev/null || exit 1
