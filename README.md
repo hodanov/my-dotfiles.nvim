@@ -112,6 +112,14 @@ The `nvim.dockerfile` is split into multiple stages to keep the final image slim
 
 ### Version management and CI
 
-- Versions for Node/Go/Rust/Neovim/npm are defined as ARGs in `nvim.dockerfile` and hardcoded by default.
-- GitHub Actions workflow `bump-tool-versions` creates weekly PRs to bump these versions automatically.
-- `pr-docker-build` workflow builds the Docker image on dependency-related PRs (Dependabot PRs, version bump PRs, or PRs labeled `dependencies`).
+- Versions for Node/Go/Rust/Neovim/npm are defined as `ARG` lines in `nvim.dockerfile` and hardcoded by default. Keep each `ARG` unindented and on a single line so automation can edit them.
+- GitHub Actions workflows:
+  - `bump-tool-versions.yml`: weekly (Mon 03:00 UTC) or manual. Resolves the latest stable versions for Node/Go/Neovim/npm (Rust stays `stable`) and opens a PR labeled `dependencies` updating the `ARG`s in `nvim.dockerfile`.
+  - `pr-docker-build.yml`: on PRs that are Dependabot, labeled `dependencies`, or whose branch starts with `chore/bump-tool-versions`, builds the image with Buildx for verification (no push).
+  - `lint_dockerfile.yml`: runs hadolint on changes to `nvim.dockerfile`, the workflow file itself, or `.hadolint.yml`.
+- Dependabot is configured in `.github/dependabot.yml` to monitor:
+  - `pip` under `config/dependencies`
+  - `npm` under `config/npm-tools`
+  - `docker` in the repo root
+  - `github-actions` in the repo root
+- Hadolint rules can be tuned via `.hadolint.yml` (some rules are intentionally ignored for this build style).
