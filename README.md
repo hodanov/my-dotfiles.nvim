@@ -44,6 +44,7 @@ This is using the following technologies and plugins:
   - Others
     - yamlls...LSP for yaml
     - tombi...LSP for toml
+    - markdownlint-cli2
     - textlint
 - Plugins
   - lazy.nvim...Plugin manager

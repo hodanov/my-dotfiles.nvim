@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   # Common tools
-  curl unzip wget ca-certificates git build-essential pkg-config \
+  curl unzip wget ca-certificates git build-essential pkg-config luarocks \
   # Japanese fonts and locales
   fonts-noto-cjk fonts-noto-cjk-extra language-pack-ja \
   locales locales-all \
@@ -54,9 +54,9 @@ ENV PATH="${NODE_HOME}/bin:${PATH}"
 RUN apt-get update && apt-get install -y --no-install-recommends xz-utils \
   && ARCH="$(dpkg --print-architecture)" \
   && case "$ARCH" in \
-    amd64) NODE_ARCH="linux-x64" ;; \
-    arm64) NODE_ARCH="linux-arm64" ;; \
-    *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
+  amd64) NODE_ARCH="linux-x64" ;; \
+  arm64) NODE_ARCH="linux-arm64" ;; \
+  *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
   esac \
   && cd /tmp \
   && NODE_TARBALL="node-v${NODE_VERSION}-${NODE_ARCH}.tar.xz" \
@@ -81,9 +81,9 @@ ARG GO_VERSION=1.24.6
 
 RUN ARCH="$(dpkg --print-architecture)" \
   && case "$ARCH" in \
-    amd64) GO_ARCH="linux-amd64" ;; \
-    arm64) GO_ARCH="linux-arm64" ;; \
-    *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
+  amd64) GO_ARCH="linux-amd64" ;; \
+  arm64) GO_ARCH="linux-arm64" ;; \
+  *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
   esac \
   && GO_TARBALL="go${GO_VERSION}.${GO_ARCH}.tar.gz" \
   && GO_URL="https://go.dev/dl/${GO_TARBALL}" \
@@ -130,7 +130,7 @@ FROM base
 COPY ./config/.bash_profile /root/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  ripgrep python3 mysql-client shellcheck \
+  ripgrep python3 mysql-client \
   && mkdir -p /root/.local/state/nvim/undo \
   && apt-get autoremove -y \
   && apt-get clean -y \

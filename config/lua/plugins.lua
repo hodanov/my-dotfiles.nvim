@@ -52,12 +52,18 @@ return {
 		lazy = true,
 		event = { "BufRead", "BufNewFile" },
 	},
-	{ -- Formatt and lint runner
+	{ -- Formatt runner
 		"stevearc/conform.nvim",
 		lazy = true,
 		event = { "BufRead", "BufNewFile" },
 		config = function()
 			require("conform_nvim")
+		end,
+	},
+	{ -- Lint runner
+		"mfussenegger/nvim-lint",
+		config = function()
+			require("nvim_lint")
 		end,
 	},
 	{ -- Auto completion
