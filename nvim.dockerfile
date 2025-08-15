@@ -6,15 +6,17 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
   # Common tools
-  curl unzip wget ca-certificates git build-essential pkg-config luarocks \
-  # Japanese fonts and locales
-  fonts-noto-cjk fonts-noto-cjk-extra language-pack-ja \
-  locales locales-all \
+  curl unzip wget ca-certificates git build-essential pkg-config \
+  # Japanese fonts and minimal locale support
+  fonts-noto-cjk fonts-noto-cjk-extra locales \
   && update-ca-certificates \
-  # Japanese local settings
-  && locale-gen ja_JP.UTF-8 \
+  # Generate only required locales (ja_JP, en_US) to reduce image size
+  && printf 'ja_JP.UTF-8 UTF-8\n' > /etc/locale.gen \
+  && printf 'en_US.UTF-8 UTF-8\n' >> /etc/locale.gen \
+  && locale-gen \
   && update-locale LANG=ja_JP.UTF-8 \
   # TimeZone settings
   && ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime \
@@ -130,7 +132,7 @@ FROM base
 COPY ./config/.bash_profile /root/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  ripgrep python3 mysql-client \
+  ripgrep python3 mysql-client luarocks \
   && mkdir -p /root/.local/state/nvim/undo \
   && apt-get autoremove -y \
   && apt-get clean -y \

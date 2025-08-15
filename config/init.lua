@@ -42,7 +42,7 @@ end
 -- Remember a history of undo/redo.
 -- ----------------------------------------
 if vim.fn.has("persistent_undo") == 1 then
-	local undo_path = vim.fn.expand("~/.vim/undo/")
+	local undo_path = vim.fn.expand("~/.local/state/nvim/undo")
 	vim.cmd("set undodir=" .. undo_path)
 	vim.opt.undofile = true
 end
