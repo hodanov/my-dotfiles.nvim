@@ -79,6 +79,14 @@ docker container exec -it nvim-dev bash --login
 
 The `--login` option is required to read the `.bash_profile` file.
 
+### Health check
+
+You can view the latest container health check output with:
+
+```sh
+docker inspect nvim-dev | jq -r '.[0].State.Health.Log[0].Output' | sed 's/\x1b\[[0-9;]*m//g'
+```
+
 ### Python coding
 
 Python environments are managed by uv. A base virtualenv is prebuilt at `/opt/python/.venv`. You can also create per-project venvs with uv.
