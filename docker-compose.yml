@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: nvim.dockerfile
     tty: true
+    stdin_open: true
+    command: ["sleep", "infinity"]
     restart: always
     networks:
       - my-nvim
