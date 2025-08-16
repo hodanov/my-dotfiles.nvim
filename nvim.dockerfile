@@ -64,10 +64,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends xz-utils \
   && NODE_TARBALL="node-v${NODE_VERSION}-${NODE_ARCH}.tar.xz" \
   && NODE_URL="https://nodejs.org/dist/v${NODE_VERSION}/${NODE_TARBALL}" \
   && curl -fsSL "$NODE_URL" -o "$NODE_TARBALL" \
+  && SHA_URL="https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt" \
+  && curl -fsSL "$SHA_URL" -o SHASUMS256.txt \
+  && grep " ${NODE_TARBALL}$" SHASUMS256.txt | sha256sum -c - \
   && tar -xJf "$NODE_TARBALL" \
   && mkdir -p "$NODE_HOME" \
   && mv "/tmp/node-v${NODE_VERSION}-${NODE_ARCH}"/* "$NODE_HOME"/ \
-  && rm -rf "/tmp/node-v${NODE_VERSION}-${NODE_ARCH}" "$NODE_TARBALL" \
+  && rm -rf "/tmp/node-v${NODE_VERSION}-${NODE_ARCH}" "$NODE_TARBALL" SHASUMS256.txt \
   && npm install -g npm@"$NPM_VERSION" \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
@@ -88,10 +91,14 @@ RUN ARCH="$(dpkg --print-architecture)" \
   *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
   esac \
   && GO_TARBALL="go${GO_VERSION}.${GO_ARCH}.tar.gz" \
-  && GO_URL="https://go.dev/dl/${GO_TARBALL}" \
-  && wget --progress=dot:giga "$GO_URL" \
+  && GO_BASE_URL="https://dl.google.com/go" \
+  && wget -q "${GO_BASE_URL}/${GO_TARBALL}" -O "$GO_TARBALL" \
+  && wget -q "${GO_BASE_URL}/${GO_TARBALL}.sha256" -O "${GO_TARBALL}.sha256" \
+  && GO_HASH_REF="$(tr -d ' \r\n' < "${GO_TARBALL}.sha256")" \
+  && GO_HASH_ACTUAL="$(sha256sum "$GO_TARBALL" | awk '{print $1}')" \
+  && [ "$GO_HASH_ACTUAL" = "$GO_HASH_REF" ] || (echo "Go tarball checksum mismatch: expected=$GO_HASH_REF actual=$GO_HASH_ACTUAL" >&2; exit 1) \
   && tar -C /usr/local -xzf "$GO_TARBALL" \
-  && rm "$GO_TARBALL"
+  && rm "$GO_TARBALL" "${GO_TARBALL}.sha256"
 
 ENV PATH="/usr/local/go/bin:${PATH}"
 COPY ./config/go-tools/go-tools.txt /tmp/go-tools.txt
@@ -164,4 +171,4 @@ COPY ./config/ruff.toml /root/.config/ruff/
 WORKDIR /workspace
 
 HEALTHCHECK --interval=10m --timeout=1m --start-period=10m --retries=1 \
-  CMD nvim --headless -c 'lua vim.health.check("checkhealth")' -c 'qa!' 2>/dev/null || exit 1
+  CMD nvim --headless -c 'checkhealth' -c 'qall' 2>/dev/null || exit 1
