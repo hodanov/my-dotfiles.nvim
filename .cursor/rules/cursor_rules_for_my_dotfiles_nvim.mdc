@@ -71,7 +71,7 @@
   The bump workflow uses anchored replacements; do not indent or wrap these lines.
 
 ### docker-compose
-- Service `nvim` builds from `nvim.dockerfile`, mounts the project into `/myubuntu`, and joins an external bridge network `my-nvim`. When changing service names or networks, also update docs and any dependent scripts.
+- Service `nvim` builds from `nvim.dockerfile`, mounts the project into `/workspace`, and joins an external bridge network `my-nvim`. When changing service names or networks, also update docs and any dependent scripts.
 
 ## Coding Guidelines for this Repo
 - Lua modules should be small, focused, and placed under `config/lua/` with `require`-friendly names.

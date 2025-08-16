@@ -161,7 +161,7 @@ COPY ./config/init.lua /root/.config/nvim/
 COPY ./config/lua/ /root/.config/nvim/lua/
 COPY ./config/ruff.toml /root/.config/ruff/
 
-WORKDIR /myubuntu
+WORKDIR /workspace
 
 HEALTHCHECK --interval=10m --timeout=1m --start-period=10m --retries=1 \
   CMD nvim --headless -c 'lua vim.health.check("checkhealth")' -c 'qa!' 2>/dev/null || exit 1

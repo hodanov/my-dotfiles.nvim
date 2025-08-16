@@ -9,7 +9,7 @@ services:
     networks:
       - my-nvim
     volumes:
-      - ..:/myubuntu
+      - ..:/workspace
 networks:
   my-nvim:
     driver: bridge
