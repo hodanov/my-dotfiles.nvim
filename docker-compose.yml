@@ -4,8 +4,15 @@ services:
     build:
       context: .
       dockerfile: nvim.dockerfile
+    # Interactive TTY for stable exec sessions
     tty: true
+    # Keep STDIN open so non-interactive startup doesn't close bash immediately
     stdin_open: true
+    # Keep-alive: run an infinite sleep as PID 1 so the container stays up
+    # - Purpose: always-on toolbox container; attach with `docker exec -it nvim-dev bash --login`
+    # - Why: if PID 1 exits quickly, container stops or hits a restart loop
+    # - Alternative: ["tail","-f","/dev/null"]
+    # - Note: replace/remove this if you later run a real long-lived service as PID 1
     command: ["sleep", "infinity"]
     restart: always
     networks:
