@@ -18,6 +18,7 @@ telescope.setup({
 		layout_config = {
 			prompt_position = "top", -- 検索窓を上に
 		},
+		find_files = { hidden = true },
 	},
 	extensions = {
 		file_browser = {
