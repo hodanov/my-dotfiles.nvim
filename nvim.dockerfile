@@ -53,6 +53,7 @@ ARG NPM_VERSION=11.5.2
 ENV NODE_HOME="/opt/node"
 ENV PATH="${NODE_HOME}/bin:${PATH}"
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends xz-utils \
   && ARCH="$(dpkg --print-architecture)" \
   && case "$ARCH" in \
@@ -84,6 +85,7 @@ FROM base AS go-builder
 
 ARG GO_VERSION=1.24.6
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN ARCH="$(dpkg --print-architecture)" \
   && case "$ARCH" in \
   amd64) GO_ARCH="linux-amd64" ;; \
