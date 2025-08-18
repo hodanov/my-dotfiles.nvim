@@ -2,6 +2,7 @@ local lint = require("lint")
 
 lint.linters_by_ft = {
 	markdown = { "markdownlint-cli2" },
+	dockerfile = { "hadolint" },
 }
 
 -- Run it when you open, save or exit insert mode (you can adjust the events to your liking).
