@@ -6,7 +6,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
   # Common tools
   curl unzip wget ca-certificates git build-essential pkg-config \
@@ -135,6 +134,30 @@ RUN export PATH="$HOME/.local/bin:$PATH" \
 WORKDIR /
 
 ####################
+# Stage 6: Fetch hadolint binary only
+FROM base AS hadolint-builder
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN set -eux; \
+  ARCH="$(dpkg --print-architecture)"; \
+  case "$ARCH" in \
+    amd64) HL_ARCH="Linux-x86_64" ;; \
+    arm64) HL_ARCH="Linux-arm64" ;; \
+    *) echo "Unsupported arch for hadolint: $ARCH" >&2; exit 1 ;; \
+  esac; \
+  BASE_URL="https://github.com/hadolint/hadolint/releases/latest/download"; \
+  TMPDIR="/tmp/hadolint"; \
+  mkdir -p "$TMPDIR"; \
+  BIN_PATH="$TMPDIR/hadolint"; \
+  SHA_PATH="$TMPDIR/hadolint.sha256"; \
+  curl -fsSL "$BASE_URL/hadolint-$HL_ARCH" -o "$BIN_PATH"; \
+  curl -fsSL "$BASE_URL/hadolint-$HL_ARCH.sha256" -o "$SHA_PATH"; \
+  REF_SHA="$(awk '{print $1}' "$SHA_PATH")"; \
+  ACT_SHA="$(sha256sum "$BIN_PATH" | awk '{print $1}')"; \
+  [ "$ACT_SHA" = "$REF_SHA" ] || (echo "hadolint checksum mismatch: expected=$REF_SHA actual=$ACT_SHA" >&2; exit 1); \
+  install -m 0755 "$BIN_PATH" /usr/local/bin/hadolint
+
+####################
 # Final stage
 FROM base
 
@@ -151,15 +174,16 @@ ENV PYTHONIOENCODING=utf-8
 
 ####################
 # Bring toolchains and Neovim from builders
-COPY --from=node-builder /opt/node/ /opt/node/
-COPY --from=node-builder /opt/npm-tools/ /opt/npm-tools/
 COPY --from=go-builder /usr/local/go/ /usr/local/go/
 COPY --from=go-builder /root/go/bin/ /root/go/bin/
-COPY --from=rust-builder /root/.cargo/bin/stylua /usr/local/bin/stylua
-COPY --from=python-builder /opt/python/.venv/ /opt/python/.venv/
+COPY --from=hadolint-builder /usr/local/bin/hadolint /usr/local/bin/hadolint
 COPY --from=nvim-builder /neovim-install/ /
+COPY --from=node-builder /opt/node/ /opt/node/
+COPY --from=node-builder /opt/npm-tools/ /opt/npm-tools/
+COPY --from=python-builder /opt/python/.venv/ /opt/python/.venv/
 COPY --from=python-builder /root/.local/bin/uv /usr/local/bin/uv
 COPY --from=python-builder /root/.local/bin/uvx /usr/local/bin/uvx
+COPY --from=rust-builder /root/.cargo/bin/stylua /usr/local/bin/stylua
 
 ENV PATH="/opt/python/.venv/bin:/opt/node/bin:/opt/npm-tools/node_modules/.bin:/usr/local/go/bin:/root/go/bin:${PATH}"
 ENV NODE_PATH="/opt/npm-tools/node_modules"
