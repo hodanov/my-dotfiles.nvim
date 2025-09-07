@@ -4,7 +4,9 @@ require("conform").setup({
 		lsp_format = "fallback",
 	},
 	formatters_by_ft = {
+		css = { "prettierd", "prettier", stop_after_first = true },
 		go = { "goimports" },
+		html = { "prettierd", "prettier", stop_after_first = true },
 		javascript = { "prettierd", "prettier", stop_after_first = true },
 		json = { "prettierd", "prettier", stop_after_first = true },
 		lua = { "stylua" },

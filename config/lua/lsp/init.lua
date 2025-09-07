@@ -14,6 +14,11 @@ vim.lsp.enable("golangci_lint_ls")
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("eslint")
 
+require("lspconfig").ts_ls.setup({
+	root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+	single_file_support = true,
+})
+
 -- Python
 vim.lsp.enable("pyright")
 vim.lsp.enable("ruff")
@@ -21,6 +26,7 @@ vim.lsp.enable("ruff")
 -- Config files
 vim.lsp.enable("yamlls")
 vim.lsp.enable("tombi")
+-- vim.lsp.enable("lemminx")
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
