@@ -3,10 +3,10 @@ name = "my_dotfiles"
 version = "0.0.1"
 required-python = ">=3.12.3"
 dependencies = [
-    "pyright==1.1.404",
-    "ruff==0.12.11",
-    "pytest==8.4.1",
-    "pytest-mock==3.14.1",
+    "pyright==1.1.405",
+    "ruff==0.12.12",
+    "pytest==8.4.2",
+    "pytest-mock==3.15.0",
     "debugpy==1.8.16",
 ]
 
