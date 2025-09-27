@@ -15,8 +15,11 @@ require("blink.cmp").setup({
 	--
 	-- See :h blink-cmp-config-keymap for defining your own keymap
 	keymap = {
-		preset = "super-tab",
-		["<CR>"] = { "accept", "fallback" },
+		preset = "default",
+		["<Tab>"] = false,
+		["<S-Tab>"] = false,
+		-- preset = "super-tab",
+		-- ["<CR>"] = { "accept", "fallback" },
 	},
 
 	appearance = {
