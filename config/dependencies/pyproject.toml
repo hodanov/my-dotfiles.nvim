@@ -4,7 +4,7 @@ version = "0.0.1"
 required-python = ">=3.12.3"
 dependencies = [
     "pyright==1.1.405",
-    "ruff==0.13.1",
+    "ruff==0.13.2",
     "pytest==8.4.2",
     "pytest-mock==3.15.1",
     "debugpy==1.8.17",
