@@ -1,4 +1,6 @@
 name: Lint Dockerfile
+permissions:
+  contents: read
 
 on:
   push:
