@@ -1,4 +1,7 @@
 name: Update Go Tools
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   schedule:
