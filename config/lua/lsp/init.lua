@@ -14,11 +14,6 @@ vim.lsp.enable("golangci_lint_ls")
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("eslint")
 
-require("lspconfig").ts_ls.setup({
-	root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-	single_file_support = true,
-})
-
 -- Python
 vim.lsp.enable("pyright")
 vim.lsp.enable("ruff")
