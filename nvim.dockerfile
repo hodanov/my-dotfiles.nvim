@@ -32,7 +32,7 @@ ENV LC_CTYPE=ja_JP.UTF-8
 # Stage 1: Build Neovim from source
 FROM base AS nvim-builder
 
-ARG NEOVIM_VERSION=0.11.4
+ARG NEOVIM_VERSION=0.11.5
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ninja-build gettext cmake \
   && git clone https://github.com/neovim/neovim /neovim \
@@ -47,7 +47,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Stage 2: Build Node runtime and npm tools
 FROM base AS node-builder
 
-ARG NODE_VERSION=22.21.0
+ARG NODE_VERSION=24.11.0
 ARG NPM_VERSION=11.6.2
 ENV NODE_HOME="/opt/node"
 ENV PATH="${NODE_HOME}/bin:${PATH}"
