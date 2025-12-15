@@ -47,8 +47,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Stage 2: Build Node runtime and npm tools
 FROM base AS node-builder
 
-ARG NODE_VERSION=24.11.1
-ARG NPM_VERSION=11.6.4
+ARG NODE_VERSION=24.12.0
+ARG NPM_VERSION=11.7.0
 ENV NODE_HOME="/opt/node"
 ENV PATH="${NODE_HOME}/bin:${PATH}"
 
@@ -82,7 +82,7 @@ RUN cd /opt/npm-tools && npm install --omit=dev --no-audit --no-fund
 # Stage 3: Build Go toolchain and tools
 FROM base AS go-builder
 
-ARG GO_VERSION=1.25.4
+ARG GO_VERSION=1.25.5
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN ARCH="$(dpkg --print-architecture)" \
