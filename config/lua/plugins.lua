@@ -43,6 +43,8 @@ return {
 	},
 	{ -- Appearance
 		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
+		build = ":TSUpdate",
 		config = function()
 			require("nvim_treesitter")
 		end,
