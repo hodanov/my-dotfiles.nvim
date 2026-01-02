@@ -111,9 +111,13 @@ FROM base AS rust-builder
 
 ARG RUST_TOOLCHAIN=stable
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain "$RUST_TOOLCHAIN"
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  clang libclang-dev \
+  && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain "$RUST_TOOLCHAIN" \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
 ENV PATH="/root/.cargo/bin:${PATH}"
-RUN cargo install stylua
+RUN cargo install stylua tree-sitter-cli
 
 ####################
 # Stage 5: Build Python venv with uv
@@ -184,6 +188,7 @@ COPY --from=python-builder /opt/python/.venv/ /opt/python/.venv/
 COPY --from=python-builder /root/.local/bin/uv /usr/local/bin/uv
 COPY --from=python-builder /root/.local/bin/uvx /usr/local/bin/uvx
 COPY --from=rust-builder /root/.cargo/bin/stylua /usr/local/bin/stylua
+COPY --from=rust-builder /root/.cargo/bin/tree-sitter /usr/local/bin/tree-sitter
 
 ENV PATH="/opt/python/.venv/bin:/opt/node/bin:/opt/npm-tools/node_modules/.bin:/usr/local/go/bin:/root/go/bin:${PATH}"
 ENV NODE_PATH="/opt/npm-tools/node_modules"

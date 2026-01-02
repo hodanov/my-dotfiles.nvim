@@ -18,7 +18,8 @@ services:
     networks:
       - my-nvim
     volumes:
-      - ..:/workspace
+      # - ..:/workspace
+      - ${HOME}/workspace:/${HOME}/workspace
 networks:
   my-nvim:
     driver: bridge
