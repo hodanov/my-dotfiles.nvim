@@ -48,7 +48,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 FROM base AS node-builder
 
 ARG NODE_VERSION=24.13.0
-ARG NPM_VERSION=11.7.0
+ARG NPM_VERSION=11.8.0
 ENV NODE_HOME="/opt/node"
 ENV PATH="${NODE_HOME}/bin:${PATH}"
 
