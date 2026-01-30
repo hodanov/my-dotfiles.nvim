@@ -1,0 +1,14 @@
+config:
+  MD013: false
+
+ignores:
+  - ".github"
+  - "assets"
+  - "**/.bash_profile"
+  - "**.json"
+  - "**.lua"
+  - "**.yml"
+  - "**.sh"
+  - "**.toml"
+  - "**.txt"
+  - "**/*.dockerfile"
