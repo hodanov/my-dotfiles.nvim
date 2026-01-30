@@ -1,0 +1,63 @@
+name: Lint Node Tools
+permissions:
+  contents: read
+
+on:
+  pull_request:
+
+jobs:
+  lint-tombi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Node tools
+        run: npm --prefix environment/tools/node install
+
+      - name: Run tombi lint
+        run: |
+          export PATH="$PWD/environment/tools/node/node_modules/.bin:$PATH"
+          tombi lint
+
+  lint-prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Node tools
+        run: npm --prefix environment/tools/node install
+
+      - name: Run Prettier check
+        run: |
+          export PATH="$PWD/environment/tools/node/node_modules/.bin:$PATH"
+          prettier --check .
+
+  lint-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Node tools
+        run: npm --prefix environment/tools/node install
+
+      - name: Run markdownlint-cli2
+        shell: bash
+        run: |
+          export PATH="$PWD/environment/tools/node/node_modules/.bin:$PATH"
+          shopt -s globstar
+          markdownlint-cli2 **/*.md
