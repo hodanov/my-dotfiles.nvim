@@ -2,11 +2,15 @@
 **
 
 # Include only what the Docker build needs
-!nvim.dockerfile
-!docker-compose.yml
-!config/**
-!config/.bash_profile
-!config/dependencies/pyproject.toml
+!environment/
+!environment/docker/
+!environment/docker/nvim.dockerfile
+!environment/docker/docker-compose.yml
+!environment/tools/
+!environment/tools/**
+!nvim/
+!nvim/config/
+!nvim/config/**
 
 # Node/npm caches
 node_modules

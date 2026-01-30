@@ -75,7 +75,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends xz-utils \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./config/npm-tools/ /opt/npm-tools/
+COPY ./environment/tools/node/ /opt/npm-tools/
 RUN cd /opt/npm-tools && npm install --omit=dev --no-audit --no-fund
 
 ####################
@@ -102,7 +102,7 @@ RUN ARCH="$(dpkg --print-architecture)" \
   && rm "$GO_TARBALL" "${GO_TARBALL}.sha256"
 
 ENV PATH="/usr/local/go/bin:${PATH}"
-COPY ./config/go-tools/go-tools.txt /tmp/go-tools.txt
+COPY ./environment/tools/go/go-tools.txt /tmp/go-tools.txt
 RUN while read -r pkg; do go install "$pkg"; done < /tmp/go-tools.txt
 
 ####################
@@ -131,7 +131,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3 python3
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./config/dependencies/pyproject.toml /opt/python/
+COPY ./environment/tools/python/pyproject.toml /opt/python/
 WORKDIR /opt/python
 RUN export PATH="$HOME/.local/bin:$PATH" \
   && uv sync --project .
@@ -165,7 +165,7 @@ RUN set -eux; \
 # Final stage
 FROM base
 
-COPY ./config/.bash_profile /root/
+COPY ./nvim/config/.bash_profile /root/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ripgrep python3 mysql-client luarocks \
@@ -195,9 +195,9 @@ ENV NODE_PATH="/opt/npm-tools/node_modules"
 
 ####################
 # Copy Neovim configs after build for better caching
-COPY ./config/init.lua /root/.config/nvim/
-COPY ./config/lua/ /root/.config/nvim/lua/
-COPY ./config/ruff.toml /root/.config/ruff/
+COPY ./nvim/config/init.lua /root/.config/nvim/
+COPY ./nvim/config/lua/ /root/.config/nvim/lua/
+COPY ./environment/tools/python/ruff.toml /root/.config/ruff/
 
 WORKDIR /workspace
 

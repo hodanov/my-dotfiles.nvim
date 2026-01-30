@@ -4,8 +4,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-GO_TOOLS_FILE="$PROJECT_ROOT/config/go-tools/go-tools.txt"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+GO_TOOLS_FILE="$PROJECT_ROOT/environment/tools/go/go-tools.txt"
 TEMP_FILE=$(mktemp)
 
 echo "🔍 Goツールの最新バージョンをチェック中..."

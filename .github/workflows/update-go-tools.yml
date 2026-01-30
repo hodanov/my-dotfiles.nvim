@@ -27,13 +27,13 @@ jobs:
 
       - name: Update Go tools
         run: |
-          chmod +x ./scripts/update-go-tools.sh
-          ./scripts/update-go-tools.sh
+          chmod +x ./environment/tools/go/update-go-tools.sh
+          ./environment/tools/go/update-go-tools.sh
 
       - name: Check for changes
         id: check_changes
         run: |
-          if git diff --quiet config/go-tools/go-tools.txt; then
+          if git diff --quiet environment/tools/go/go-tools.txt; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No updates needed"
           else
@@ -51,7 +51,7 @@ jobs:
           body: |
             ## 🤖 Goツールの自動更新
 
-            このPRは、`config/go-tools/go-tools.txt`で指定されているGoツールを最新バージョンに更新します。
+            このPRは、`environment/tools/go/go-tools.txt`で指定されているGoツールを最新バージョンに更新します。
 
             ### 📋 変更内容
             - Goツールのバージョンを最新に更新
@@ -62,7 +62,7 @@ jobs:
             <summary>変更内容を表示</summary>
 
             ```diff
-            $(git diff config/go-tools/go-tools.txt)
+            $(git diff environment/tools/go/go-tools.txt)
             ```
             </details>
 

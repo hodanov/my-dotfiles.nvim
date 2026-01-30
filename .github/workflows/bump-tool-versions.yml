@@ -49,12 +49,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sed -i.bak -E "s/^ARG NODE_VERSION(=.*)?$/ARG NODE_VERSION=${{ steps.resolve.outputs.node }}/" nvim.dockerfile
-          sed -i.bak -E "s/^ARG GO_VERSION(=.*)?$/ARG GO_VERSION=${{ steps.resolve.outputs.go }}/" nvim.dockerfile
-          sed -i.bak -E "s/^ARG RUST_TOOLCHAIN(=.*)?$/ARG RUST_TOOLCHAIN=${{ steps.resolve.outputs.rust }}/" nvim.dockerfile
-          sed -i.bak -E "s/^ARG NEOVIM_VERSION(=.*)?$/ARG NEOVIM_VERSION=${{ steps.resolve.outputs.neovim }}/" nvim.dockerfile
-          sed -i.bak -E "s/^ARG NPM_VERSION(=.*)?$/ARG NPM_VERSION=${{ steps.resolve.outputs.npm }}/" nvim.dockerfile
-          rm -f nvim.dockerfile.bak
+          sed -i.bak -E "s/^ARG NODE_VERSION(=.*)?$/ARG NODE_VERSION=${{ steps.resolve.outputs.node }}/" environment/docker/nvim.dockerfile
+          sed -i.bak -E "s/^ARG GO_VERSION(=.*)?$/ARG GO_VERSION=${{ steps.resolve.outputs.go }}/" environment/docker/nvim.dockerfile
+          sed -i.bak -E "s/^ARG RUST_TOOLCHAIN(=.*)?$/ARG RUST_TOOLCHAIN=${{ steps.resolve.outputs.rust }}/" environment/docker/nvim.dockerfile
+          sed -i.bak -E "s/^ARG NEOVIM_VERSION(=.*)?$/ARG NEOVIM_VERSION=${{ steps.resolve.outputs.neovim }}/" environment/docker/nvim.dockerfile
+          sed -i.bak -E "s/^ARG NPM_VERSION(=.*)?$/ARG NPM_VERSION=${{ steps.resolve.outputs.npm }}/" environment/docker/nvim.dockerfile
+          rm -f environment/docker/nvim.dockerfile.bak
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
@@ -69,7 +69,7 @@ jobs:
             - npm: ${{ steps.resolve.outputs.npm }}
           title: "chore: bump tool versions"
           body: |-
-            This PR bumps toolchain versions used in `nvim.dockerfile`.
+            This PR bumps toolchain versions used in `environment/docker/nvim.dockerfile`.
 
             - Node: `${{ steps.resolve.outputs.node }}`
             - Go: `${{ steps.resolve.outputs.go }}`
