@@ -63,4 +63,3 @@ vim.keymap.set("n", "<space>fo", function()
 		hidden = true,
 	})
 end, { desc = "Telescope File Browser (current file dir)" })
-
