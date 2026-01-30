@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
-    directory: "./config/dependencies"
+    directory: "./environment/tools/python"
     schedule:
       interval: "weekly"
     groups:
@@ -9,7 +9,7 @@ updates:
         patterns:
           - "*"
   - package-ecosystem: "npm"
-    directory: "/config/npm-tools"
+    directory: "/environment/tools/node"
     schedule:
       interval: "weekly"
     groups:

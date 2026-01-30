@@ -5,7 +5,7 @@ permissions:
 on:
   push:
     paths:
-      - nvim.dockerfile
+      - environment/docker/nvim.dockerfile
       - .github/workflows/lint_dockerfile.yml
       - .hadolint.yml
 
@@ -16,4 +16,4 @@ jobs:
       - uses: actions/checkout@v6
       - uses: hadolint/hadolint-action@v3.3.0
         with:
-          dockerfile: nvim.dockerfile
+          dockerfile: environment/docker/nvim.dockerfile

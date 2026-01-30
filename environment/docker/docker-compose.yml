@@ -2,8 +2,8 @@ services:
   nvim:
     container_name: nvim-dev
     build:
-      context: .
-      dockerfile: nvim.dockerfile
+      context: ../..
+      dockerfile: environment/docker/nvim.dockerfile
     # Interactive TTY for stable exec sessions
     tty: true
     # Keep STDIN open so non-interactive startup doesn't close bash immediately

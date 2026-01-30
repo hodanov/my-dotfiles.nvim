@@ -10,17 +10,17 @@ This dev-env assumed to operate in a Mac(arm64) and Docker.
 
 However, it is possible to use it on other platforms by modifying the Dockerfile.
 
-The dotfiles will work in any environment. You can find [the dotfiles here](./config).
+The dotfiles will work in any environment. You can find [the dotfiles here](./nvim/config).
 
 ## Scripts
 
-- `scripts/update-go-tools.sh`: Updates Go tools versions in `config/go-tools/go-tools.txt`. This script is automatically executed by GitHub Actions but can also be run manually if needed.
+- `environment/tools/go/update-go-tools.sh`: Updates Go tools versions in `environment/tools/go/go-tools.txt`. This script is automatically executed by GitHub Actions but can also be run manually if needed.
 
 ## Features
 
 This is using the following technologies and plugins:
 
-- Environment (versions are pinned via Dockerfile ARGs; see `nvim.dockerfile`)
+- Environment (versions are pinned via Dockerfile ARGs; see `environment/docker/nvim.dockerfile`)
   - Ubuntu (base image): 24.04
   - Neovim (built from source in builder stage)
   - Go (official tarball)
@@ -62,13 +62,13 @@ This is using the following technologies and plugins:
 
 ## Getting Started
 
-To use the environment, clone the repo and execute `docker compose up`.
+To use the environment, clone the repo and execute `docker compose` with the compose file in `environment/docker`.
 
 ```sh
 git clone git@github.com:hodanov/my-dotfiles.nvim.git
 docker network create my-nvim
 cd my-dotfiles.nvim
-docker compose up -d
+docker compose -f environment/docker/docker-compose.yml up -d
 ```
 
 After launching containers, execute the following command to attach the "nvim" container.
@@ -108,41 +108,41 @@ deactivate
 
 ### Node.js tooling
 
-CLI tools (eslint, typescript-language-server, textlint, etc.) are managed via `config/npm-tools/package.json` and installed into `/opt/npm-tools` during the image build. They are on `PATH` via `/opt/npm-tools/node_modules/.bin`.
+CLI tools (eslint, typescript-language-server, textlint, etc.) are managed via `environment/tools/node/package.json` and installed into `/opt/npm-tools` during the image build. They are on `PATH` via `/opt/npm-tools/node_modules/.bin`.
 
-- To add/update tools, edit `config/npm-tools/package.json` and rebuild. Dependabot monitors this directory and will propose updates.
+- To add/update tools, edit `environment/tools/node/package.json` and rebuild. Dependabot monitors this directory and will propose updates.
 
 ### Go tooling
 
-Go-based tools (gopls, dlv, golangci-lint, etc.) are managed via `config/go-tools/go-tools.txt` and installed during the Docker image build. The versions are pinned to ensure reproducible builds.
+Go-based tools (gopls, dlv, golangci-lint, etc.) are managed via `environment/tools/go/go-tools.txt` and installed during the Docker image build. The versions are pinned to ensure reproducible builds.
 
 - **Automatic update**: GitHub Actions runs weekly (Monday 03:00 UTC) to check for updates and create PRs
 - **Manual execution**: GitHub Actions can be triggered manually via `workflow_dispatch`
 - **Version management**: Uses Go module system to find the latest stable versions
-- **Script execution**: Run `./scripts/update-go-tools.sh` directly if needed
+- **Script execution**: Run `./environment/tools/go/update-go-tools.sh` directly if needed
 
 ### Dockerfile architecture (multi-stage)
 
-The `nvim.dockerfile` is split into multiple stages to keep the final image slim and maintainable:
+The `environment/docker/nvim.dockerfile` is split into multiple stages to keep the final image slim and maintainable:
 
 - `nvim-builder`: builds Neovim from source and installs to an install dir copied to the final stage
-- `node-builder`: downloads the official Node.js tarball into `/opt/node` and installs npm tools from `config/npm-tools`
+- `node-builder`: downloads the official Node.js tarball into `/opt/node` and installs npm tools from `environment/tools/node`
 - `go-builder`: installs Go toolchain and Go-based tools (gopls, dlv, golangci-lint, etc.)
 - `rust-builder`: installs Rust toolchain and builds `stylua`
-- `python-builder`: installs uv and creates a base `.venv` from `config/dependencies/pyproject.toml`
+- `python-builder`: installs uv and creates a base `.venv` from `environment/tools/python/pyproject.toml`
 - final stage: installs minimal runtime packages and copies only the necessary artifacts from each builder
 
 ### Version management and CI
 
-- Versions for Node/Go/Rust/Neovim/npm are defined as `ARG` lines in `nvim.dockerfile` and hardcoded by default. Keep each `ARG` unindented and on a single line so automation can edit them.
+- Versions for Node/Go/Rust/Neovim/npm are defined as `ARG` lines in `environment/docker/nvim.dockerfile` and hardcoded by default. Keep each `ARG` unindented and on a single line so automation can edit them.
 - GitHub Actions workflows:
-  - `bump-tool-versions.yml`: weekly (Mon 03:00 UTC) or manual. Resolves the latest stable versions for Node/Go/Neovim/npm (Rust stays `stable`) and opens a PR labeled `dependencies` updating the `ARG`s in `nvim.dockerfile`.
-  - `update-go-tools.yml`: weekly (Mon 03:00 UTC) or manual. Updates Go tools versions in `config/go-tools/go-tools.txt` and creates PRs for version updates.
+  - `bump-tool-versions.yml`: weekly (Mon 03:00 UTC) or manual. Resolves the latest stable versions for Node/Go/Neovim/npm (Rust stays `stable`) and opens a PR labeled `dependencies` updating the `ARG`s in `environment/docker/nvim.dockerfile`.
+  - `update-go-tools.yml`: weekly (Mon 03:00 UTC) or manual. Updates Go tools versions in `environment/tools/go/go-tools.txt` and creates PRs for version updates.
   - `pr-docker-build.yml`: on PRs that are Dependabot, labeled `dependencies`, or whose branch starts with `chore/bump-tool-versions`, builds the image with Buildx for verification (no push).
-  - `lint_dockerfile.yml`: runs hadolint on changes to `nvim.dockerfile`, the workflow file itself, or `.hadolint.yml`.
+  - `lint_dockerfile.yml`: runs hadolint on changes to `environment/docker/nvim.dockerfile`, the workflow file itself, or `.hadolint.yml`.
 - Dependabot is configured in `.github/dependabot.yml` to monitor:
-  - `pip` under `config/dependencies`
-  - `npm` under `config/npm-tools`
+  - `pip` under `environment/tools/python`
+  - `npm` under `environment/tools/node`
   - `docker` in the repo root
   - `github-actions` in the repo root
 - Hadolint rules can be tuned via `.hadolint.yml` (some rules are intentionally ignored for this build style).
