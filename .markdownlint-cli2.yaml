@@ -12,4 +12,4 @@ ignores:
   - "**.toml"
   - "**.txt"
   - "**/*.dockerfile"
-  - "**/node_modules"
+  - "**/node_modules/**"
