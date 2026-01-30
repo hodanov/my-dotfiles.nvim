@@ -2,7 +2,7 @@
 
 This is my personal Neovim configuration and dev-environment on docker.
 
-![](assets/screenshot_nvim_window.avif)
+![screenshot_nvim_window](assets/screenshot_nvim_window.avif)
 
 ## Introduction
 
