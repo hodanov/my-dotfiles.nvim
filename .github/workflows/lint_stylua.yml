@@ -1,0 +1,21 @@
+name: Lint Stylua
+permissions:
+  contents: read
+
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install stylua
+        run: cargo install stylua
+
+      - name: Run stylua check
+        run: stylua --check .
