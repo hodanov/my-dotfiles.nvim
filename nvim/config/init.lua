@@ -36,18 +36,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- ----------------------------------------
 local has_osc52, osc52 = pcall(require, "vim.ui.clipboard.osc52")
 if has_osc52 then
-	vim.g.clipboard = {
-		name = "OSC 52",
-		copy = {
-			["+"] = osc52.copy("+"),
-			["*"] = osc52.copy("*"),
-		},
-		paste = {
-			["+"] = osc52.paste("+"),
-			["*"] = osc52.paste("*"),
-		},
-	}
-	vim.opt.clipboard = "unnamedplus"
+	local osc52_copy_plus = osc52.copy("+")
+	local osc52_copy_star = osc52.copy("*")
+	local osc52_yank_group = vim.api.nvim_create_augroup("auto_copy_yank_to_osc52", { clear = true })
+	vim.api.nvim_create_autocmd("TextYankPost", {
+		group = osc52_yank_group,
+		callback = function()
+			if vim.v.event.operator ~= "y" then
+				return
+			end
+			if vim.v.event.regname ~= "" and vim.v.event.regname ~= "+" and vim.v.event.regname ~= "*" then
+				return
+			end
+			local yanked_text = vim.fn.getreg('"', 1, true)
+			local yanked_regtype = vim.fn.getregtype('"')
+			osc52_copy_plus(yanked_text, yanked_regtype)
+			osc52_copy_star(yanked_text, yanked_regtype)
+		end,
+	})
 elseif vim.fn.has("clipboard") == 1 then
 	vim.opt.clipboard = "unnamedplus"
 end
