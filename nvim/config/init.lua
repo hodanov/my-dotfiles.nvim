@@ -34,8 +34,22 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- ----------------------------------------
 -- Copy to the system clipboard.
 -- ----------------------------------------
-if vim.fn.has("clipboard") == 1 then
-	vim.opt.clipboard = "unnamed"
+local has_osc52, osc52 = pcall(require, "vim.ui.clipboard.osc52")
+if has_osc52 then
+	vim.g.clipboard = {
+		name = "OSC 52",
+		copy = {
+			["+"] = osc52.copy("+"),
+			["*"] = osc52.copy("*"),
+		},
+		paste = {
+			["+"] = osc52.paste("+"),
+			["*"] = osc52.paste("*"),
+		},
+	}
+	vim.opt.clipboard = "unnamedplus"
+elseif vim.fn.has("clipboard") == 1 then
+	vim.opt.clipboard = "unnamedplus"
 end
 
 -- ----------------------------------------
