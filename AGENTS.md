@@ -36,7 +36,7 @@
   - Run `prettier --check .` and fix errors.
   - After check passes, run `prettier --write .`.
 - When editing Markdown files:
-  - Run `markdownlint-cli2 --fix ./*` and fix any remaining issues.
+  - Run `markdownlint-cli2 --fix *` and fix any remaining issues.
 
 ## Commit & Pull Request Guidelines
 
