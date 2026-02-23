@@ -7,6 +7,7 @@
 ## 構成
 
 - agents.xml: AGENTS.mdとCLAUDE.mdの実態。`~/.codex/AGENTS.md`または`~/.claude/CLAUDE.md`のシンボリックリンク。
+- agents/: サブエージェント定義（Claude/Cursor用Markdown、Codex CLI用TOML）。
 - Makefile: シンボリックリンクの作成と削除を簡単に実行するためのコマンドを実装。
 - skills/: Codex CLI、Claude Code、Cursorで共通利用するSkills。
 
@@ -57,6 +58,22 @@ make cursor-skills-copy
 ```sh
 make codex-skills-install
 ```
+
+エージェントをユーザーレベルディレクトリにコピーする:
+
+```sh
+make agents-copy
+```
+
+ツール別:
+
+```sh
+make codex-agents-copy
+make claude-agents-copy
+make cursor-agents-copy
+```
+
+Codex CLI の場合、`agents-copy` は `~/.codex/config.toml` への `[agents.*]` エントリ登録も行う。
 
 ## AGENTS.mdの中身をxmlとして定義する理由
 
