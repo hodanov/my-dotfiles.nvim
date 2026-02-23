@@ -39,10 +39,10 @@ Always end your response with a Scout Report in exactly this format:
 
 ### 候補リスト（優先度順）
 
-| 優先度 | ファイル / モジュール | 根拠 |
-| ------ | --------------------- | ---- |
+| 優先度 | ファイル / モジュール | 根拠                     |
+| ------ | --------------------- | ------------------------ |
 | High   | path/to/file.ts       | (why this is suspicious) |
-| Medium | path/to/other.ts      | (brief reason) |
+| Medium | path/to/other.ts      | (brief reason)           |
 
 ### 推奨 Phase.2 クエリ
 
