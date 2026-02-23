@@ -7,7 +7,7 @@ This repository manages my AGENTS.md file for Codex CLI, and can also generate a
 ## Structure
 
 - agents.xml: The actual content backing `AGENTS.md` and `CLAUDE.md`. Create a symlink from `~/.codex/AGENTS.md` or `~/.claude/CLAUDE.md` to this file.
-- agents/: Subagent definitions for investigation workflows (Markdown for Claude/Cursor, TOML for Codex CLI).
+- agents/: Subagent definitions (Markdown for Claude/Cursor, TOML for Codex CLI).
 - Makefile: Provides commands to create and remove the symlink(s).
 - skills/: Shared Skills for Codex CLI, Claude Code, and Cursor.
 
