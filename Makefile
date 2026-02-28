@@ -8,9 +8,6 @@ CLAUDE_SKILLS_DEST := $(HOME)/.claude/skills
 CURSOR_SKILLS_DEST := $(HOME)/.cursor/skills
 
 AGENTS_MD_SRC := $(PWD)/agents
-CODEX_AGENTS_SRC := $(PWD)/agents/codex
-CODEX_AGENTS_DEST := $(HOME)/.codex/agents
-CODEX_CONFIG := $(HOME)/.codex/config.toml
 CLAUDE_AGENTS_DEST := $(HOME)/.claude/agents
 CURSOR_AGENTS_DEST := $(HOME)/.cursor/agents
 
@@ -167,81 +164,7 @@ define copy_agents_md
 endef
 
 .PHONY: agents-copy
-agents-copy: codex-agents-copy claude-agents-copy cursor-agents-copy
-
-.PHONY: codex-agents-copy
-codex-agents-copy:
-	@set -eu; \
-	src="$(CODEX_AGENTS_SRC)"; \
-	dest="$(CODEX_AGENTS_DEST)"; \
-	config="$(CODEX_CONFIG)"; \
-	if [ ! -d "$$src" ]; then \
-		echo "Source Codex agents directory not found: $$src"; \
-		exit 1; \
-	fi; \
-	mkdir -p "$$dest"; \
-	tmp=$$(mktemp); \
-	trap 'rm -f "$$tmp"' EXIT; \
-	find "$$src" -maxdepth 1 -name '*.toml' -type f -print0 > "$$tmp"; \
-	if [ ! -s "$$tmp" ]; then \
-		echo "No agent .toml files found in $$src"; \
-		exit 0; \
-	fi; \
-	dup_found=0; \
-	dup_list=""; \
-	while IFS= read -r -d '' f; do \
-		base=$$(basename "$$f"); \
-		if [ -e "$$dest/$$base" ]; then \
-			dup_found=1; \
-			dup_list="$$dup_list$$base\n"; \
-		fi; \
-	done < "$$tmp"; \
-	overwrite=0; \
-	if [ "$$dup_found" -eq 1 ]; then \
-		echo "The following Codex agent configs already exist in $$dest:"; \
-		printf "%b" "$$dup_list"; \
-		printf "Overwrite existing agent configs? [y/N] "; \
-		read -r ans; \
-		case "$$ans" in \
-			y|Y) overwrite=1 ;; \
-			*) overwrite=0 ;; \
-		esac; \
-	fi; \
-	while IFS= read -r -d '' f; do \
-		base=$$(basename "$$f"); \
-		if [ -e "$$dest/$$base" ] && [ "$$overwrite" -ne 1 ]; then \
-			echo "Skip $$base (already exists)"; \
-		else \
-			cp "$$f" "$$dest/$$base"; \
-			echo "Installed $$base -> $$dest/$$base"; \
-		fi; \
-	done < "$$tmp"; \
-	echo ""; \
-	echo "--- config.toml registration ---"; \
-	if [ ! -f "$$config" ]; then \
-		echo "Warning: $$config not found. Skipping config.toml registration."; \
-		echo "You may need to manually add [agents.*] entries."; \
-		exit 0; \
-	fi; \
-	while IFS= read -r -d '' f; do \
-		base=$$(basename "$$f"); \
-		name=$${base%.toml}; \
-		section_header="[agents.$$name]"; \
-		if grep -qF "$$section_header" "$$config"; then \
-			echo "$$section_header already exists in config.toml (skipped)"; \
-		else \
-			description=""; \
-			case "$$name" in \
-				investigation-scout) description="Phase.1 investigation agent: broad scanning, returns Scout Report" ;; \
-				investigation-diver) description="Phase.2 investigation agent: deep analysis of Scout Report candidates" ;; \
-				*) description="Agent: $$name" ;; \
-			esac; \
-			printf '\n%s\ndescription = "%s"\nconfig_file = "agents/%s"\n' \
-				"$$section_header" "$$description" "$$base" >> "$$config"; \
-			echo "Added $$section_header to config.toml"; \
-		fi; \
-	done < "$$tmp"; \
-	echo "Done."
+agents-copy: claude-agents-copy cursor-agents-copy
 
 .PHONY: claude-agents-copy
 claude-agents-copy:
