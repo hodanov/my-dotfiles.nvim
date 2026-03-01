@@ -87,10 +87,10 @@ Always end your response with a Scan Report in exactly this format:
 
 | 優先度 | カテゴリ | ファイル:行 | 概要 |
 | ------ | -------- | ----------- | ---- |
-| High | Correctness | path/to/file:42 | (brief description of concern) |
-| High | Security | path/to/file:78 | (brief description) |
-| Medium | Changeability | path/to/file:15 | (brief description) |
-| Low | Performance | path/to/file:99 | (brief description) |
+| Critical | Correctness | path/to/file:42 | (brief description of concern) |
+| Critical | Security | path/to/file:78 | (brief description) |
+| Warning | Changeability | path/to/file:15 | (brief description) |
+| Info | Performance | path/to/file:99 | (brief description) |
 
 ### 推奨 Phase.2 フォーカス
 
