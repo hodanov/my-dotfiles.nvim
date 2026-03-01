@@ -63,11 +63,9 @@ Agent tool で `investigation-diver` を起動する。
 </investigation-target>
 ```
 
+diver から受け取った Diver Report をそのままユーザーに表示する。
+
 High 候補がない場合は Phase 1 の結果のみで完了とし、ユーザーに通知する。
-
-### Step 5: Diver Report 提示
-
-diver の生出力（Diver Report）をそのままユーザーに表示する。
 
 ## Notes
 

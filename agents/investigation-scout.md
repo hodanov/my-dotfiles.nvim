@@ -26,6 +26,7 @@ When given an investigation target:
 - **No speculation.** Only list candidates you have actual evidence for.
 - **No fixes.** You are read-only. Never suggest code changes.
 - **Compact output.** The Scout Report must be concise enough to pass to the next agent without bloating the main conversation.
+- **Max 10 candidates.** List at most 10 candidates, prioritizing High over Medium.
 
 ## Output format
 
