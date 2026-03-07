@@ -1,45 +1,75 @@
 ---
 name: plan-markdown-export
-description: プラン内容をMarkdownファイルとして出力し、`docs/plan/YYYY-MM-DD_<plan-name>.md`に保存する作業で使用する。計画の書き出し、命名、markdownlintの実行が必要なときに使う。
+description: AIとの壁打ちで整理したプラン、または別ファイルの設計メモや実装メモを、読みやすいMarkdown形式の実装プランに整形して `docs/plan/YYYY-MM-DD_<plan-name>.md` に保存する作業で使う。会話中に提案したプランの書き出し、テキストメモの構造化、見出し整理、表への変換、チェックリスト化、保存、markdownlint の実行が必要なときに使う。
+argument-hint: [source-file-or-request]
+disable-model-invocation: true
 ---
 
 # Plan Markdown Export
 
+AIとの壁打ちで整理したプラン、または既存のメモを、レビューしやすい Markdown の実装プランに整形して保存する。
+
+## 想定する使い方
+
+- `/plan-markdown-export 提案してくれたプランを出力して`
+- `/plan-markdown-export さっき整理した実装案を markdown にして`
+- `/plan-markdown-export /path/to/memo.txt をベースにプラン化して`
+
+## 入力の扱い
+
+- 引数にファイルパスや明示的な入力元が含まれる場合は、その内容を優先して使う
+- 引数に具体的な入力元が無い場合は、このセッション内で直近に提案・整理・合意したプラン内容を入力として使う
+- セッション内に十分なプラン内容が無い場合は、推測で埋めず、不足情報を確認する
+
+## 目的
+
+以下を満たす Markdown プランを出力すること。
+
+- 元のプランの意図、判断、前提、リスク、検証項目を落とさない
+- 会話中に整理した内容を、そのままレビュー可能な文書にする
+- 表現だけを整え、要件や設計判断を勝手に追加しない
+- 必要に応じて GitHub Flavored Markdown の表、箇条書き、チェックリスト、コードブロックに変換する
+
 ## 手順
 
-1. 依頼内容からプラン名を短いkebab-caseで決める（指定がある場合はそれを使う）。
-2. `docs/plan/` が無ければ作成する。
-3. 日付はローカルの日付を使い、`YYYY-MM-DD_<plan-name>.md` でファイルを作成する（必要なら `date +%F` で確認する）。
-4. `# Plan` から始まるMarkdownで内容を書く。
-5. `markdownlint-cli2 --fix <file>` を実行する。
-6. 生成したファイルパスを返す。
+1. 入力元を特定する
+2. 会話中のプラン、または指定メモから、タイトル・背景・方針・実装手順・リスク・検証項目を抽出する
+3. プラン名を短い kebab-case で決める。指定がある場合はそれを使う
+4. `docs/plan/` が無ければ作成する
+5. ローカル日付を使って `docs/plan/YYYY-MM-DD_<plan-name>.md` を作成する
+6. [template.md](template.md) をベースに Markdown を出力する
+7. `markdownlint-cli2 --fix <file>` を実行する
+8. 生成ファイルのパスを返す
+
+## 正規化ルール
+
+- 会話の流れで出た断片的な案は、意味を保ったまま見出し構造へ再編成する
+- 罫線や装飾文字は削除し、適切な Markdown 見出しに変換する
+- 擬似表は可能な限り Markdown テーブルに変換する
+- 実装手順は順序付きリストにする
+- 検証項目はチェックリスト化してよい
+- ファイル名、設定値、識別子、コマンド、ワークフロー名は原文の表記を保つ
+- 原文に無い断定は追加しない
+- 曖昧な点は `## Open questions` にまとめる
+- 情報が不足しているセクションは無理に埋めず、省略するか `TBD` と明記する
 
 ## テンプレート
 
-```markdown
-# Plan
+出力形式は [template.md](template.md) を参照。
 
-<1-3 sentences: what we're doing, why, and the high-level approach.>
+- 入力に `Current structure` や `Design policy` が無い場合は、該当セクションを省略してよい
+- `File changes` と `Risks and mitigations` は、情報が表形式に向いている場合は表を優先する
+- 会話ベースのプラン出力では、文脈上明らかな内容だけを補完してよいが、未合意事項は `Open questions` に残す
 
-## Scope
-- In:
-- Out:
+## このスキルで特に重視すること
 
-## Action items
-[ ] <Step 1>
-[ ] <Step 2>
-[ ] <Step 3>
-[ ] <Step 4>
-[ ] <Step 5>
-[ ] <Step 6>
-
-## Open questions
-- <Question 1>
-- <Question 2>
-- <Question 3>
-```
+- 会話中に AI が提案したプランを、そのまま保存可能な文書に落とす
+- 断片的な議論を、読みやすい実装プランとして再構成する
+- 要約しすぎで設計意図を失わない
+- レビューしやすい粒度で整理する
 
 ## 注意
 
-- 既存ファイルがある場合は上書き前に確認する。
-- ファイル名はASCIIを優先する。
+- 既存ファイルがある場合は上書き前に確認する
+- ファイル名は ASCII を優先する
+- 入力元が曖昧な場合は、どのプランを出力するか確認する
