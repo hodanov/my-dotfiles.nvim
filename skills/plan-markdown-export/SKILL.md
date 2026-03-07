@@ -38,7 +38,7 @@ AIとの壁打ちで整理したプラン、または既存のメモを、レビ
 4. `docs/plan/` が無ければ作成する
 5. ローカル日付を使って `docs/plan/YYYY-MM-DD_<plan-name>.md` を作成する
 6. [template.md](template.md) をベースに Markdown を出力する
-7. `markdownlint-cli2 --fix <file>` を実行する
+7. `markdownlint-cli2 --fix <file>` を実行する（markdownlint-cli2 がインストールされていない場合はスキップ）
 8. 生成ファイルのパスを返す
 
 ## 正規化ルール
