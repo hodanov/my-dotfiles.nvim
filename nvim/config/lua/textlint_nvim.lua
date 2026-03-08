@@ -44,6 +44,12 @@ end
 -- textlintを実行する関数
 local function run_textlint(bufnr)
 	local filename = vim.api.nvim_buf_get_name(bufnr)
+
+	-- ファイル名なしのスクラッチバッファ（floating window等）はスキップ
+	if filename == "" then
+		return
+	end
+
 	local content = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
 
 	if content == "" then

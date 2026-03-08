@@ -20,6 +20,7 @@ services:
     volumes:
       # - ..:/workspace
       - ${HOME}/workspace:/${HOME}/workspace
+      - ${HOME}/.ai-bridge:/.ai-bridge
 networks:
   my-nvim:
     driver: bridge

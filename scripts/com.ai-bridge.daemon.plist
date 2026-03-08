@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd plist for ai-bridge-daemon (auto-start on login).
+
+  Setup:
+    1. Replace %%REPO_DIR%% with the absolute path to this repository, e.g.:
+         sed "s|%%REPO_DIR%%|$HOME/workspace/my_dotfiles_nvim/ai-bridge|g" \
+           scripts/com.ai-bridge.daemon.plist \
+           > ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
+
+    2. Load (enable auto-start):
+         launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
+
+    3. To disable auto-start and stop the daemon:
+         launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
+
+    4. To run manually without launchd:
+         ./scripts/ai-bridge-daemon.sh
+
+  Customize AI_BRIDGE_LAUNCHER below to switch between wezterm / tmux.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ai-bridge.daemon</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-l</string>
+        <string>%%REPO_DIR%%/scripts/ai-bridge-daemon.sh</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>AI_BRIDGE_CLI</key>
+        <string>claude</string>
+        <key>AI_BRIDGE_LAUNCHER</key>
+        <string>wezterm</string>
+    </dict>
+
+    <!-- Start automatically at login -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Restart if the daemon exits unexpectedly -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/ai-bridge-daemon.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/ai-bridge-daemon.log</string>
+</dict>
+</plist>
