@@ -1,0 +1,188 @@
+# AI Bridge: Neovim ↔ AI CLI 連携ガイド
+
+Dockerコンテナ内のNeovimで選択したコードを、ホスト側のAI CLI（Claude Code / Cursor等）にコンテキスト付きで渡す連携機構。
+
+## 前提条件
+
+- ホスト側に以下がインストール済みであること
+  - [`fswatch`](https://github.com/emcrisostomo/fswatch): `brew install fswatch`
+  - [`jq`](https://jqlang.github.io/jq/): `brew install jq`
+  - AI CLI（例: `claude`、`cursor`）
+- WezTermを使用する場合: `wezterm cli` コマンドが使えること
+- tmuxを使用する場合: アクティブなtmuxセッションがあること
+
+## セットアップ
+
+### 1. ブリッジディレクトリの作成
+
+```bash
+mkdir -p ~/.ai-bridge
+```
+
+### 2. Dockerコンテナの再起動
+
+`docker-compose.yml` に追加された `~/.ai-bridge` ボリュームマウントを反映する。
+
+```bash
+docker compose -f environment/docker/docker-compose.yml down
+docker compose -f environment/docker/docker-compose.yml up -d
+```
+
+### 3. デーモンのセットアップ
+
+**launchd による自動起動（推奨）:**
+
+```bash
+# %%REPO_DIR%% をこのリポジトリの絶対パスに置換してインストール
+sed "s|%%REPO_DIR%%|$(pwd)|g" \
+  scripts/com.ai-bridge.daemon.plist \
+  > ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
+
+launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
+```
+
+**手動起動:**
+
+```bash
+./scripts/ai-bridge-daemon.sh
+```
+
+### 4. Neovim設定の反映
+
+コンテナにLua設定を転送する（イメージリビルドまでの暫定対応）。
+
+```bash
+docker cp nvim/config/lua/ai_bridge.lua nvim-dev:/root/.config/nvim/lua/ai_bridge.lua
+```
+
+コンテナ内のNeovimで:
+
+```vim
+:source ~/.config/nvim/init.lua
+```
+
+## 使い方
+
+1. コンテナ内のNeovimでコードをビジュアル選択する（`v` または `V`）
+2. `<Space>ai` を押す
+3. フローティングウィンドウが開き、コンテキスト付きのプロンプトが表示される
+4. プロンプトを確認・編集する
+5. `<CR>`（Enter）で送信 → ホスト側のターミナルタブでAI CLIが起動する
+
+### フローティングウィンドウのキーマップ
+
+| キー | 動作 |
+| --- | --- |
+| `<CR>` | プロンプトを送信してAI CLIを起動 |
+| `<Esc>` | キャンセルしてウィンドウを閉じる |
+| `<C-[>` | キャンセルしてウィンドウを閉じる（`<Esc>` と同等） |
+
+## 設定
+
+デーモンの動作は環境変数で切り替えられる。
+
+| 環境変数 | デフォルト | 説明 |
+| --- | --- | --- |
+| `AI_BRIDGE_CLI` | `claude` | 使用するAI CLIコマンド |
+| `AI_BRIDGE_LAUNCHER` | `wezterm` | ターミナルランチャー |
+| `AI_BRIDGE_DIR` | `~/.ai-bridge` | ブリッジディレクトリのパス |
+
+launchd を使用する場合は `~/Library/LaunchAgents/com.ai-bridge.daemon.plist` の `EnvironmentVariables` を編集して `launchctl unload/load` で再起動する。
+
+### AI CLIの切り替え例
+
+**Cursor CLIに切り替える（手動起動）:**
+
+```bash
+AI_BRIDGE_CLI=cursor ./scripts/ai-bridge-daemon.sh
+```
+
+**新しいAI CLIを追加する:**
+
+`AI_BRIDGE_CLI` に指定するコマンドが `<cmd> "<prompt>"` の形式で動けば、追加設定なしで使用できる。
+
+### ランチャーの切り替え例
+
+**tmuxに切り替える（手動起動）:**
+
+```bash
+AI_BRIDGE_LAUNCHER=tmux ./scripts/ai-bridge-daemon.sh
+```
+
+**新しいランチャーを追加する:**
+
+`scripts/launchers/<name>.sh` を作成し、以下のインターフェースを実装する。
+
+```bash
+#!/bin/bash
+# Usage: <name>.sh <cwd> <script_file>
+cwd="$1"
+script="$2"
+# ここでターミナルを開いて bash -l "$script" を実行する
+```
+
+## デーモンの管理
+
+| 操作 | コマンド |
+| --- | --- |
+| 自動起動を有効化 | `launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
+| 自動起動を無効化 | `launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
+| 手動起動 | `./scripts/ai-bridge-daemon.sh` |
+| ログ確認 | `tail -f /tmp/ai-bridge-daemon.log` |
+
+## アーキテクチャ
+
+```text
+┌─────────────────────────────┐     ┌──────────────────────────────┐
+│  Docker Container           │     │  macOS Host                  │
+│                             │     │                              │
+│  Neovim                     │     │  ai-bridge-daemon            │
+│   ├─ Visual select code     │     │   ├─ fswatch で監視          │
+│   ├─ <Space>ai 押下         │     │   ├─ request.json を読む     │
+│   ├─ フローティングウィンドウ│     │   └─ launcher で新規タブ起動  │
+│   ├─ プロンプト編集         │     │       └─ <AI_CLI> "prompt"   │
+│   └─ <CR> で書き出し ───────┼──→──┤                              │
+│                             │     │                              │
+│  /.ai-bridge/               │ vol │  ~/.ai-bridge/               │
+│    └─ request.json          │ ════│    └─ request.json           │
+└─────────────────────────────┘     └──────────────────────────────┘
+```
+
+通信はホストとコンテナで共有する `~/.ai-bridge/` ディレクトリ上のJSONファイルを介して行われる。
+`${HOME}/workspace:/${HOME}/workspace` のボリュームマウントにより、ファイルパスはコンテナ・ホスト間で一致するため、AI CLIがホスト側からそのままファイルを参照できる。
+
+## トラブルシューティング
+
+**フローティングウィンドウが開かない:**
+
+コンテナに最新の `ai_bridge.lua` が反映されていない可能性がある。
+
+```bash
+docker cp nvim/config/lua/ai_bridge.lua nvim-dev:/root/.config/nvim/lua/ai_bridge.lua
+```
+
+**デーモンがリクエストを検知しない:**
+
+ブリッジディレクトリの共有ができているか確認する。
+
+```bash
+# コンテナ内
+ls -la /.ai-bridge/
+
+# ホスト側
+ls -la ~/.ai-bridge/
+```
+
+**AI CLIが起動しない:**
+
+デーモンのログを確認する。
+
+```bash
+tail -f /tmp/ai-bridge-daemon.log
+```
+
+ランチャーが実行可能か確認する。
+
+```bash
+ls -la scripts/launchers/
+```
