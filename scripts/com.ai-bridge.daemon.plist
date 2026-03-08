@@ -35,6 +35,8 @@
 
     <key>EnvironmentVariables</key>
     <dict>
+        <key>AI_BRIDGE_CLI</key>
+        <string>claude</string>
         <key>AI_BRIDGE_LAUNCHER</key>
         <string>wezterm</string>
     </dict>

@@ -24,7 +24,7 @@ local function open_prompt_editor(initial_prompt, cwd)
 		col = col,
 		style = "minimal",
 		border = "rounded",
-		title = " Claude Code: Edit prompt then <CR> to send, <Esc> to cancel ",
+		title = " AI Bridge: Edit prompt then <CR> to send, <Esc>/<C-[> to cancel ",
 		title_pos = "center",
 	})
 
@@ -42,6 +42,7 @@ local function open_prompt_editor(initial_prompt, cwd)
 
 	vim.keymap.set("n", "<CR>", submit, { buffer = buf, nowait = true })
 	vim.keymap.set("n", "<Esc>", cancel, { buffer = buf, nowait = true })
+	vim.keymap.set("n", "<C-[>", cancel, { buffer = buf, nowait = true })
 end
 
 function M.send_prompt(prompt, cwd)
@@ -94,12 +95,12 @@ function M.send_to_claude()
 	open_prompt_editor(initial_prompt, cwd)
 end
 
-vim.keymap.set("v", "<leader>cc", function()
+vim.keymap.set("v", "<leader>ai", function()
 	local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
 	vim.api.nvim_feedkeys(esc, "x", false)
 	vim.schedule(function()
 		M.send_to_claude()
 	end)
-end, { desc = "Send selection to Claude Code" })
+end, { desc = "Send selection to AI CLI" })
 
 return M
