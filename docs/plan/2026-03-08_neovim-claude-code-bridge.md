@@ -55,15 +55,15 @@ Dockerコンテナ内のNeovimで選択したコードを、ホスト側のClaud
 
 ## File changes
 
-| File | Change |
-| --- | --- |
-| `environment/docker/docker-compose.yml` | `volumes` に `${HOME}/.ai-bridge:/.ai-bridge` を追加 |
-| `nvim/config/lua/ai_bridge.lua` | 新規作成。ビジュアル選択のコンテキストをJSONに書き出すLuaモジュール |
-| `nvim/config/init.lua` | `require("ai_bridge")` を追加 |
-| `scripts/ai-bridge-daemon.sh` | 新規作成。ホスト側ファイル監視デーモン。ランチャーを呼び出す |
-| `scripts/launchers/wezterm.sh` | 新規作成。WezTerm用ターミナルランチャー |
-| `scripts/launchers/tmux.sh` | 新規作成。tmux用ターミナルランチャー |
-| `scripts/com.ai-bridge.daemon.plist` | 新規作成。launchd用plist（自動起動設定） |
+| File                                    | Change                                                              |
+| --------------------------------------- | ------------------------------------------------------------------- |
+| `environment/docker/docker-compose.yml` | `volumes` に `${HOME}/.ai-bridge:/.ai-bridge` を追加                |
+| `nvim/config/lua/ai_bridge.lua`         | 新規作成。ビジュアル選択のコンテキストをJSONに書き出すLuaモジュール |
+| `nvim/config/init.lua`                  | `require("ai_bridge")` を追加                                       |
+| `scripts/ai-bridge-daemon.sh`           | 新規作成。ホスト側ファイル監視デーモン。ランチャーを呼び出す        |
+| `scripts/launchers/wezterm.sh`          | 新規作成。WezTerm用ターミナルランチャー                             |
+| `scripts/launchers/tmux.sh`             | 新規作成。tmux用ターミナルランチャー                                |
+| `scripts/com.ai-bridge.daemon.plist`    | 新規作成。launchd用plist（自動起動設定）                            |
 
 ## Component details
 
@@ -88,42 +88,42 @@ Dockerコンテナ内のNeovimで選択したコードを、ホスト側のClaud
 
 共通インターフェース: `<launcher>.sh <cwd> <prompt>`
 
-| Launcher | Command | 備考 |
-| --- | --- | --- |
-| `wezterm.sh` | `wezterm cli spawn --cwd "$1" -- claude "$2"` | デフォルト |
-| `tmux.sh` | `tmux new-window -c "$1" "claude '$2'"` | tmuxセッション内で実行 |
+| Launcher     | Command                                       | 備考                   |
+| ------------ | --------------------------------------------- | ---------------------- |
+| `wezterm.sh` | `wezterm cli spawn --cwd "$1" -- claude "$2"` | デフォルト             |
+| `tmux.sh`    | `tmux new-window -c "$1" "claude '$2'"`       | tmuxセッション内で実行 |
 
 新しいランチャーを追加する場合は同じインターフェースのシェルスクリプトを `scripts/launchers/` に置くだけで対応可能。
 
 ### デーモンのライフサイクル管理
 
-| 方式 | コマンド |
-| --- | --- |
-| 自動起動を有効化（デフォルト） | `launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
-| 自動起動を無効化 | `launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
-| 手動起動 | `./scripts/ai-bridge-daemon.sh` |
-| 手動停止 | `Ctrl+C` またはデーモンのPIDをkill |
+| 方式                           | コマンド                                                             |
+| ------------------------------ | -------------------------------------------------------------------- |
+| 自動起動を有効化（デフォルト） | `launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist`   |
+| 自動起動を無効化               | `launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
+| 手動起動                       | `./scripts/ai-bridge-daemon.sh`                                      |
+| 手動停止                       | `Ctrl+C` またはデーモンのPIDをkill                                   |
 
 launchd plistは `scripts/com.ai-bridge.daemon.plist` に配置し、セットアップ時に `~/Library/LaunchAgents/` へシンボリックリンクを張る。
 
 ### ホスト側の依存ツール
 
-| Tool | Purpose | Install |
-| --- | --- | --- |
-| `fswatch` | ファイル変更監視 | `brew install fswatch` |
-| `jq` | JSONパース | `brew install jq` |
-| `claude` | Claude Code CLI | インストール済み |
-| `wezterm` CLI | ターミナルタブ制御（WezTerm使用時） | WezTermに同梱 |
-| `tmux` | ターミナルタブ制御（tmux使用時） | `brew install tmux` |
+| Tool          | Purpose                             | Install                |
+| ------------- | ----------------------------------- | ---------------------- |
+| `fswatch`     | ファイル変更監視                    | `brew install fswatch` |
+| `jq`          | JSONパース                          | `brew install jq`      |
+| `claude`      | Claude Code CLI                     | インストール済み       |
+| `wezterm` CLI | ターミナルタブ制御（WezTerm使用時） | WezTermに同梱          |
+| `tmux`        | ターミナルタブ制御（tmux使用時）    | `brew install tmux`    |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| `fswatch` のイベント重複でClaude Codeが複数起動する | リクエストファイルを消費後にリネームし、存在チェックで重複防止 |
-| ブリッジディレクトリが存在しない場合の起動失敗 | Lua側・デーモン側の両方で `mkdir -p` を実行 |
-| 大量のコード選択時にCLI引数の長さ上限に抵触 | 一定サイズ以上の場合はファイル参照に切り替える（v2で対応） |
-| デーモンが起動していない状態での `<leader>cc` | Neovim側で `notify` を出すのみ。デーモン未起動の検知は v2 で対応 |
+| Risk                                                | Mitigation                                                       |
+| --------------------------------------------------- | ---------------------------------------------------------------- |
+| `fswatch` のイベント重複でClaude Codeが複数起動する | リクエストファイルを消費後にリネームし、存在チェックで重複防止   |
+| ブリッジディレクトリが存在しない場合の起動失敗      | Lua側・デーモン側の両方で `mkdir -p` を実行                      |
+| 大量のコード選択時にCLI引数の長さ上限に抵触         | 一定サイズ以上の場合はファイル参照に切り替える（v2で対応）       |
+| デーモンが起動していない状態での `<leader>cc`       | Neovim側で `notify` を出すのみ。デーモン未起動の検知は v2 で対応 |
 
 ## Validation
 
