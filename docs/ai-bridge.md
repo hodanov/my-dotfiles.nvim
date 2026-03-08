@@ -71,21 +71,21 @@ docker cp nvim/config/lua/ai_bridge.lua nvim-dev:/root/.config/nvim/lua/ai_bridg
 
 ### フローティングウィンドウのキーマップ
 
-| キー | 動作 |
-| --- | --- |
-| `<CR>` | プロンプトを送信してAI CLIを起動 |
-| `<Esc>` | キャンセルしてウィンドウを閉じる |
+| キー    | 動作                                               |
+| ------- | -------------------------------------------------- |
+| `<CR>`  | プロンプトを送信してAI CLIを起動                   |
+| `<Esc>` | キャンセルしてウィンドウを閉じる                   |
 | `<C-[>` | キャンセルしてウィンドウを閉じる（`<Esc>` と同等） |
 
 ## 設定
 
 デーモンの動作は環境変数で切り替えられる。
 
-| 環境変数 | デフォルト | 説明 |
-| --- | --- | --- |
-| `AI_BRIDGE_CLI` | `claude` | 使用するAI CLIコマンド |
-| `AI_BRIDGE_LAUNCHER` | `wezterm` | ターミナルランチャー |
-| `AI_BRIDGE_DIR` | `~/.ai-bridge` | ブリッジディレクトリのパス |
+| 環境変数             | デフォルト     | 説明                       |
+| -------------------- | -------------- | -------------------------- |
+| `AI_BRIDGE_CLI`      | `claude`       | 使用するAI CLIコマンド     |
+| `AI_BRIDGE_LAUNCHER` | `wezterm`      | ターミナルランチャー       |
+| `AI_BRIDGE_DIR`      | `~/.ai-bridge` | ブリッジディレクトリのパス |
 
 launchd を使用する場合は `~/Library/LaunchAgents/com.ai-bridge.daemon.plist` の `EnvironmentVariables` を編集して `launchctl unload/load` で再起動する。
 
@@ -123,12 +123,12 @@ script="$2"
 
 ## デーモンの管理
 
-| 操作 | コマンド |
-| --- | --- |
-| 自動起動を有効化 | `launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
+| 操作             | コマンド                                                             |
+| ---------------- | -------------------------------------------------------------------- |
+| 自動起動を有効化 | `launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist`   |
 | 自動起動を無効化 | `launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
-| 手動起動 | `./scripts/ai-bridge-daemon.sh` |
-| ログ確認 | `tail -f /tmp/ai-bridge-daemon.log` |
+| 手動起動         | `./scripts/ai-bridge-daemon.sh`                                      |
+| ログ確認         | `tail -f /tmp/ai-bridge-daemon.log`                                  |
 
 ## アーキテクチャ
 
