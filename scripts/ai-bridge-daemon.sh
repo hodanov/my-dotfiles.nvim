@@ -40,9 +40,9 @@ fswatch -o "$REQUEST_FILE" | while read -r _; do
 	consumed="${REQUEST_FILE}.$(date +%s%N).consumed"
 	mv "$REQUEST_FILE" "$consumed"
 
-	# Parse fields from JSON
-	prompt=$(jq -r '.prompt' "$consumed")
-	cwd=$(jq -r '.cwd' "$consumed")
+	# Parse fields from JSON (cwd is always a single-line path, so read it
+	# first; the remaining multiline content becomes prompt)
+	{ read -r cwd; IFS= read -r -d '' prompt || true; } < <(jq -r '.cwd, .prompt' "$consumed")
 
 	rm -f "$consumed"
 
@@ -62,5 +62,5 @@ fswatch -o "$REQUEST_FILE" | while read -r _; do
 	chmod +x "$tmp_script"
 
 	echo "ai-bridge-daemon: launching for cwd=${cwd}"
-	"$LAUNCHER_SCRIPT" "$cwd" "$tmp_script"
+	"$LAUNCHER_SCRIPT" "$cwd" "$tmp_script" || rm -f "$tmp_script"
 done

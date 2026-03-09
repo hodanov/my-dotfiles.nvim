@@ -1,6 +1,7 @@
 local M = {}
 
 local bridge_dir = os.getenv("AI_BRIDGE_DIR") or "/.ai-bridge"
+vim.fn.mkdir(bridge_dir, "p")
 
 local function open_prompt_editor(initial_prompt, cwd)
 	local buf = vim.api.nvim_create_buf(false, true)
@@ -46,8 +47,6 @@ local function open_prompt_editor(initial_prompt, cwd)
 end
 
 function M.send_prompt(prompt, cwd)
-	vim.fn.mkdir(bridge_dir, "p")
-
 	local request = {
 		prompt = prompt,
 		cwd = cwd,
