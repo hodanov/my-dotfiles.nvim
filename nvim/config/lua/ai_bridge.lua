@@ -1,7 +1,8 @@
 local M = {}
 
 -- Default: ~/.ai-bridge (canonical definition: scripts/ai-bridge-defaults.sh)
-local bridge_dir = os.getenv("AI_BRIDGE_DIR") or (vim.env.HOME .. "/.ai-bridge")
+local home = os.getenv("HOME") or os.getenv("USERPROFILE") or "/tmp"
+local bridge_dir = os.getenv("AI_BRIDGE_DIR") or (home .. "/.ai-bridge")
 vim.fn.mkdir(bridge_dir, "p")
 
 local function open_prompt_editor(initial_prompt, cwd)
@@ -62,7 +63,10 @@ function M.send_prompt(prompt, cwd)
 		if not write_ok then
 			error(write_err)
 		end
-		vim.uv.fs_chmod(request_file, tonumber("600", 8))
+		local chmod_ok, chmod_err = vim.uv.fs_chmod(request_file, tonumber("600", 8))
+		if not chmod_ok then
+			error("fs_chmod failed: " .. tostring(chmod_err))
+		end
 	end)
 
 	if ok then

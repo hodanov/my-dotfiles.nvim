@@ -19,5 +19,6 @@ mkdir -p "$(dirname "$PLIST_DST")"
 sed "s|%%REPO_DIR%%|${REPO_DIR}|g" "$PLIST_SRC" >"$PLIST_DST"
 echo "Installed: ${PLIST_DST}"
 
+launchctl unload "$PLIST_DST" 2>/dev/null || true
 launchctl load "$PLIST_DST"
 echo "Loaded: com.ai-bridge.daemon"

@@ -17,6 +17,10 @@ BRIDGE_DIR="$AI_BRIDGE_DIR"
 REQUEST_FILE="${BRIDGE_DIR}/request.json"
 
 AI_CLI="${AI_BRIDGE_CLI:-claude}"
+if [[ ! "$AI_CLI" =~ ^[a-zA-Z][a-zA-Z0-9_./-]*$ ]]; then
+	echo "ERROR: Invalid CLI command name: ${AI_CLI}" >&2
+	exit 1
+fi
 
 LAUNCHER="${AI_BRIDGE_LAUNCHER:-wezterm}"
 if [[ ! "$LAUNCHER" =~ ^[a-z][a-z0-9_-]*$ ]]; then
