@@ -1,6 +1,4 @@
 return {
-	-- GitHub Copilot
-	"github/copilot.vim",
 	-- File manager
 	"lambdalisue/fern.vim",
 	-- Fuzzy finder

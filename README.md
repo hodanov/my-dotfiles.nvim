@@ -1,68 +1,20 @@
 # My dotfiles for Neovim
 
-This is my personal Neovim configuration and dev-environment on docker.
+This is my personal Neovim configuration and dev-environment on Docker.
 
 ![screenshot_nvim_window](assets/screenshot_nvim_window.avif)
 
 ## Introduction
 
-This dev-env assumed to operate in a Mac(arm64) and Docker.
+This dev-env is designed to operate on Mac (arm64) and Docker.
 
 However, it is possible to use it on other platforms by modifying the Dockerfile.
 
 The dotfiles will work in any environment. You can find [the dotfiles here](./nvim/config).
 
-## Scripts
-
-- `environment/tools/go/update-go-tools.sh`: Updates Go tools versions in `environment/tools/go/go-tools.txt`. This script is automatically executed by GitHub Actions but can also be run manually if needed.
-
-## Features
-
-This is using the following technologies and plugins:
-
-- Environment (versions are pinned via Dockerfile ARGs; see `environment/docker/nvim.dockerfile`)
-  - Ubuntu (base image): 24.04
-  - Neovim (built from source in builder stage)
-  - Go (official tarball)
-  - Python (system Python + uv-managed virtualenvs)
-  - Node.js (official tarball under `/opt/node`)
-  - npm (pinned during build)
-  - Rust (toolchain installed in builder stage)
-- Linter/Formatter
-  - Go
-    - goimports
-    - gopls
-    - golangci-lint
-  - Python
-    - pyright
-    - ruff
-  - JavaScript
-    - eslint
-    - prettier
-  - Lua
-    - stylua
-  - Others
-    - yamlls...LSP for yaml
-    - tombi...LSP for toml
-    - markdownlint-cli2
-    - textlint
-- Plugins
-  - lazy.nvim...Plugin manager
-  - copilot...AI pair programmer
-  - nvim-lspconfig...Setting LSP
-  - conform.nvim...Autoformatter
-  - nvim-cmp...Completion
-  - nvim-dap...Debug adapter protocol
-  - fern.vim...File manager
-  - telescope.nvim...Fuzzy finder
-  - nvim-lualine...Status tabline
-  - gitsigns.nvim...Show `git diff` in the gutter(sign column)
-  - indent-blankline.nvim...Show indent guides
-    and so on...
-
 ## Getting Started
 
-To use the environment, clone the repo and execute `docker compose` with the compose file in `environment/docker`.
+Clone the repo and start the container:
 
 ```sh
 git clone git@github.com:hodanov/my-dotfiles.nvim.git
@@ -71,7 +23,7 @@ cd my-dotfiles.nvim
 docker compose -f environment/docker/docker-compose.yml up -d
 ```
 
-After launching containers, execute the following command to attach the "nvim" container.
+Attach to the container:
 
 ```sh
 docker container exec -it nvim-dev bash --login
@@ -79,17 +31,26 @@ docker container exec -it nvim-dev bash --login
 
 The `--login` option is required to read the `.bash_profile` file.
 
-### Health check
+## Features
 
-You can view the latest container health check output with:
+- **LSP / Linter / Formatter**: Go (gopls, golangci-lint), Python (pyright, ruff), JavaScript (eslint, prettier), Lua (stylua), YAML, TOML, Markdown, etc.
+- **Completion**: nvim-cmp
+- **Fuzzy Finder**: telescope.nvim
+- **File Manager**: fern.vim
+- **Debugger**: nvim-dap
+- **Plugin Manager**: lazy.nvim
 
-```sh
-docker inspect nvim-dev | jq -r '.[0].State.Health.Log[0].Output' | sed 's/\x1b\[[0-9;]*m//g'
-```
+Versions for Neovim, Go, Python, Node.js, Rust are pinned as `ARG`s in `environment/docker/nvim.dockerfile`. Tool versions are automatically updated via GitHub Actions and Dependabot.
 
-### Python coding
+## AI Bridge
 
-Python environments are managed by uv. A base virtualenv is prebuilt at `/opt/python/.venv`. You can also create per-project venvs with uv.
+Neovim (Docker container) from selected code to host-side AI CLI (Claude Code, Cursor, etc.) with context. See [docs/ai-bridge.md](docs/ai-bridge.md) for setup and usage.
+
+## Language-specific notes
+
+### Python
+
+Python environments are managed by uv. A base virtualenv is prebuilt at `/opt/python/.venv`.
 
 ```sh
 # Use the prebuilt base venv (global tools)
@@ -106,43 +67,10 @@ uv sync
 deactivate
 ```
 
-### Node.js tooling
+### Node.js
 
-CLI tools (eslint, typescript-language-server, textlint, etc.) are managed via `environment/tools/node/package.json` and installed into `/opt/npm-tools` during the image build. They are on `PATH` via `/opt/npm-tools/node_modules/.bin`.
+CLI tools (eslint, typescript-language-server, textlint, etc.) are managed via `environment/tools/node/package.json` and installed into `/opt/npm-tools` during the image build. To add/update tools, edit the `package.json` and rebuild.
 
-- To add/update tools, edit `environment/tools/node/package.json` and rebuild. Dependabot monitors this directory and will propose updates.
+### Go
 
-### Go tooling
-
-Go-based tools (gopls, dlv, golangci-lint, etc.) are managed via `environment/tools/go/go-tools.txt` and installed during the Docker image build. The versions are pinned to ensure reproducible builds.
-
-- **Automatic update**: GitHub Actions runs weekly (Monday 03:00 UTC) to check for updates and create PRs
-- **Manual execution**: GitHub Actions can be triggered manually via `workflow_dispatch`
-- **Version management**: Uses Go module system to find the latest stable versions
-- **Script execution**: Run `./environment/tools/go/update-go-tools.sh` directly if needed
-
-### Dockerfile architecture (multi-stage)
-
-The `environment/docker/nvim.dockerfile` is split into multiple stages to keep the final image slim and maintainable:
-
-- `nvim-builder`: builds Neovim from source and installs to an install dir copied to the final stage
-- `node-builder`: downloads the official Node.js tarball into `/opt/node` and installs npm tools from `environment/tools/node`
-- `go-builder`: installs Go toolchain and Go-based tools (gopls, dlv, golangci-lint, etc.)
-- `rust-builder`: installs Rust toolchain and builds `stylua`
-- `python-builder`: installs uv and creates a base `.venv` from `environment/tools/python/pyproject.toml`
-- final stage: installs minimal runtime packages and copies only the necessary artifacts from each builder
-
-### Version management and CI
-
-- Versions for Node/Go/Rust/Neovim/npm are defined as `ARG` lines in `environment/docker/nvim.dockerfile` and hardcoded by default. Keep each `ARG` unindented and on a single line so automation can edit them.
-- GitHub Actions workflows:
-  - `bump-tool-versions.yml`: weekly (Mon 03:00 UTC) or manual. Resolves the latest stable versions for Node/Go/Neovim/npm (Rust stays `stable`) and opens a PR labeled `dependencies` updating the `ARG`s in `environment/docker/nvim.dockerfile`.
-  - `update-go-tools.yml`: weekly (Mon 03:00 UTC) or manual. Updates Go tools versions in `environment/tools/go/go-tools.txt` and creates PRs for version updates.
-  - `pr-docker-build.yml`: on PRs that are Dependabot, labeled `dependencies`, or whose branch starts with `chore/bump-tool-versions`, builds the image with Buildx for verification (no push).
-  - `lint_dockerfile.yml`: runs hadolint on changes to `environment/docker/nvim.dockerfile`, the workflow file itself, or `.hadolint.yml`.
-- Dependabot is configured in `.github/dependabot.yml` to monitor:
-  - `pip` under `environment/tools/python`
-  - `npm` under `environment/tools/node`
-  - `docker` in the repo root
-  - `github-actions` in the repo root
-- Hadolint rules can be tuned via `.hadolint.yml` (some rules are intentionally ignored for this build style).
+Go-based tools (gopls, dlv, golangci-lint, etc.) are managed via `environment/tools/go/go-tools.txt` and installed during the image build. Versions are automatically updated weekly by GitHub Actions.
