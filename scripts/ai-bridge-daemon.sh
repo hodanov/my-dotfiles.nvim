@@ -17,6 +17,10 @@ REQUEST_FILE="${BRIDGE_DIR}/request.json"
 AI_CLI="${AI_BRIDGE_CLI:-claude}"
 
 LAUNCHER="${AI_BRIDGE_LAUNCHER:-wezterm}"
+if [[ ! "$LAUNCHER" =~ ^[a-z][a-z0-9_-]*$ ]]; then
+	echo "ERROR: Invalid launcher name: ${LAUNCHER} (only [a-z0-9_-] allowed)" >&2
+	exit 1
+fi
 LAUNCHER_SCRIPT="${LAUNCHERS_DIR}/${LAUNCHER}.sh"
 
 # Validate launcher
@@ -42,15 +46,20 @@ fswatch -o "$REQUEST_FILE" | while read -r _; do
 
 	rm -f "$consumed"
 
+	if [[ ! -d "$cwd" ]]; then
+		echo "ai-bridge-daemon: WARNING: cwd is not a valid directory: ${cwd}, skipping" >&2
+		continue
+	fi
+
 	# Create a temp script that runs the AI CLI with the finalized prompt.
 	# printf %q handles all quoting safely regardless of prompt content.
 	tmp_script=$(mktemp /tmp/ai-bridge-XXXXXX.sh)
-	chmod +x "$tmp_script"
 	{
 		echo "#!/bin/bash"
 		printf "%s %q\n" "$AI_CLI" "$prompt"
 		printf "rm -f %q\n" "$tmp_script"
 	} >"$tmp_script"
+	chmod +x "$tmp_script"
 
 	echo "ai-bridge-daemon: launching for cwd=${cwd}"
 	"$LAUNCHER_SCRIPT" "$cwd" "$tmp_script"

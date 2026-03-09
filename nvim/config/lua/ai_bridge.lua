@@ -59,6 +59,7 @@ function M.send_prompt(prompt, cwd)
 		local f = assert(io.open(request_file, "w"))
 		f:write(vim.fn.json_encode(request))
 		f:close()
+		vim.uv.fs_chmod(request_file, tonumber("600", 8))
 	end)
 
 	if ok then

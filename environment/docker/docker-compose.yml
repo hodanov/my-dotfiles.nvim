@@ -20,6 +20,10 @@ services:
     volumes:
       # - ..:/workspace
       - ${HOME}/workspace:/${HOME}/workspace
+      # SECURITY NOTE: The container can write to ~/.ai-bridge/request.json,
+      # which the host daemon consumes and executes. If the container is
+      # compromised, this becomes an escape vector. Accepted as a design
+      # trade-off for the dev-only workflow. Do NOT use in production.
       - ${HOME}/.ai-bridge:/.ai-bridge
 networks:
   my-nvim:
