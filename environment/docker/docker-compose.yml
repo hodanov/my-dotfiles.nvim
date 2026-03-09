@@ -17,10 +17,15 @@ services:
     restart: always
     networks:
       - my-nvim
+    environment:
+      # Container-side path for ai-bridge; matches the volume mount target below.
+      # The Lua client reads this via os.getenv("AI_BRIDGE_DIR").
+      - AI_BRIDGE_DIR=/.ai-bridge
     volumes:
       # - ..:/workspace
       - ${HOME}/workspace:/${HOME}/workspace
-      # Default: ~/.ai-bridge (canonical definition: scripts/ai-bridge-defaults.sh)
+      # Host ~/.ai-bridge -> container /.ai-bridge (not under container $HOME).
+      # AI_BRIDGE_DIR env var above tells the Lua client where to find it.
       # SECURITY NOTE: The container can write to ~/.ai-bridge/request.json,
       # which the host daemon consumes and executes. If the container is
       # compromised, this becomes an escape vector. Accepted as a design

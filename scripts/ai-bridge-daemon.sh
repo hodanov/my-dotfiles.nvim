@@ -38,9 +38,10 @@ echo "ai-bridge-daemon: started (cli=${AI_CLI}, launcher=${LAUNCHER}, watching $
 fswatch -o "$REQUEST_FILE" | while read -r _; do
 	[[ -f "$REQUEST_FILE" ]] || continue
 
-	# Atomically consume the request to prevent duplicate launches
-	consumed="${REQUEST_FILE}.$(date +%s%N).consumed"
-	mv "$REQUEST_FILE" "$consumed"
+	# Atomically consume the request to prevent duplicate launches.
+	# date +%s (not %s%N) for macOS compat; $$/$RANDOM ensure uniqueness.
+	consumed="${REQUEST_FILE}.$(date +%s).${$}.${RANDOM}.consumed"
+	mv "$REQUEST_FILE" "$consumed" 2>/dev/null || continue
 
 	# Parse fields from JSON (cwd is always a single-line path, so read it
 	# first; the remaining multiline content becomes prompt)
@@ -50,6 +51,12 @@ fswatch -o "$REQUEST_FILE" | while read -r _; do
 	} < <(jq -r '.cwd, .prompt' "$consumed")
 
 	rm -f "$consumed"
+
+	# Validate parsed fields (jq returns literal "null" for missing keys)
+	if [[ -z "$cwd" || "$cwd" == "null" || -z "$prompt" || "$prompt" == "null" ]]; then
+		echo "ai-bridge-daemon: WARNING: invalid request (cwd or prompt is null/empty), skipping" >&2
+		continue
+	fi
 
 	if [[ ! -d "$cwd" ]]; then
 		echo "ai-bridge-daemon: WARNING: cwd is not a valid directory: ${cwd}, skipping" >&2
