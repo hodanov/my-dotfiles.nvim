@@ -5,7 +5,6 @@ Dockerコンテナ内のNeovimで選択したコードを、ホスト側のAI CL
 ## 前提条件
 
 - ホスト側に以下がインストール済みであること
-  - [`fswatch`](https://github.com/emcrisostomo/fswatch): `brew install fswatch`
   - [`jq`](https://jqlang.github.io/jq/): `brew install jq`
   - AI CLI（例: `claude`、`cursor`）
 - WezTermを使用する場合: `wezterm cli` コマンドが使えること
@@ -33,13 +32,10 @@ docker compose -f environment/docker/docker-compose.yml up -d
 **launchd による自動起動（推奨）:**
 
 ```bash
-# %%REPO_DIR%% をこのリポジトリの絶対パスに置換してインストール
-sed "s|%%REPO_DIR%%|$(pwd)|g" \
-  scripts/ai-bridge/com.ai-bridge.daemon.plist \
-  > ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
-
-launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
+./scripts/ai-bridge/install-launchd.sh
 ```
+
+このスクリプトは plist テンプレートの `%%REPO_DIR%%` をリポジトリの絶対パスに置換し、`~/Library/LaunchAgents/` にインストールして `launchctl load` まで行う。
 
 **手動起動:**
 
@@ -137,7 +133,7 @@ script="$2"
 │  Docker Container           │     │  macOS Host                  │
 │                             │     │                              │
 │  Neovim                     │     │  ai-bridge-daemon            │
-│   ├─ Visual select code     │     │   ├─ fswatch で監視          │
+│   ├─ Visual select code     │     │   ├─ ポーリングで監視        │
 │   ├─ <Space>ai 押下         │     │   ├─ request.json を読む     │
 │   ├─ フローティングウィンドウ│     │   └─ launcher で新規タブ起動  │
 │   ├─ プロンプト編集         │     │       └─ <AI_CLI> "prompt"   │

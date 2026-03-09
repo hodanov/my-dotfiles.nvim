@@ -9,7 +9,9 @@
   - `environment/tools/node/`: Node CLI tooling (`package.json`).
 - `nvim/`: Neovim configuration.
   - `nvim/config/`: `init.lua` and `lua/**`.
-- `docs/`: operational rules (plan to place under `docs/dev-rules/`).
+- `scripts/`: automation scripts.
+  - `scripts/ai-bridge/`: AI Bridge daemon, launchers, and launchd setup. See `docs/ai-bridge.md`.
+- `docs/`: documentation (`ai-bridge.md`) and planning notes (`plan/`, `log/`).
 - `assets/`: screenshots and static media.
 
 ## Build, Test, and Development Commands
@@ -17,7 +19,6 @@
 - `docker compose -f environment/docker/docker-compose.yml up -d`: build (if needed) and start the dev container.
 - `docker container exec -it nvim-dev bash --login`: enter the container with correct shell env.
 - `./environment/tools/go/update-go-tools.sh`: refresh Go tool versions in `environment/tools/go/go-tools.txt`.
-- Optional: `docker inspect nvim-dev | jq -r '.[0].State.Health.Log[0].Output' | sed 's/\x1b\[[0-9;]*m//g'` to check health output.
 
 ## Coding Style & Naming Conventions
 
