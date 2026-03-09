@@ -1,6 +1,6 @@
 local M = {}
 
--- Default: ~/.ai-bridge (canonical definition: scripts/ai-bridge-defaults.sh)
+-- Default: ~/.ai-bridge (canonical definition: scripts/ai-bridge/defaults.sh)
 local home = os.getenv("HOME") or os.getenv("USERPROFILE") or "/tmp"
 local bridge_dir = os.getenv("AI_BRIDGE_DIR") or (home .. "/.ai-bridge")
 vim.fn.mkdir(bridge_dir, "p")

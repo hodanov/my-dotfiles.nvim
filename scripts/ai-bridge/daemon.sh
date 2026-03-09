@@ -11,8 +11,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCHERS_DIR="${SCRIPT_DIR}/launchers"
 
-# shellcheck source=./ai-bridge-defaults.sh
-source "${SCRIPT_DIR}/ai-bridge-defaults.sh"
+# shellcheck source=./defaults.sh
+source "${SCRIPT_DIR}/defaults.sh"
 BRIDGE_DIR="$AI_BRIDGE_DIR"
 REQUEST_FILE="${BRIDGE_DIR}/request.json"
 

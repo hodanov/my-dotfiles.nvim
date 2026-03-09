@@ -6,13 +6,13 @@
 
   Setup:
     1. Run the install script (replaces %%REPO_DIR%% and loads the agent):
-         ./scripts/install-launchd.sh
+         ./scripts/ai-bridge/install-launchd.sh
 
     2. To disable auto-start and stop the daemon:
          launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
 
     3. To run manually without launchd:
-         ./scripts/ai-bridge-daemon.sh
+         ./scripts/ai-bridge/daemon.sh
 
   Customize AI_BRIDGE_LAUNCHER below to switch between wezterm / tmux.
 -->
@@ -25,7 +25,7 @@
     <array>
         <string>/bin/bash</string>
         <string>-l</string>
-        <string>%%REPO_DIR%%/scripts/ai-bridge-daemon.sh</string>
+        <string>%%REPO_DIR%%/scripts/ai-bridge/daemon.sh</string>
     </array>
 
     <key>EnvironmentVariables</key>
