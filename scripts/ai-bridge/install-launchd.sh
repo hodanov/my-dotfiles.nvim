@@ -4,7 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+REPO_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 PLIST_SRC="${SCRIPT_DIR}/com.ai-bridge.daemon.plist"
 PLIST_DST="${HOME}/Library/LaunchAgents/com.ai-bridge.daemon.plist"

@@ -35,7 +35,7 @@ docker compose -f environment/docker/docker-compose.yml up -d
 ```bash
 # %%REPO_DIR%% をこのリポジトリの絶対パスに置換してインストール
 sed "s|%%REPO_DIR%%|$(pwd)|g" \
-  scripts/com.ai-bridge.daemon.plist \
+  scripts/ai-bridge/com.ai-bridge.daemon.plist \
   > ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
 
 launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
@@ -44,7 +44,7 @@ launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
 **手動起動:**
 
 ```bash
-./scripts/ai-bridge-daemon.sh
+./scripts/ai-bridge/daemon.sh
 ```
 
 ### 4. Neovim設定の反映
@@ -94,7 +94,7 @@ launchd を使用する場合は `~/Library/LaunchAgents/com.ai-bridge.daemon.pl
 **Cursor CLIに切り替える（手動起動）:**
 
 ```bash
-AI_BRIDGE_CLI=cursor ./scripts/ai-bridge-daemon.sh
+AI_BRIDGE_CLI=cursor ./scripts/ai-bridge/daemon.sh
 ```
 
 **新しいAI CLIを追加する:**
@@ -106,12 +106,12 @@ AI_BRIDGE_CLI=cursor ./scripts/ai-bridge-daemon.sh
 **tmuxに切り替える（手動起動）:**
 
 ```bash
-AI_BRIDGE_LAUNCHER=tmux ./scripts/ai-bridge-daemon.sh
+AI_BRIDGE_LAUNCHER=tmux ./scripts/ai-bridge/daemon.sh
 ```
 
 **新しいランチャーを追加する:**
 
-`scripts/launchers/<name>.sh` を作成し、以下のインターフェースを実装する。
+`scripts/ai-bridge/launchers/<name>.sh` を作成し、以下のインターフェースを実装する。
 
 ```bash
 #!/bin/bash
@@ -127,7 +127,7 @@ script="$2"
 | ---------------- | -------------------------------------------------------------------- |
 | 自動起動を有効化 | `launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist`   |
 | 自動起動を無効化 | `launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
-| 手動起動         | `./scripts/ai-bridge-daemon.sh`                                      |
+| 手動起動         | `./scripts/ai-bridge/daemon.sh`                                      |
 | ログ確認         | `tail -f /tmp/ai-bridge-daemon.log`                                  |
 
 ## アーキテクチャ
@@ -184,5 +184,5 @@ tail -f /tmp/ai-bridge-daemon.log
 ランチャーが実行可能か確認する。
 
 ```bash
-ls -la scripts/launchers/
+ls -la scripts/ai-bridge/launchers/
 ```
