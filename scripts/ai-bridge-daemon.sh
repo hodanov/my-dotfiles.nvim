@@ -11,12 +11,22 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCHERS_DIR="${SCRIPT_DIR}/launchers"
 
-BRIDGE_DIR="${AI_BRIDGE_DIR:-${HOME}/.ai-bridge}"
+# shellcheck source=./ai-bridge-defaults.sh
+source "${SCRIPT_DIR}/ai-bridge-defaults.sh"
+BRIDGE_DIR="$AI_BRIDGE_DIR"
 REQUEST_FILE="${BRIDGE_DIR}/request.json"
 
 AI_CLI="${AI_BRIDGE_CLI:-claude}"
+if [[ ! "$AI_CLI" =~ ^[a-zA-Z][a-zA-Z0-9_./-]*$ ]]; then
+	echo "ERROR: Invalid CLI command name: ${AI_CLI}" >&2
+	exit 1
+fi
 
 LAUNCHER="${AI_BRIDGE_LAUNCHER:-wezterm}"
+if [[ ! "$LAUNCHER" =~ ^[a-z][a-z0-9_-]*$ ]]; then
+	echo "ERROR: Invalid launcher name: ${LAUNCHER} (only [a-z0-9_-] allowed)" >&2
+	exit 1
+fi
 LAUNCHER_SCRIPT="${LAUNCHERS_DIR}/${LAUNCHER}.sh"
 
 # Validate launcher
@@ -32,26 +42,41 @@ echo "ai-bridge-daemon: started (cli=${AI_CLI}, launcher=${LAUNCHER}, watching $
 fswatch -o "$REQUEST_FILE" | while read -r _; do
 	[[ -f "$REQUEST_FILE" ]] || continue
 
-	# Atomically consume the request to prevent duplicate launches
-	consumed="${REQUEST_FILE}.$(date +%s%N).consumed"
-	mv "$REQUEST_FILE" "$consumed"
+	# Atomically consume the request to prevent duplicate launches.
+	# date +%s (not %s%N) for macOS compat; $$/$RANDOM ensure uniqueness.
+	consumed="${REQUEST_FILE}.$(date +%s).${$}.${RANDOM}.consumed"
+	mv "$REQUEST_FILE" "$consumed" 2>/dev/null || continue
 
-	# Parse fields from JSON
-	prompt=$(jq -r '.prompt' "$consumed")
-	cwd=$(jq -r '.cwd' "$consumed")
+	# Parse fields from JSON (cwd is always a single-line path, so read it
+	# first; the remaining multiline content becomes prompt)
+	{
+		read -r cwd
+		IFS= read -r -d '' prompt || true
+	} < <(jq -r '.cwd, .prompt' "$consumed")
 
 	rm -f "$consumed"
+
+	# Validate parsed fields (jq returns literal "null" for missing keys)
+	if [[ -z "$cwd" || "$cwd" == "null" || -z "$prompt" || "$prompt" == "null" ]]; then
+		echo "ai-bridge-daemon: WARNING: invalid request (cwd or prompt is null/empty), skipping" >&2
+		continue
+	fi
+
+	if [[ ! -d "$cwd" ]]; then
+		echo "ai-bridge-daemon: WARNING: cwd is not a valid directory: ${cwd}, skipping" >&2
+		continue
+	fi
 
 	# Create a temp script that runs the AI CLI with the finalized prompt.
 	# printf %q handles all quoting safely regardless of prompt content.
 	tmp_script=$(mktemp /tmp/ai-bridge-XXXXXX.sh)
-	chmod +x "$tmp_script"
 	{
 		echo "#!/bin/bash"
 		printf "%s %q\n" "$AI_CLI" "$prompt"
 		printf "rm -f %q\n" "$tmp_script"
 	} >"$tmp_script"
+	chmod +x "$tmp_script"
 
 	echo "ai-bridge-daemon: launching for cwd=${cwd}"
-	"$LAUNCHER_SCRIPT" "$cwd" "$tmp_script"
+	"$LAUNCHER_SCRIPT" "$cwd" "$tmp_script" || rm -f "$tmp_script"
 done

@@ -1,6 +1,9 @@
 local M = {}
 
-local bridge_dir = os.getenv("AI_BRIDGE_DIR") or "/.ai-bridge"
+-- Default: ~/.ai-bridge (canonical definition: scripts/ai-bridge-defaults.sh)
+local home = os.getenv("HOME") or os.getenv("USERPROFILE") or "/tmp"
+local bridge_dir = os.getenv("AI_BRIDGE_DIR") or (home .. "/.ai-bridge")
+vim.fn.mkdir(bridge_dir, "p")
 
 local function open_prompt_editor(initial_prompt, cwd)
 	local buf = vim.api.nvim_create_buf(false, true)
@@ -46,8 +49,6 @@ local function open_prompt_editor(initial_prompt, cwd)
 end
 
 function M.send_prompt(prompt, cwd)
-	vim.fn.mkdir(bridge_dir, "p")
-
 	local request = {
 		prompt = prompt,
 		cwd = cwd,
@@ -57,8 +58,15 @@ function M.send_prompt(prompt, cwd)
 	local request_file = bridge_dir .. "/request.json"
 	local ok, err = pcall(function()
 		local f = assert(io.open(request_file, "w"))
-		f:write(vim.fn.json_encode(request))
+		local write_ok, write_err = pcall(f.write, f, vim.fn.json_encode(request))
 		f:close()
+		if not write_ok then
+			error(write_err)
+		end
+		local chmod_ok, chmod_err = vim.uv.fs_chmod(request_file, tonumber("600", 8))
+		if not chmod_ok then
+			error("fs_chmod failed: " .. tostring(chmod_err))
+		end
 	end)
 
 	if ok then
