@@ -11,9 +11,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCHERS_DIR="${SCRIPT_DIR}/launchers"
 
-# shellcheck source=./defaults.sh
-source "${SCRIPT_DIR}/defaults.sh"
-BRIDGE_DIR="$AI_BRIDGE_DIR"
+# Default bridge directory (Lua client uses the same default; see ai_bridge.lua)
+BRIDGE_DIR="${AI_BRIDGE_DIR:-${HOME}/.ai-bridge}"
 REQUEST_FILE="${BRIDGE_DIR}/request.json"
 
 AI_CLI="${AI_BRIDGE_CLI:-claude}"
@@ -39,8 +38,11 @@ mkdir -p "$BRIDGE_DIR"
 
 echo "ai-bridge-daemon: started (cli=${AI_CLI}, launcher=${LAUNCHER}, watching ${REQUEST_FILE})"
 
-fswatch -o "$REQUEST_FILE" | while read -r _; do
-	[[ -f "$REQUEST_FILE" ]] || continue
+while true; do
+	if [[ ! -f "$REQUEST_FILE" ]]; then
+		sleep 1
+		continue
+	fi
 
 	# Atomically consume the request to prevent duplicate launches.
 	# date +%s (not %s%N) for macOS compat; $$/$RANDOM ensure uniqueness.
@@ -79,4 +81,6 @@ fswatch -o "$REQUEST_FILE" | while read -r _; do
 
 	echo "ai-bridge-daemon: launching for cwd=${cwd}"
 	"$LAUNCHER_SCRIPT" "$cwd" "$tmp_script" || rm -f "$tmp_script"
+
+	sleep 1
 done
