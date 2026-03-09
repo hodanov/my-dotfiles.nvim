@@ -20,6 +20,7 @@ services:
     volumes:
       # - ..:/workspace
       - ${HOME}/workspace:/${HOME}/workspace
+      # Default: ~/.ai-bridge (canonical definition: scripts/ai-bridge-defaults.sh)
       # SECURITY NOTE: The container can write to ~/.ai-bridge/request.json,
       # which the host daemon consumes and executes. If the container is
       # compromised, this becomes an escape vector. Accepted as a design

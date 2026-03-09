@@ -11,7 +11,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCHERS_DIR="${SCRIPT_DIR}/launchers"
 
-BRIDGE_DIR="${AI_BRIDGE_DIR:-${HOME}/.ai-bridge}"
+# shellcheck source=./ai-bridge-defaults.sh
+source "${SCRIPT_DIR}/ai-bridge-defaults.sh"
+BRIDGE_DIR="$AI_BRIDGE_DIR"
 REQUEST_FILE="${BRIDGE_DIR}/request.json"
 
 AI_CLI="${AI_BRIDGE_CLI:-claude}"
@@ -42,7 +44,10 @@ fswatch -o "$REQUEST_FILE" | while read -r _; do
 
 	# Parse fields from JSON (cwd is always a single-line path, so read it
 	# first; the remaining multiline content becomes prompt)
-	{ read -r cwd; IFS= read -r -d '' prompt || true; } < <(jq -r '.cwd, .prompt' "$consumed")
+	{
+		read -r cwd
+		IFS= read -r -d '' prompt || true
+	} < <(jq -r '.cwd, .prompt' "$consumed")
 
 	rm -f "$consumed"
 

@@ -5,18 +5,13 @@
   launchd plist for ai-bridge-daemon (auto-start on login).
 
   Setup:
-    1. Replace %%REPO_DIR%% with the absolute path to this repository, e.g.:
-         sed "s|%%REPO_DIR%%|$HOME/workspace/my_dotfiles_nvim/ai-bridge|g" \
-           scripts/com.ai-bridge.daemon.plist \
-           > ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
+    1. Run the install script (replaces %%REPO_DIR%% and loads the agent):
+         ./scripts/install-launchd.sh
 
-    2. Load (enable auto-start):
-         launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
-
-    3. To disable auto-start and stop the daemon:
+    2. To disable auto-start and stop the daemon:
          launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
 
-    4. To run manually without launchd:
+    3. To run manually without launchd:
          ./scripts/ai-bridge-daemon.sh
 
   Customize AI_BRIDGE_LAUNCHER below to switch between wezterm / tmux.
