@@ -33,23 +33,23 @@ ai-bridge-daemon および関連ファイルに対するセキュリティレビ
 
 ## File changes
 
-| File | Change |
-| --- | --- |
-| `scripts/ai-bridge-daemon.sh:19-20` | LAUNCHER 名を `^[a-z][a-z0-9_-]*$` で検証するガードを追加 |
-| `scripts/ai-bridge-daemon.sh:47-48` | `chmod +x` を書き込み後（L53 相当）に移動 |
-| `scripts/ai-bridge-daemon.sh:41` | `cwd` の `-d` チェックと不正時の `continue` を追加 |
-| `scripts/launchers/tmux.sh:10` | `'$script'` を `$(printf '%q' "$script")` に変更 |
-| `nvim/config/lua/ai_bridge.lua:61` | `f:close()` の後に `vim.uv.fs_chmod(request_file, tonumber("600", 8))` を追加 |
-| `environment/docker/docker-compose.yml:23` | `~/.ai-bridge` マウントに SECURITY NOTE コメントを追加 |
+| File                                       | Change                                                                        |
+| ------------------------------------------ | ----------------------------------------------------------------------------- |
+| `scripts/ai-bridge-daemon.sh:19-20`        | LAUNCHER 名を `^[a-z][a-z0-9_-]*$` で検証するガードを追加                     |
+| `scripts/ai-bridge-daemon.sh:47-48`        | `chmod +x` を書き込み後（L53 相当）に移動                                     |
+| `scripts/ai-bridge-daemon.sh:41`           | `cwd` の `-d` チェックと不正時の `continue` を追加                            |
+| `scripts/launchers/tmux.sh:10`             | `'$script'` を `$(printf '%q' "$script")` に変更                              |
+| `nvim/config/lua/ai_bridge.lua:61`         | `f:close()` の後に `vim.uv.fs_chmod(request_file, tonumber("600", 8))` を追加 |
+| `environment/docker/docker-compose.yml:23` | `~/.ai-bridge` マウントに SECURITY NOTE コメントを追加                        |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
+| Risk                                            | Mitigation                                                                        |
+| ----------------------------------------------- | --------------------------------------------------------------------------------- |
 | LAUNCHER の正規表現が厳しすぎて既存の名前を弾く | `[a-z][a-z0-9_-]*` はハイフン・アンダースコアを許可しており、一般的な命名には十分 |
-| `cwd` チェックでシンボリックリンク先を弾く | `-d` はシンボリックリンクも解決するため問題なし |
-| `vim.uv.fs_chmod` が古い Neovim で未対応 | Neovim 0.10+ で利用可能。それ以前は `vim.loop.fs_chmod` にフォールバック可能 |
-| Docker コメント追加は実質的な防御にならない | dev 用途のため文書化で十分。プロダクション利用は想定外 |
+| `cwd` チェックでシンボリックリンク先を弾く      | `-d` はシンボリックリンクも解決するため問題なし                                   |
+| `vim.uv.fs_chmod` が古い Neovim で未対応        | Neovim 0.10+ で利用可能。それ以前は `vim.loop.fs_chmod` にフォールバック可能      |
+| Docker コメント追加は実質的な防御にならない     | dev 用途のため文書化で十分。プロダクション利用は想定外                            |
 
 ## Validation
 

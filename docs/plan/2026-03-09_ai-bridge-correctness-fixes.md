@@ -25,20 +25,20 @@
 
 ## File changes
 
-| File | Change |
-| --- | --- |
-| `scripts/ai-bridge-daemon.sh` | mv に `\|\| continue` 追加（TOCTOU 対策） |
-| `scripts/ai-bridge-daemon.sh` | consumed ファイル名を macOS 互換に変更 |
-| `scripts/ai-bridge-daemon.sh` | jq 結果の null/空チェック追加 |
+| File                                    | Change                                       |
+| --------------------------------------- | -------------------------------------------- |
+| `scripts/ai-bridge-daemon.sh`           | mv に `\|\| continue` 追加（TOCTOU 対策）    |
+| `scripts/ai-bridge-daemon.sh`           | consumed ファイル名を macOS 互換に変更       |
+| `scripts/ai-bridge-daemon.sh`           | jq 結果の null/空チェック追加                |
 | `environment/docker/docker-compose.yml` | `AI_BRIDGE_DIR` 環境変数を追加、コメント整理 |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
+| Risk                                                  | Mitigation                                          |
+| ----------------------------------------------------- | --------------------------------------------------- |
 | mv 失敗を continue でスキップするとリクエストが消える | mv 失敗＝別プロセスが先に消費した場合のみ。正常動作 |
-| `$RANDOM` の一意性が不十分 | PID + epoch秒 + RANDOM の3要素で実用上衝突しない |
-| null チェックで正当なリクエストを誤って弾く | `"null"` リテラルと空文字のみ対象。正常な値は通る |
+| `$RANDOM` の一意性が不十分                            | PID + epoch秒 + RANDOM の3要素で実用上衝突しない    |
+| null チェックで正当なリクエストを誤って弾く           | `"null"` リテラルと空文字のみ対象。正常な値は通る   |
 
 ## Validation
 
