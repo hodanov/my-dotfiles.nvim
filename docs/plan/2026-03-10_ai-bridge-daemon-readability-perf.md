@@ -1,0 +1,127 @@
+# Plan: ai-bridge daemon.sh の可読性・パフォーマンス改善検討
+
+daemon.sh の JSON パース部分の可読性向上と、ポーリング方式の見直しについて検討する。
+どちらも現状で致命的な問題はないが、改善余地がある箇所として整理する。
+
+## Background
+
+- `daemon.sh` は `~/.ai-bridge/request.json` を `sleep 1` ポーリングで監視し、AI CLI を起動するデーモン
+- レビューで以下の 2 点が改善候補として挙がった
+  - jq の呼び出し方法（可読性）
+  - ポーリングの代替手段（パフォーマンス）
+
+## Current structure
+
+- `scripts/ai-bridge/daemon.sh` — メインのデーモンスクリプト
+- `scripts/ai-bridge/launchers/` — ターミナルランチャースクリプト群
+
+## 検討 1: jq 呼び出しを 2 回に分割
+
+### jq 1 回呼び出しの現状コード
+
+```bash
+{
+    read -r cwd
+    IFS= read -r -d '' prompt || true
+} < <(jq -r '.cwd, .prompt' "$consumed")
+```
+
+- `jq` を 1 回で `.cwd, .prompt` を出力し、`read` で分割取得している
+- `cwd` は単一行、`prompt` は複数行になりうるため `read -r -d ''` で残り全部を読む
+- この `read -d ''` テクニックは bash に慣れていないと意図が掴みにくい
+
+### jq 2 回呼び出しへの変更案
+
+```bash
+cwd=$(jq -r '.cwd' "$consumed")
+prompt=$(jq -r '.prompt' "$consumed")
+```
+
+### jq 分割のトレードオフ
+
+| 観点 | 現状（1 回呼び出し） | 変更案（2 回呼び出し） |
+| --- | --- | --- |
+| 可読性 | `read -d ''` の意図が分かりにくい | 直感的に読める |
+| パフォーマンス | jq 起動 1 回 | jq 起動 2 回（数 ms の差） |
+| 正確性 | prompt 末尾の改行が `read -d ''` で trim される可能性あり | `$(...)` による末尾改行 trim が発生する |
+| 堅牢性 | `cwd` に改行が含まれると壊れる（パスなので現実的にはない） | フィールド単位で取得するので安全 |
+
+### jq 分割の判断
+
+- このスクリプトの呼び出し頻度（人間がトリガー、数秒〜数分に 1 回）では jq 2 回のコストは無視できる
+- 末尾改行 trim の挙動はどちらも同程度の制約がある
+- **可読性の改善メリットが上回るため、2 回呼び出しへの変更を推奨**
+
+## 検討 2: ポーリングを fswatch に置き換え
+
+### sleep ポーリングの現状コード
+
+```bash
+while true; do
+    if [[ ! -f "$REQUEST_FILE" ]]; then
+        sleep 1
+        continue
+    fi
+    # ... 処理 ...
+    sleep 1
+done
+```
+
+- `sleep 1` のビジーウェイトで毎秒ファイル存在チェック
+- リクエスト処理後にも `sleep 1` があるため、連続リクエスト時は最大 2 秒の遅延
+
+### 変更案: fswatch を使ったイベント駆動
+
+```bash
+fswatch -1 --event Created "$BRIDGE_DIR" | while read -r _; do
+    # リクエスト処理
+done
+```
+
+### fswatch 置き換えのトレードオフ
+
+| 観点 | 現状（sleep ポーリング） | fswatch |
+| --- | --- | --- |
+| CPU 使用量 | 毎秒 wake up（微小だが常時） | イベント駆動、idle 時 CPU ゼロ |
+| レスポンス | 最大 1-2 秒遅延 | ほぼ即時 |
+| 依存 | なし（bash のみ） | `fswatch` が必要（`brew install fswatch`） |
+| 移植性 | Linux/macOS 両対応 | macOS は fswatch、Linux は inotifywait と分岐が必要 |
+| 複雑性 | シンプル | イベントの重複排除、エッジケース対応が必要 |
+| 信頼性 | 確実に動く | fswatch プロセスの死活監視が追加で必要 |
+
+### fswatch 置き換えの判断
+
+- 以前の PR (#334) で fswatch 依存を削除した経緯がある
+- ポーリング頻度（1 秒）は用途に対して十分で、CPU コストも実測で無視できるレベル
+- fswatch を再導入すると依存が増え、移植性・メンテナンスコストが上がる
+- **現状の sleep ポーリングを維持することを推奨**
+- ただし、処理後の `sleep 1` の削除は検討の余地あり（連続リクエスト時の遅延軽減）
+
+## Implementation steps
+
+1. jq 呼び出しを 2 回に分割する（`daemon.sh` L54-57）
+2. `cwd` の責務に関するコメントを `tmp_script` 生成部分に追加する（L72 付近）
+3. （任意）処理後の `sleep 1`（L85）を削除して連続リクエストのレスポンスを改善する
+
+## File changes
+
+| File | Change |
+| --- | --- |
+| `scripts/ai-bridge/daemon.sh` | jq 呼び出しを 2 回に分割、コメント追加 |
+
+## Risks and mitigations
+
+| Risk | Mitigation |
+| --- | --- |
+| `$(...)` による prompt 末尾改行 trim | 現状の `read -d ''` でも同様の制約あり。実用上問題なし |
+| 処理後 sleep 削除による高速ループ | リクエストファイルが存在しない場合はループ先頭で `sleep 1` するため問題なし |
+
+## Validation
+
+- [ ] jq 2 回呼び出しで cwd・prompt が正しく取得されることを確認
+- [ ] 複数行 prompt を含むリクエストで正常動作を確認
+- [ ] 処理後 sleep 削除時に CPU 使用量が増加しないことを確認
+
+## Open questions
+
+- 処理後の `sleep 1`（L85）を削除するかどうかは、実際の使用パターンを見て判断

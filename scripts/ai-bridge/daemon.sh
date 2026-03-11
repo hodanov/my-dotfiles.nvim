@@ -49,12 +49,9 @@ while true; do
 	consumed="${REQUEST_FILE}.$(date +%s).${$}.${RANDOM}.consumed"
 	mv "$REQUEST_FILE" "$consumed" 2>/dev/null || continue
 
-	# Parse fields from JSON (cwd is always a single-line path, so read it
-	# first; the remaining multiline content becomes prompt)
-	{
-		read -r cwd
-		IFS= read -r -d '' prompt || true
-	} < <(jq -r '.cwd, .prompt' "$consumed")
+	# Parse fields from JSON
+	cwd=$(jq -r '.cwd' "$consumed")
+	prompt=$(jq -r '.prompt' "$consumed")
 
 	rm -f "$consumed"
 
@@ -79,8 +76,7 @@ while true; do
 	} >"$tmp_script"
 	chmod +x "$tmp_script"
 
+	# cwd is passed to the launcher as the working directory for the new terminal tab.
 	echo "ai-bridge-daemon: launching for cwd=${cwd}"
 	"$LAUNCHER_SCRIPT" "$cwd" "$tmp_script" || rm -f "$tmp_script"
-
-	sleep 1
 done
