@@ -280,7 +280,6 @@ func TestRun(t *testing.T) {
 	tests := []struct {
 		name              string
 		setupBridgeDir    func(t *testing.T) string
-		pollInterval      time.Duration
 		makeReq           func(cwd string) string
 		stubErr           error
 		cancelImmediately bool
@@ -288,8 +287,7 @@ func TestRun(t *testing.T) {
 		wantLaunches      int
 	}{
 		{
-			name:         "valid request triggers launch",
-			pollInterval: 100 * time.Millisecond,
+			name: "valid request triggers launch",
 			makeReq: func(cwd string) string {
 				return fmt.Sprintf(`{"prompt":"test prompt","cwd":%q,"timestamp":1234}`, cwd)
 			},
@@ -297,19 +295,16 @@ func TestRun(t *testing.T) {
 		},
 		{
 			name:         "invalid JSON request is skipped",
-			pollInterval: 100 * time.Millisecond,
 			makeReq:      func(_ string) string { return `{"cwd":"/tmp"}` },
 			wantLaunches: 0,
 		},
 		{
 			name:         "nonexistent cwd is skipped",
-			pollInterval: 100 * time.Millisecond,
 			makeReq:      func(_ string) string { return `{"prompt":"hi","cwd":"/nonexistent/dir"}` },
 			wantLaunches: 0,
 		},
 		{
-			name:         "launcher error is logged but does not crash",
-			pollInterval: 100 * time.Millisecond,
+			name: "launcher error is logged but does not crash",
 			makeReq: func(cwd string) string {
 				return fmt.Sprintf(`{"prompt":"test","cwd":%q,"timestamp":1234}`, cwd)
 			},
@@ -328,10 +323,6 @@ func TestRun(t *testing.T) {
 			cancelImmediately: true,
 			wantRunErr:        true,
 		},
-		{
-			name:              "zero poll interval falls back to 1 second default",
-			cancelImmediately: true,
-		},
 	}
 
 	for _, tt := range tests {
@@ -349,10 +340,9 @@ func TestRun(t *testing.T) {
 			l, _ := launcher.New("wezterm", stub.Run)
 
 			cfg := &Config{
-				BridgeDir:    dir,
-				CLI:          "claude",
-				Launcher:     "wezterm",
-				PollInterval: tt.pollInterval,
+				BridgeDir: dir,
+				CLI:       "claude",
+				Launcher:  "wezterm",
 			}
 
 			ctx, cancel := context.WithCancel(context.Background())

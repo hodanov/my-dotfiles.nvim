@@ -11,14 +11,17 @@ import (
 func TestWatch_ConsumesRequest(t *testing.T) {
 	t.Parallel()
 	dir := t.TempDir()
-	w := New(dir, 50*time.Millisecond)
+	w := New(dir)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
 	ch := w.Watch(ctx)
 
-	// Write a request file.
+	// Wait for the goroutine to complete its startup check and enter the event loop.
+	time.Sleep(100 * time.Millisecond)
+
+	// Write a request file — this must be consumed via the fsnotify event loop.
 	reqPath := filepath.Join(dir, "request.json")
 	if err := os.WriteFile(reqPath, []byte(`{"prompt":"hi"}`), 0o644); err != nil {
 		t.Fatal(err)
@@ -47,7 +50,7 @@ func TestWatch_ConsumesRequest(t *testing.T) {
 func TestWatch_NoDuplicateConsume(t *testing.T) {
 	t.Parallel()
 	dir := t.TempDir()
-	w := New(dir, 50*time.Millisecond)
+	w := New(dir)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
@@ -81,7 +84,7 @@ func TestWatch_NoDuplicateConsume(t *testing.T) {
 func TestWatch_StopsOnCancel(t *testing.T) {
 	t.Parallel()
 	dir := t.TempDir()
-	w := New(dir, 50*time.Millisecond)
+	w := New(dir)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	ch := w.Watch(ctx)
@@ -97,12 +100,15 @@ func TestWatch_StopsOnCancel(t *testing.T) {
 func TestWatch_CancelDuringBlockedSend(t *testing.T) {
 	t.Parallel()
 	dir := t.TempDir()
-	w := New(dir, 50*time.Millisecond)
+	w := New(dir)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	ch := w.Watch(ctx)
 
-	// Write a request so the watcher consumes it and tries to send on ch.
+	// Wait for the goroutine to complete its startup check and enter the event loop.
+	time.Sleep(100 * time.Millisecond)
+
+	// Write a request so the watcher consumes it via the event loop and tries to send on ch.
 	if writeErr := os.WriteFile(filepath.Join(dir, "request.json"), []byte(`{}`), 0o644); writeErr != nil {
 		t.Fatal(writeErr)
 	}
@@ -121,7 +127,7 @@ func TestWatch_CancelDuringBlockedSend(t *testing.T) {
 func TestWatch_NoFileNoPanic(t *testing.T) {
 	t.Parallel()
 	dir := t.TempDir()
-	w := New(dir, 50*time.Millisecond)
+	w := New(dir)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 300*time.Millisecond)
 	defer cancel()
@@ -131,5 +137,95 @@ func TestWatch_NoFileNoPanic(t *testing.T) {
 	// No file written — should just close without events.
 	for range ch {
 		t.Error("unexpected event when no file exists")
+	}
+}
+
+func TestWatch_InvalidDirClosesChannel(t *testing.T) {
+	t.Parallel()
+	w := New("/nonexistent/dir/that/does/not/exist")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	ch := w.Watch(ctx)
+
+	// Channel should be closed without any events.
+	for range ch {
+		t.Error("unexpected event for invalid directory")
+	}
+}
+
+func TestTryConsume_RenameError(t *testing.T) {
+	t.Parallel()
+	dir := t.TempDir()
+	w := New(dir)
+
+	// Create request.json.
+	reqPath := filepath.Join(dir, "request.json")
+	if err := os.WriteFile(reqPath, []byte(`{}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	// Make dir read-only so rename fails.
+	if err := os.Chmod(dir, 0o555); err != nil {
+		t.Fatal(err)
+	}
+	defer func() { _ = os.Chmod(dir, 0o755) }()
+
+	consumed, ok := w.tryConsume()
+	if ok {
+		t.Errorf("expected tryConsume to fail, got %s", consumed)
+	}
+}
+
+func TestWatch_IgnoresNonRequestFile(t *testing.T) {
+	t.Parallel()
+	dir := t.TempDir()
+	w := New(dir)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	ch := w.Watch(ctx)
+
+	// Wait for the goroutine to enter the event loop.
+	time.Sleep(100 * time.Millisecond)
+
+	// Write a non-request file — should be ignored.
+	if err := os.WriteFile(filepath.Join(dir, "other.json"), []byte(`{}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	// No events should be received before timeout.
+	for range ch {
+		t.Error("unexpected event for non-request file")
+	}
+}
+
+func TestWatch_ExistingFileConsumedOnStart(t *testing.T) {
+	t.Parallel()
+	dir := t.TempDir()
+
+	// Write request.json before starting the watcher.
+	reqPath := filepath.Join(dir, "request.json")
+	if err := os.WriteFile(reqPath, []byte(`{"prompt":"pre-existing"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	w := New(dir)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	ch := w.Watch(ctx)
+
+	select {
+	case consumed := <-ch:
+		if consumed == "" {
+			t.Fatal("consumed path is empty")
+		}
+		_ = os.Remove(consumed)
+	case <-ctx.Done():
+		t.Fatal("timed out waiting for pre-existing request to be consumed")
 	}
 }
