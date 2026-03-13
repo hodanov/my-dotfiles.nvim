@@ -162,43 +162,43 @@ scripts/ai-bridge/
 
 ## File changes
 
-| File | Change |
-| --- | --- |
-| `scripts/ai-bridge/go.mod` | Go module を新設し、host-side 実装に必要な依存を定義する |
-| `scripts/ai-bridge/cmd/ai-bridge/main.go` | `daemon` / `install-launchd` subcommand の入口を実装する |
-| `scripts/ai-bridge/internal/daemon/daemon.go` | 設定、リクエスト処理、一時スクリプト生成、メインループを実装する |
-| `scripts/ai-bridge/internal/daemon/daemon_test.go` | 設定解決、JSON parse、一時スクリプト生成、daemon loop の unit test を追加する |
-| `scripts/ai-bridge/internal/watcher/watcher.go` | ポーリング監視、debounce、atomic consume を実装する |
-| `scripts/ai-bridge/internal/watcher/watcher_test.go` | 実ファイルを使った consume の integration test を追加する |
-| `scripts/ai-bridge/internal/launcher/launcher.go` | launcher interface と factory を実装する |
-| `scripts/ai-bridge/internal/launcher/wezterm.go` | WezTerm launcher の Go 実装を追加する |
-| `scripts/ai-bridge/internal/launcher/wezterm_test.go` | WezTerm コマンドライン引数生成の unit test を追加する |
-| `scripts/ai-bridge/internal/launcher/tmux.go` | tmux launcher の Go 実装を追加する |
-| `scripts/ai-bridge/internal/launcher/tmux_test.go` | tmux コマンドライン引数生成の unit test を追加する |
-| `scripts/ai-bridge/internal/launchd/plist.go` | plist 生成、配置、launchctl 操作を実装する |
-| `scripts/ai-bridge/internal/launchd/plist_test.go` | plist 生成の snapshot test を追加する |
-| `scripts/ai-bridge/internal/testutil/exec_stub.go` | daemon loop テスト用の exec stub を追加する |
-| `scripts/ai-bridge/testdata/plist/expected.plist` | plist 期待値 fixture を追加する |
-| `scripts/ai-bridge/testdata/request/valid.json` | 正常系 request fixture を追加する |
-| `scripts/ai-bridge/testdata/request/invalid.json` | 異常系 request fixture を追加する |
-| `scripts/ai-bridge/com.ai-bridge.daemon.plist` | Go 移行完了後に削除する（plist は Go 側で完全生成する） |
-| `scripts/ai-bridge/daemon.sh` | 削除、または一時的な互換ラッパーとして縮小する |
-| `scripts/ai-bridge/install-launchd.sh` | 削除、または Go subcommand 呼び出しラッパーへ置き換える |
-| `scripts/ai-bridge/launchers/wezterm.sh` | 削除、または移行期間限定の互換レイヤーにする |
-| `scripts/ai-bridge/launchers/tmux.sh` | 削除、または移行期間限定の互換レイヤーにする |
-| `docs/ai-bridge.md` | セットアップ、ビルド、運用、トラブルシュートを Go 版に合わせて更新する |
+| File                                                  | Change                                                                        |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `scripts/ai-bridge/go.mod`                            | Go module を新設し、host-side 実装に必要な依存を定義する                      |
+| `scripts/ai-bridge/cmd/ai-bridge/main.go`             | `daemon` / `install-launchd` subcommand の入口を実装する                      |
+| `scripts/ai-bridge/internal/daemon/daemon.go`         | 設定、リクエスト処理、一時スクリプト生成、メインループを実装する              |
+| `scripts/ai-bridge/internal/daemon/daemon_test.go`    | 設定解決、JSON parse、一時スクリプト生成、daemon loop の unit test を追加する |
+| `scripts/ai-bridge/internal/watcher/watcher.go`       | ポーリング監視、debounce、atomic consume を実装する                           |
+| `scripts/ai-bridge/internal/watcher/watcher_test.go`  | 実ファイルを使った consume の integration test を追加する                     |
+| `scripts/ai-bridge/internal/launcher/launcher.go`     | launcher interface と factory を実装する                                      |
+| `scripts/ai-bridge/internal/launcher/wezterm.go`      | WezTerm launcher の Go 実装を追加する                                         |
+| `scripts/ai-bridge/internal/launcher/wezterm_test.go` | WezTerm コマンドライン引数生成の unit test を追加する                         |
+| `scripts/ai-bridge/internal/launcher/tmux.go`         | tmux launcher の Go 実装を追加する                                            |
+| `scripts/ai-bridge/internal/launcher/tmux_test.go`    | tmux コマンドライン引数生成の unit test を追加する                            |
+| `scripts/ai-bridge/internal/launchd/plist.go`         | plist 生成、配置、launchctl 操作を実装する                                    |
+| `scripts/ai-bridge/internal/launchd/plist_test.go`    | plist 生成の snapshot test を追加する                                         |
+| `scripts/ai-bridge/internal/testutil/exec_stub.go`    | daemon loop テスト用の exec stub を追加する                                   |
+| `scripts/ai-bridge/testdata/plist/expected.plist`     | plist 期待値 fixture を追加する                                               |
+| `scripts/ai-bridge/testdata/request/valid.json`       | 正常系 request fixture を追加する                                             |
+| `scripts/ai-bridge/testdata/request/invalid.json`     | 異常系 request fixture を追加する                                             |
+| `scripts/ai-bridge/com.ai-bridge.daemon.plist`        | Go 移行完了後に削除する（plist は Go 側で完全生成する）                       |
+| `scripts/ai-bridge/daemon.sh`                         | 削除、または一時的な互換ラッパーとして縮小する                                |
+| `scripts/ai-bridge/install-launchd.sh`                | 削除、または Go subcommand 呼び出しラッパーへ置き換える                       |
+| `scripts/ai-bridge/launchers/wezterm.sh`              | 削除、または移行期間限定の互換レイヤーにする                                  |
+| `scripts/ai-bridge/launchers/tmux.sh`                 | 削除、または移行期間限定の互換レイヤーにする                                  |
+| `docs/ai-bridge.md`                                   | セットアップ、ビルド、運用、トラブルシュートを Go 版に合わせて更新する        |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
+| Risk                                                                                            | Mitigation                                                                                                                          |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | Docker ボリュームマウント（VirtioFS / gRPC FUSE）では fsnotify のイベントが伝播しない場合がある | 初期実装ではポーリングを primary 方式とし、fsnotify は採用しない。現行 shell 版と同じくポーリングで Docker 環境との互換性を確保する |
-| Go は標準ライブラリだけでファイルイベント監視を持たない | ポーリング方式なら標準ライブラリのみで実装可能。将来 fsnotify を追加する場合も Go module 依存として閉じ込める |
-| WezTerm / tmux 呼び出しの quoting 差分で挙動が変わる | 既存 shell 実装を仕様として扱い、同じコマンドラインが生成されることをテストで固定する |
-| launchd インストールを Go に寄せると plist 生成バグで起動不能になる | plist 生成は `testdata` でスナップショット検証し、手動 smoke test も行う |
-| shell 版と Go 版がしばらく並存すると起動経路が分かりにくい | 移行期間を短くし、最終形は `ai-bridge daemon` と `ai-bridge install-launchd` に統一する |
-| バイナリ配布や build 手順が増えてセットアップが重くなる | `go build -o scripts/ai-bridge/ai-bridge ./cmd/ai-bridge` の手順を docs に明記し、必要なら install 用の Make タスクを後続で追加する |
-| coverage 80% を後追いで満たそうとすると無理なテストが増える | 各実装ステップでテストを同時に書き、coverage を段階的に積み上げる |
+| Go は標準ライブラリだけでファイルイベント監視を持たない                                         | ポーリング方式なら標準ライブラリのみで実装可能。将来 fsnotify を追加する場合も Go module 依存として閉じ込める                       |
+| WezTerm / tmux 呼び出しの quoting 差分で挙動が変わる                                            | 既存 shell 実装を仕様として扱い、同じコマンドラインが生成されることをテストで固定する                                               |
+| launchd インストールを Go に寄せると plist 生成バグで起動不能になる                             | plist 生成は `testdata` でスナップショット検証し、手動 smoke test も行う                                                            |
+| shell 版と Go 版がしばらく並存すると起動経路が分かりにくい                                      | 移行期間を短くし、最終形は `ai-bridge daemon` と `ai-bridge install-launchd` に統一する                                             |
+| バイナリ配布や build 手順が増えてセットアップが重くなる                                         | `go build -o scripts/ai-bridge/ai-bridge ./cmd/ai-bridge` の手順を docs に明記し、必要なら install 用の Make タスクを後続で追加する |
+| coverage 80% を後追いで満たそうとすると無理なテストが増える                                     | 各実装ステップでテストを同時に書き、coverage を段階的に積み上げる                                                                   |
 
 ## Validation
 
@@ -219,9 +219,9 @@ scripts/ai-bridge/
 
 以下は当初 Open questions としていた項目への決定事項。
 
-| Question | Decision | Rationale |
-| --- | --- | --- |
-| Go バイナリの配置先 | `go build -o` で repo 内の `scripts/ai-bridge/ai-bridge` に出力する | plist からの参照が楽で、`go install` のような PATH 依存を避けられる |
-| plist テンプレート | Go で完全生成し、`com.ai-bridge.daemon.plist` は移行完了後に削除する | テンプレートファイルと `sed` の二重管理がなくなる |
-| 監視方式 | ポーリングを primary にする。fsnotify は採用しない | Docker volume mount 環境での信頼性を優先する |
-| 一時スクリプト方式 | 互換優先で維持する | `bash -lc` は長いプロンプトで引数長制限に当たるリスクがある |
+| Question            | Decision                                                             | Rationale                                                           |
+| ------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Go バイナリの配置先 | `go build -o` で repo 内の `scripts/ai-bridge/ai-bridge` に出力する  | plist からの参照が楽で、`go install` のような PATH 依存を避けられる |
+| plist テンプレート  | Go で完全生成し、`com.ai-bridge.daemon.plist` は移行完了後に削除する | テンプレートファイルと `sed` の二重管理がなくなる                   |
+| 監視方式            | ポーリングを primary にする。fsnotify は採用しない                   | Docker volume mount 環境での信頼性を優先する                        |
+| 一時スクリプト方式  | 互換優先で維持する                                                   | `bash -lc` は長いプロンプトで引数長制限に当たるリスクがある         |

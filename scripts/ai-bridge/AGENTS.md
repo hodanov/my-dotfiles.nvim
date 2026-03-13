@@ -42,13 +42,13 @@ func TestParseRequest(t *testing.T) {
 
 ### 構造体フィールドの命名規則
 
-| 役割 | フィールド名の例 |
-| --- | --- |
-| テストケース名 | `name` |
-| 関数への入力 | `input`, `cli`, `prompt`, `content` など |
-| 期待する出力 | `want`, `wantPrompt`, `wantCWD` など |
-| エラーの有無 | `wantErr bool` |
-| 期待するエラーメッセージ | `wantErrMsg string` |
+| 役割                     | フィールド名の例                         |
+| ------------------------ | ---------------------------------------- |
+| テストケース名           | `name`                                   |
+| 関数への入力             | `input`, `cli`, `prompt`, `content` など |
+| 期待する出力             | `want`, `wantPrompt`, `wantCWD` など     |
+| エラーの有無             | `wantErr bool`                           |
+| 期待するエラーメッセージ | `wantErrMsg string`                      |
 
 ### 例外: 検証ロジックが大きく異なるケース
 
@@ -82,7 +82,7 @@ func TestFoo(t *testing.T) {
 
 `t.Setenv` を含むテスト関数は外側・サブテストともに `t.Parallel()` を付けない。
 
-```go
+````go
 // NOTE: t.Parallel() を付けない。
 // Go 1.22 以降、親テストが Parallel の場合でもサブテストで t.Setenv が使えなくなる。
 func TestLoadConfig(t *testing.T) {
@@ -106,7 +106,7 @@ if err != nil { ... }
 
 result, err := json.Unmarshal(data, &v) // err を上書き
 if err != nil { ... }
-```
+````
 
 **Good:**
 
@@ -122,25 +122,25 @@ if unmarshalErr != nil { ... }
 
 `<動詞><対象>Err` の形式を基本とする。
 
-| 操作 | 変数名例 |
-| --- | --- |
-| `os.UserHomeDir()` | `homeDirErr` |
-| `os.MkdirAll(...)` | `mkdirErr` |
-| `os.ReadFile(...)` | `readErr` |
-| `os.WriteFile(...)` | `writeErr` |
-| `os.CreateTemp(...)` | `createTempErr` |
-| `os.Rename(...)` | `renameErr` |
-| `os.Stat(...)` | `statErr` |
-| `f.Chmod(...)` | `chmodErr` |
-| `json.Unmarshal(...)` | `unmarshalErr` |
-| `template.Parse(...)` | `parseErr` |
-| `tmpl.Execute(...)` | `executeErr` |
-| `launcher.New(...)` | `newLauncherErr` |
-| `daemon.LoadConfig()` | `loadConfigErr` |
-| `GenerateScript(...)` | `genScriptErr` |
-| `GeneratePlist(...)` | `genPlistErr` |
-| `launchctl("load", ...)` | `loadErr` |
-| `l.Launch(...)` | `launchErr` |
+| 操作                     | 変数名例         |
+| ------------------------ | ---------------- |
+| `os.UserHomeDir()`       | `homeDirErr`     |
+| `os.MkdirAll(...)`       | `mkdirErr`       |
+| `os.ReadFile(...)`       | `readErr`        |
+| `os.WriteFile(...)`      | `writeErr`       |
+| `os.CreateTemp(...)`     | `createTempErr`  |
+| `os.Rename(...)`         | `renameErr`      |
+| `os.Stat(...)`           | `statErr`        |
+| `f.Chmod(...)`           | `chmodErr`       |
+| `json.Unmarshal(...)`    | `unmarshalErr`   |
+| `template.Parse(...)`    | `parseErr`       |
+| `tmpl.Execute(...)`      | `executeErr`     |
+| `launcher.New(...)`      | `newLauncherErr` |
+| `daemon.LoadConfig()`    | `loadConfigErr`  |
+| `GenerateScript(...)`    | `genScriptErr`   |
+| `GeneratePlist(...)`     | `genPlistErr`    |
+| `launchctl("load", ...)` | `loadErr`        |
+| `l.Launch(...)`          | `launchErr`      |
 
 ### `if` スコープも同様に扱う
 
