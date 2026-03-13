@@ -9,8 +9,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"time"
-
 	"ai-bridge/internal/launcher"
 	"ai-bridge/internal/watcher"
 )
@@ -19,10 +17,9 @@ const defaultBridgeDir = ".ai-bridge"
 
 // Config holds daemon configuration.
 type Config struct {
-	BridgeDir    string
-	CLI          string
-	Launcher     string
-	PollInterval time.Duration
+	BridgeDir string
+	CLI       string
+	Launcher  string
 }
 
 // Request represents a parsed request.json.
@@ -66,10 +63,9 @@ func LoadConfig() (*Config, error) {
 	}
 
 	return &Config{
-		BridgeDir:    bridgeDir,
-		CLI:          cli,
-		Launcher:     launcherName,
-		PollInterval: 1 * time.Second,
+		BridgeDir: bridgeDir,
+		CLI:       cli,
+		Launcher:  launcherName,
 	}, nil
 }
 
@@ -141,12 +137,7 @@ func Run(ctx context.Context, cfg *Config, l launcher.Launcher) error {
 		"watching", filepath.Join(cfg.BridgeDir, "request.json"),
 	)
 
-	interval := cfg.PollInterval
-	if interval == 0 {
-		interval = 1 * time.Second
-	}
-
-	w := watcher.New(cfg.BridgeDir, interval)
+	w := watcher.New(cfg.BridgeDir)
 	ch := w.Watch(ctx)
 
 	for consumedPath := range ch {
