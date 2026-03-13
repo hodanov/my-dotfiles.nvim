@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
   "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-  launchd plist for ai-bridge-daemon (auto-start on login).
-
-  Setup:
-    1. Run the install script (replaces %%REPO_DIR%% and loads the agent):
-         ./scripts/ai-bridge/install-launchd.sh
-
-    2. To disable auto-start and stop the daemon:
-         launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist
-
-    3. To run manually without launchd:
-         ./scripts/ai-bridge/daemon.sh
-
-  Customize AI_BRIDGE_LAUNCHER below to switch between wezterm / tmux.
--->
 <plist version="1.0">
 <dict>
     <key>Label</key>
@@ -23,9 +8,8 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/bin/bash</string>
-        <string>-l</string>
-        <string>%%REPO_DIR%%/scripts/ai-bridge/daemon.sh</string>
+        <string>/path/to/ai-bridge</string>
+        <string>daemon</string>
     </array>
 
     <key>EnvironmentVariables</key>
@@ -36,11 +20,9 @@
         <string>wezterm</string>
     </dict>
 
-    <!-- Start automatically at login -->
     <key>RunAtLoad</key>
     <true/>
 
-    <!-- Restart if the daemon exits unexpectedly -->
     <key>KeepAlive</key>
     <true/>
 
