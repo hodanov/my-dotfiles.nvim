@@ -5,7 +5,7 @@ Dockerコンテナ内のNeovimで選択したコードを、ホスト側のAI CL
 ## 前提条件
 
 - ホスト側に以下がインストール済みであること
-  - [`jq`](https://jqlang.github.io/jq/): `brew install jq`
+  - [Go](https://go.dev/) 1.22 以上（ビルド時のみ）
   - AI CLI（例: `claude`、`cursor`）
 - WezTermを使用する場合: `wezterm cli` コマンドが使えること
 - tmuxを使用する場合: アクティブなtmuxセッションがあること
@@ -27,23 +27,30 @@ docker compose -f environment/docker/docker-compose.yml down
 docker compose -f environment/docker/docker-compose.yml up -d
 ```
 
-### 3. デーモンのセットアップ
+### 3. バイナリのビルド
+
+```bash
+cd scripts/ai-bridge
+go build -o ai-bridge ./cmd/ai-bridge
+```
+
+### 4. デーモンのセットアップ
 
 **launchd による自動起動（推奨）:**
 
 ```bash
-./scripts/ai-bridge/install-launchd.sh
+./scripts/ai-bridge/ai-bridge install-launchd
 ```
 
-このスクリプトは plist テンプレートの `%%REPO_DIR%%` をリポジトリの絶対パスに置換し、`~/Library/LaunchAgents/` にインストールして `launchctl load` まで行う。
+plist を `~/Library/LaunchAgents/` に生成し、`launchctl load` まで行う。
 
 **手動起動:**
 
 ```bash
-./scripts/ai-bridge/daemon.sh
+./scripts/ai-bridge/ai-bridge daemon
 ```
 
-### 4. Neovim設定の反映
+### 5. Neovim設定の反映
 
 コンテナにLua設定を転送する（イメージリビルドまでの暫定対応）。
 
@@ -90,7 +97,7 @@ launchd を使用する場合は `~/Library/LaunchAgents/com.ai-bridge.daemon.pl
 **Cursor CLIに切り替える（手動起動）:**
 
 ```bash
-AI_BRIDGE_CLI=cursor ./scripts/ai-bridge/daemon.sh
+AI_BRIDGE_CLI=cursor ./scripts/ai-bridge/ai-bridge daemon
 ```
 
 **新しいAI CLIを追加する:**
@@ -102,20 +109,21 @@ AI_BRIDGE_CLI=cursor ./scripts/ai-bridge/daemon.sh
 **tmuxに切り替える（手動起動）:**
 
 ```bash
-AI_BRIDGE_LAUNCHER=tmux ./scripts/ai-bridge/daemon.sh
+AI_BRIDGE_LAUNCHER=tmux ./scripts/ai-bridge/ai-bridge daemon
 ```
 
 **新しいランチャーを追加する:**
 
-`scripts/ai-bridge/launchers/<name>.sh` を作成し、以下のインターフェースを実装する。
+`scripts/ai-bridge/internal/launcher/` に Go ファイルを追加し、`Launcher` インターフェースを実装する。
 
-```bash
-#!/bin/bash
-# Usage: <name>.sh <cwd> <script_file>
-cwd="$1"
-script="$2"
-# ここでターミナルを開いて bash -l "$script" を実行する
+```go
+// Launcher opens a new terminal tab and runs a script.
+type Launcher interface {
+    Launch(cwd, scriptPath string) error
+}
 ```
+
+実装後、`launcher.New()` の switch 文に新しいランチャーを追加する。
 
 ## デーモンの管理
 
@@ -123,7 +131,7 @@ script="$2"
 | ---------------- | -------------------------------------------------------------------- |
 | 自動起動を有効化 | `launchctl load ~/Library/LaunchAgents/com.ai-bridge.daemon.plist`   |
 | 自動起動を無効化 | `launchctl unload ~/Library/LaunchAgents/com.ai-bridge.daemon.plist` |
-| 手動起動         | `./scripts/ai-bridge/daemon.sh`                                      |
+| 手動起動         | `./scripts/ai-bridge/ai-bridge daemon`                               |
 | ログ確認         | `tail -f /tmp/ai-bridge-daemon.log`                                  |
 
 ## アーキテクチャ
@@ -177,8 +185,9 @@ ls -la ~/.ai-bridge/
 tail -f /tmp/ai-bridge-daemon.log
 ```
 
-ランチャーが実行可能か確認する。
+ランチャーのコマンド（`wezterm` や `tmux`）がPATHに存在するか確認する。
 
 ```bash
-ls -la scripts/ai-bridge/launchers/
+which wezterm
+which tmux
 ```
