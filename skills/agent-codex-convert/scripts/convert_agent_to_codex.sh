@@ -149,6 +149,7 @@ for input_file in "${files[@]}"; do
 		name) name="$value" ;;
 		description) description="$value" ;;
 		tools) tools="$value" ;;
+		# shellcheck disable=SC2034
 		model) model="$value" ;;
 		permissionMode) permission_mode="$value" ;;
 		memory) memory="$value" ;;
@@ -255,6 +256,7 @@ for input_file in "${files[@]}"; do
 
 	if [[ -e "$target_file" && $force_overwrite -ne 1 ]]; then
 		if prompt_from_tty answer "File exists: ${target_file}. Overwrite? [y/N]: "; then
+			# shellcheck disable=SC2154
 			case "$answer" in
 			y | Y | yes | YES) ;;
 			*)

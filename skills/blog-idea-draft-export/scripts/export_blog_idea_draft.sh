@@ -102,6 +102,7 @@ target_file="${output_dir}/${draft_date}_${slug}.md"
 
 if [[ -e "$target_file" && "$force_overwrite" != "1" ]]; then
 	if prompt_from_tty answer "File exists: ${target_file}. Overwrite? [y/N]: "; then
+		# shellcheck disable=SC2154
 		case "$answer" in
 		y | Y | yes | YES) ;;
 		*)
