@@ -145,11 +145,11 @@ for input_file in "${files[@]}"; do
 		value="${value#\"}"
 		value="${value%\"}"
 
+		# shellcheck disable=SC2034
 		case "$key" in
 		name) name="$value" ;;
 		description) description="$value" ;;
 		tools) tools="$value" ;;
-		# shellcheck disable=SC2034
 		model) model="$value" ;;
 		permissionMode) permission_mode="$value" ;;
 		memory) memory="$value" ;;
