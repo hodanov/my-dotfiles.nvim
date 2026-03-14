@@ -90,34 +90,30 @@ func parseRequest(path string) (*Request, error) {
 
 // generateScript creates a temporary script that runs the AI CLI with the given prompt.
 // The script deletes itself after execution.
-func generateScript(cli, prompt string) (string, error) {
+func generateScript(cli, prompt string) (scriptPath string, retErr error) {
 	f, createTempErr := os.CreateTemp("", "ai-bridge-*.sh")
 	if createTempErr != nil {
 		return "", fmt.Errorf("create temp script: %w", createTempErr)
 	}
-	name := f.Name()
+	defer func() {
+		_ = f.Close()
+		if retErr != nil {
+			_ = os.Remove(f.Name())
+		}
+	}()
 
 	quotedPrompt := shellQuote(prompt)
-	quotedPath := shellQuote(name)
+	quotedPath := shellQuote(f.Name())
 	content := fmt.Sprintf("#!/bin/bash\n%s %s\nrm -f %s\n", cli, quotedPrompt, quotedPath)
 	if _, writeErr := f.WriteString(content); writeErr != nil {
-		_ = f.Close()
-		_ = os.Remove(name)
 		return "", fmt.Errorf("write temp script: %w", writeErr)
 	}
 
 	if chmodErr := f.Chmod(0o755); chmodErr != nil {
-		_ = f.Close()
-		_ = os.Remove(name)
 		return "", fmt.Errorf("chmod temp script: %w", chmodErr)
 	}
 
-	if closeErr := f.Close(); closeErr != nil {
-		_ = os.Remove(name)
-		return "", fmt.Errorf("close temp script: %w", closeErr)
-	}
-
-	return name, nil
+	return f.Name(), nil
 }
 
 // shellQuote returns a POSIX shell-safe single-quoted string.
