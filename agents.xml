@@ -10,7 +10,4 @@
       - Do NOT use formal speech.
     </tone>
   </agent_profile>
-  <workflow_rules>
-    - When creating a Markdown file, run `markdownlint-cli2 --fix {target_file}` on that file.
-  </workflow_rules>
 </agents_config>

@@ -11,6 +11,10 @@ AGENTS_MD_SRC := $(PWD)/agents
 CLAUDE_AGENTS_DEST := $(HOME)/.claude/agents
 CURSOR_AGENTS_DEST := $(HOME)/.cursor/agents
 
+SETTINGS_SRC := $(PWD)/settings
+CLAUDE_SETTINGS_DEST := $(HOME)/.claude
+CURSOR_SETTINGS_DEST := $(HOME)/.cursor
+
 .PHONY: codex-link
 codex-link:
 	@ln -sf "$(AGENTS_SRC)" "$(AGENTS_DEST)"
@@ -173,3 +177,63 @@ claude-agents-copy:
 .PHONY: cursor-agents-copy
 cursor-agents-copy:
 	$(call copy_agents_md,$(CURSOR_AGENTS_DEST))
+
+define copy_settings
+	@set -eu; \
+	src="$(SETTINGS_SRC)/$(1)"; \
+	dest="$(2)"; \
+	if [ ! -d "$$src" ]; then \
+		echo "Source settings directory not found: $$src"; \
+		exit 1; \
+	fi; \
+	tmp=$$(mktemp); \
+	trap 'rm -f "$$tmp"' EXIT; \
+	find "$$src" -type f -print0 > "$$tmp"; \
+	if [ ! -s "$$tmp" ]; then \
+		echo "No settings files found in $$src"; \
+		exit 0; \
+	fi; \
+	dup_found=0; \
+	dup_list=""; \
+	while IFS= read -r -d '' f; do \
+		rel=$${f#$$src/}; \
+		if [ -e "$$dest/$$rel" ]; then \
+			dup_found=1; \
+			dup_list="$$dup_list$$rel\n"; \
+		fi; \
+	done < "$$tmp"; \
+	overwrite=0; \
+	if [ "$$dup_found" -eq 1 ]; then \
+		echo "The following settings already exist in $$dest:"; \
+		printf "%b" "$$dup_list"; \
+		printf "Overwrite existing settings? [y/N] "; \
+		read -r ans; \
+		case "$$ans" in \
+			y|Y) overwrite=1 ;; \
+			*) overwrite=0 ;; \
+		esac; \
+	fi; \
+	while IFS= read -r -d '' f; do \
+		rel=$${f#$$src/}; \
+		dest_file="$$dest/$$rel"; \
+		if [ -e "$$dest_file" ] && [ "$$overwrite" -ne 1 ]; then \
+			echo "Skip $$rel (already exists)"; \
+			continue; \
+		fi; \
+		mkdir -p "$$(dirname "$$dest_file")"; \
+		cp -p "$$f" "$$dest_file"; \
+		echo "Installed $$rel"; \
+	done < "$$tmp"; \
+	echo "Done."
+endef
+
+.PHONY: settings-copy
+settings-copy: claude-settings-copy cursor-settings-copy
+
+.PHONY: claude-settings-copy
+claude-settings-copy:
+	$(call copy_settings,claude,$(CLAUDE_SETTINGS_DEST))
+
+.PHONY: cursor-settings-copy
+cursor-settings-copy:
+	$(call copy_settings,cursor,$(CURSOR_SETTINGS_DEST))
