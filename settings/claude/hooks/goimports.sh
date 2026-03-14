@@ -8,7 +8,7 @@ print(data.get('filePath', ''))
 
 # .goファイルじゃなければ何もしない
 if [[ "$FILE_PATH" != *.go ]]; then
-  exit 0
+	exit 0
 fi
 
 # goimportsを実行

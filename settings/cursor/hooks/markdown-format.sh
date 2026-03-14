@@ -6,7 +6,7 @@ print(data.get('file_path', ''))
 ")
 
 if [[ "$FILE_PATH" != *.md ]]; then
-  exit 0
+	exit 0
 fi
 
 markdownlint-cli2 --fix "$FILE_PATH"

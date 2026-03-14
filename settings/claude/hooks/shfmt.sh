@@ -6,7 +6,7 @@ print(data.get('filePath', ''))
 " 2>/dev/null)
 
 if [[ "$FILE_PATH" != *.sh ]]; then
-  exit 0
+	exit 0
 fi
 
 shfmt -w "$FILE_PATH"

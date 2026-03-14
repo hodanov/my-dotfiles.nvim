@@ -6,7 +6,7 @@ print(data.get('file_path', ''))
 ")
 
 if [[ "$FILE_PATH" != *.go ]]; then
-  exit 0
+	exit 0
 fi
 
 goimports -w "$FILE_PATH"
