@@ -43,7 +43,7 @@ func (w *Watcher) Watch(ctx context.Context) <-chan string {
 			slog.Error("fsnotify: create watcher failed", "error", err)
 			return
 		}
-		defer fsw.Close()
+		defer func() { _ = fsw.Close() }()
 
 		if addErr := fsw.Add(w.dir); addErr != nil {
 			slog.Error("fsnotify: watch dir failed", "error", addErr, "dir", w.dir)
