@@ -59,7 +59,9 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install shfmt
-        run: go install mvdan.cc/sh/v3/cmd/shfmt@latest
+        run: |
+          go install mvdan.cc/sh/v3/cmd/shfmt@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
 
       - name: Run shfmt
         run: shfmt -d .
