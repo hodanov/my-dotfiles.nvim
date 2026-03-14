@@ -21,6 +21,17 @@ jobs:
         with:
           go-version-file: scripts/ai-bridge/go.mod
 
+      - name: Install goimports
+        run: go install golang.org/x/tools/cmd/goimports@latest
+
+      - name: Check goimports formatting
+        run: |
+          diff=$(goimports -d ./**/*.go)
+          if [ -n "$diff" ]; then
+            echo "$diff"
+            exit 1
+          fi
+
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v7
         with:
