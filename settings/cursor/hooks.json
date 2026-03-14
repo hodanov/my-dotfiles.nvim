@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/goimports.sh"
+      },
+      {
+        "command": ".cursor/hooks/markdown-format.sh"
+      }
+    ]
+  }
+}
