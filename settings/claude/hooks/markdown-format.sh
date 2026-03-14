@@ -7,7 +7,7 @@ print(data.get('filePath', ''))
 
 # .mdファイルじゃなければ何もしない
 if [[ "$FILE_PATH" != *.md ]]; then
-  exit 0
+	exit 0
 fi
 
 # 順番に実行

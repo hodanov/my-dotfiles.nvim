@@ -5,8 +5,8 @@ data = json.load(sys.stdin)
 print(data.get('file_path', ''))
 ")
 
-if [[ "$FILE_PATH" != *.go ]]; then
+if [[ "$FILE_PATH" != *.sh ]]; then
 	exit 0
 fi
 
-goimports -w "$FILE_PATH"
+shfmt -w "$FILE_PATH"

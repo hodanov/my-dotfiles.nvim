@@ -7,6 +7,9 @@
       },
       {
         "command": ".cursor/hooks/markdown-format.sh"
+      },
+      {
+        "command": ".cursor/hooks/shfmt.sh"
       }
     ]
   }
