@@ -47,7 +47,8 @@
         "hooks": [
           { "type": "command", "command": ".claude/hooks/goimports.sh" },
           { "type": "command", "command": ".claude/hooks/markdown-format.sh" },
-          { "type": "command", "command": ".claude/hooks/shfmt.sh" }
+          { "type": "command", "command": ".claude/hooks/shfmt.sh" },
+          { "type": "command", "command": ".claude/hooks/prettier.sh" }
         ]
       }
     ]
