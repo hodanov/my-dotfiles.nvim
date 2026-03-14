@@ -1,6 +1,8 @@
 package daemon
 
 import (
+	"ai-bridge/internal/launcher"
+	"ai-bridge/internal/watcher"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -9,8 +11,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"ai-bridge/internal/launcher"
-	"ai-bridge/internal/watcher"
 )
 
 const defaultBridgeDir = ".ai-bridge"
