@@ -50,3 +50,19 @@ jobs:
 
       - name: Run prettier
         run: npx prettier --check .
+
+  shell-lint:
+    name: shell-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install shfmt
+        run: go install mvdan.cc/sh/v3/cmd/shfmt@latest
+
+      - name: Run shfmt
+        run: shfmt -d .
+
+      - name: Run shellcheck
+        run: shellcheck ./**/*.sh
