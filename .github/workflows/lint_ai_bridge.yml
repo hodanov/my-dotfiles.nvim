@@ -1,0 +1,27 @@
+name: Lint ai-bridge
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - "scripts/ai-bridge/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scripts/ai-bridge
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: scripts/ai-bridge/go.mod
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v7
+        with:
+          working-directory: scripts/ai-bridge
