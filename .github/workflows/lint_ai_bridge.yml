@@ -26,7 +26,7 @@ jobs:
 
       - name: Check goimports formatting
         run: |
-          diff=$(goimports -d ./**/*.go)
+          diff=$(find . -name '*.go' -exec goimports -d {} +)
           if [ -n "$diff" ]; then
             echo "$diff"
             exit 1
