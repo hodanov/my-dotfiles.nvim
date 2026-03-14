@@ -1,6 +1,7 @@
 name: Test ai-bridge
 permissions:
   contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -21,5 +22,58 @@ jobs:
         with:
           go-version-file: scripts/ai-bridge/go.mod
 
-      - name: Run tests
-        run: go test ./... -v -count=1
+      - name: Run tests with coverage
+        run: go test ./... -v -count=1 -coverprofile=coverage.out
+
+      - name: Generate coverage report
+        id: coverage
+        run: |
+          COVER_OUTPUT=$(go tool cover -func=coverage.out)
+          TOTAL=$(echo "$COVER_OUTPUT" | grep '^total:' | awk '{print $NF}')
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          {
+            echo "report<<${EOF}"
+            echo "$COVER_OUTPUT"
+            echo "${EOF}"
+            echo "total=${TOTAL}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post coverage comment on PR
+        if: github.event_name == 'pull_request'
+        working-directory: ${{ github.workspace }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          MARKER="<!-- coverage-ai-bridge -->"
+          BODY="${MARKER}
+          ## 📊 Go Test Coverage: ai-bridge
+
+          **Total coverage: ${{ steps.coverage.outputs.total }}**
+
+          <details>
+          <summary>Per-package / per-function breakdown</summary>
+
+          \`\`\`
+          ${{ steps.coverage.outputs.report }}
+          \`\`\`
+
+          </details>"
+
+          EXISTING_COMMENT_ID=$(gh api \
+            "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --jq ".[] | select(.body | startswith(\"${MARKER}\")) | .id" \
+          )
+
+          if [ -n "$EXISTING_COMMENT_ID" ]; then
+            gh api \
+              --method PATCH \
+              "repos/${{ github.repository }}/issues/comments/${EXISTING_COMMENT_ID}" \
+              -f body="${BODY}"
+          else
+            gh api \
+              --method POST \
+              "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+              -f body="${BODY}"
+          fi
