@@ -67,4 +67,6 @@ jobs:
         run: shfmt -d .
 
       - name: Run shellcheck
-        run: shellcheck ./**/*.sh
+        run: |
+          shopt -s globstar
+          shellcheck ./**/*.sh
