@@ -41,13 +41,17 @@ When updating memory, write to `MEMORY.md` using this structure:
 # Investigation Memory
 
 ## Codebase Patterns
+
 - (Recurring patterns observed across investigations)
 
 ## Key Files
+
 - `path/to/file`: (what it does, why it matters)
 
 ## Past Findings
+
 ### YYYY-MM-DD: (investigation topic)
+
 - (Key conclusion)
 - (Caveats / what was not confirmed)
 ```

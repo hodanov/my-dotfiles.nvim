@@ -17,15 +17,15 @@
 
 ## File changes
 
-| File | Change |
-| --- | --- |
+| File     | Change     |
+| -------- | ---------- |
 | `<path>` | <変更内容> |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| <リスク> | <対策> |
+| Risk     | Mitigation |
+| -------- | ---------- |
+| <リスク> | <対策>     |
 
 ## Validation
 

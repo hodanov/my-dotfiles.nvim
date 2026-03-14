@@ -53,10 +53,10 @@
 
 ### 最終成果物
 
-| ファイル | 状態 |
-| --- | --- |
-| `skills/review/SKILL.md` | 作成済み・レビュー反映済み |
-| `agents/review-security.md` | 作成済み・レビュー反映済み |
-| `agents/review-performance.md` | 作成済み・レビュー反映済み |
-| `agents/review-correctness.md` | 作成済み・レビュー反映済み |
+| ファイル                         | 状態                       |
+| -------------------------------- | -------------------------- |
+| `skills/review/SKILL.md`         | 作成済み・レビュー反映済み |
+| `agents/review-security.md`      | 作成済み・レビュー反映済み |
+| `agents/review-performance.md`   | 作成済み・レビュー反映済み |
+| `agents/review-correctness.md`   | 作成済み・レビュー反映済み |
 | `agents/review-changeability.md` | 作成済み・レビュー反映済み |
