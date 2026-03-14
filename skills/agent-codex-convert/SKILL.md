@@ -67,15 +67,15 @@ skills/agent-codex-convert/scripts/convert_agent_to_codex.sh \
 
 ## Conversion Mapping
 
-| Source (frontmatter) | Target (TOML) | Notes |
-| --- | --- | --- |
-| model: sonnet/opus/haiku/inherit | `model = "gpt-5.3-codex"` | All map to same model |
-| (default) | `model_reasoning_effort = "medium"` | Overridable via CLI |
-| permissionMode: plan | `sandbox_mode = "read-only"` | Other modes omitted |
-| tools | Constraints section in body | Injected before first heading |
-| memory | Comment + WARNING | Codex unsupported; review body |
-| description | Header comment | Truncated to first sentence |
-| maxTurns, background | Comment only | Codex unsupported |
+| Source (frontmatter)             | Target (TOML)                       | Notes                          |
+| -------------------------------- | ----------------------------------- | ------------------------------ |
+| model: sonnet/opus/haiku/inherit | `model = "gpt-5.3-codex"`           | All map to same model          |
+| (default)                        | `model_reasoning_effort = "medium"` | Overridable via CLI            |
+| permissionMode: plan             | `sandbox_mode = "read-only"`        | Other modes omitted            |
+| tools                            | Constraints section in body         | Injected before first heading  |
+| memory                           | Comment + WARNING                   | Codex unsupported; review body |
+| description                      | Header comment                      | Truncated to first sentence    |
+| maxTurns, background             | Comment only                        | Codex unsupported              |
 
 ## Post-Conversion Checklist
 

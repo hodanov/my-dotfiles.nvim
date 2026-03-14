@@ -84,13 +84,17 @@ When updating memory, write to `MEMORY.md` using this structure:
 # Code Review Memory
 
 ## Project Conventions
+
 - (Coding style, naming patterns, architectural rules observed)
 
 ## Common Patterns
+
 - (Recurring code patterns and their rationale)
 
 ## Past Reviews
+
 ### YYYY-MM-DD: (review scope)
+
 - (Key findings)
 - (Decisions made and their reasoning)
 ```

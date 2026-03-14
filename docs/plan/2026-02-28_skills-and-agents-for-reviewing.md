@@ -39,13 +39,13 @@
 
 ## 作成ファイル一覧（5ファイル）
 
-| # | パス | 種別 | 概要 |
-| --- | --- | --- | --- |
-| 1 | `agents/review-security.md` | Agent | セキュリティ専門レビュアー |
-| 2 | `agents/review-performance.md` | Agent | パフォーマンス専門レビュアー |
-| 3 | `agents/review-correctness.md` | Agent | 正確性専門レビュアー |
-| 4 | `agents/review-changeability.md` | Agent | 変更容易性専門レビュアー |
-| 5 | `skills/review/SKILL.md` | Skill | オーケストレーター（/review） |
+| #   | パス                             | 種別  | 概要                          |
+| --- | -------------------------------- | ----- | ----------------------------- |
+| 1   | `agents/review-security.md`      | Agent | セキュリティ専門レビュアー    |
+| 2   | `agents/review-performance.md`   | Agent | パフォーマンス専門レビュアー  |
+| 3   | `agents/review-correctness.md`   | Agent | 正確性専門レビュアー          |
+| 4   | `agents/review-changeability.md` | Agent | 変更容易性専門レビュアー      |
+| 5   | `skills/review/SKILL.md`         | Skill | オーケストレーター（/review） |
 
 ## 各ファイルの設計
 
@@ -79,12 +79,12 @@ color: magenta
 
 ### 各エージェントの Review scope
 
-| エージェント | 主なチェック項目 |
-| --- | --- |
-| review-security | OWASP Top 10、認証/認可、シークレット、インジェクション、信頼境界、パストラバーサル、暗号誤用 |
-| review-performance | N+1クエリ、計算量、メモリリーク、キャッシュ、データ構造、バッチ処理、インデックス |
-| review-correctness | ロジックバグ、エッジケース、off-by-one、null安全性、型安全性、エラー処理、テストカバレッジ |
-| review-changeability | SOLID/DRY/KISS/YAGNI、可読性、凝集度/結合度、境界規律、運用性、不変条件保護 |
+| エージェント         | 主なチェック項目                                                                              |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| review-security      | OWASP Top 10、認証/認可、シークレット、インジェクション、信頼境界、パストラバーサル、暗号誤用 |
+| review-performance   | N+1クエリ、計算量、メモリリーク、キャッシュ、データ構造、バッチ処理、インデックス             |
+| review-correctness   | ロジックバグ、エッジケース、off-by-one、null安全性、型安全性、エラー処理、テストカバレッジ    |
+| review-changeability | SOLID/DRY/KISS/YAGNI、可読性、凝集度/結合度、境界規律、運用性、不変条件保護                   |
 
 ### Findings Report 出力フォーマット（全エージェント共通）
 
@@ -92,25 +92,30 @@ color: magenta
 ## Findings Report: <Category>
 
 ### サマリ
+
 (1-2文の所見サマリ)
 
 ### 指摘リスト
 
 #### [Critical] 概要
+
 - **場所**: `path/to/file:line`
 - **問題**: (内容)
 - **根拠**: (根拠)
 
 #### [Warning] 概要
+
 - **場所**: `path/to/file:line`
 - **問題**: (内容)
 - **根拠**: (根拠)
 
 #### [Info] 概要
+
 - **場所**: `path/to/file:line`
 - **問題**: (内容)
 
 ### 問題なし
+
 - (チェックして問題がなかった領域)
 ```
 
@@ -139,24 +144,31 @@ argument-hint: "[PR番号 | ブランチ名 | staged]"
 ## Review Report
 
 ### 総評
+
 (全体評価 2-4文)
 
 ### セキュリティ
+
 (review-security 結果サマリ + 指摘)
 
 ### パフォーマンス
+
 (review-performance 結果サマリ + 指摘)
 
 ### 正確性
+
 (review-correctness 結果サマリ + 指摘)
 
 ### 変更容易性
+
 (review-changeability 結果サマリ + 指摘)
 
 ### Phase.2 推奨
+
 (Critical/High があれば code-review-critic を推奨。なければ Phase.2 不要と記載)
 
 ### 判定
+
 - [ ] Approve
 - [ ] Approve with comments
 - [ ] Request changes

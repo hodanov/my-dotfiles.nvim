@@ -36,14 +36,14 @@ developer_instructions = "..."
 
 ### Claude/Cursor との対応表
 
-| 機能 | Claude/Cursor | Codex CLI |
-| --- | --- | --- |
-| ファイル形式 | Markdown + YAML frontmatter | TOML |
-| 配置先 | `~/.claude/agents/`, `~/.cursor/agents/` | `~/.codex/agents/` + `config.toml` 登録 |
-| model: sonnet | そのまま | `gpt-5.3-codex` |
-| permissionMode: plan | そのまま | `sandbox_mode = "read-only"` |
-| memory: project | そのまま | 非対応（プロンプトから削除） |
-| tools 制限 | frontmatter で指定 | 非対応（developer_instructions に記述） |
+| 機能                 | Claude/Cursor                            | Codex CLI                               |
+| -------------------- | ---------------------------------------- | --------------------------------------- |
+| ファイル形式         | Markdown + YAML frontmatter              | TOML                                    |
+| 配置先               | `~/.claude/agents/`, `~/.cursor/agents/` | `~/.codex/agents/` + `config.toml` 登録 |
+| model: sonnet        | そのまま                                 | `gpt-5.3-codex`                         |
+| permissionMode: plan | そのまま                                 | `sandbox_mode = "read-only"`            |
+| memory: project      | そのまま                                 | 非対応（プロンプトから削除）            |
+| tools 制限           | frontmatter で指定                       | 非対応（developer_instructions に記述） |
 
 ## Action items
 
@@ -58,12 +58,12 @@ developer_instructions = "..."
 
 ## 新規ターゲット一覧
 
-| ターゲット | 動作 |
-| --- | --- |
-| `agents-copy` | 全ツール向け一括コピー |
-| `claude-agents-copy` | `agents/*.md` → `~/.claude/agents/` |
-| `cursor-agents-copy` | `agents/*.md` → `~/.cursor/agents/` |
-| `codex-agents-copy` | `agents/codex/*.toml` → `~/.codex/agents/` + `config.toml` 登録 |
+| ターゲット           | 動作                                                            |
+| -------------------- | --------------------------------------------------------------- |
+| `agents-copy`        | 全ツール向け一括コピー                                          |
+| `claude-agents-copy` | `agents/*.md` → `~/.claude/agents/`                             |
+| `cursor-agents-copy` | `agents/*.md` → `~/.cursor/agents/`                             |
+| `codex-agents-copy`  | `agents/codex/*.toml` → `~/.codex/agents/` + `config.toml` 登録 |
 
 ## Open questions
 
