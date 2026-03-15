@@ -36,18 +36,18 @@
 
 ## File changes
 
-| File | Change |
-| --- | --- |
-| `internal/watcher/watcher.go` | `Watch` のシグネチャ変更、初期化を同期実行に移動、`slog.Error` 削除 |
-| `internal/daemon/daemon.go` | `Watch` 呼び出しにエラーチェック追加（2行） |
-| `internal/watcher/watcher_test.go` | 全テストで `ch, err` 対応、`InvalidDir` テストの検証方法変更 |
-| `internal/daemon/daemon_test.go` | 変更不要（`Run` 経由で間接的にカバー） |
+| File                               | Change                                                              |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| `internal/watcher/watcher.go`      | `Watch` のシグネチャ変更、初期化を同期実行に移動、`slog.Error` 削除 |
+| `internal/daemon/daemon.go`        | `Watch` 呼び出しにエラーチェック追加（2行）                         |
+| `internal/watcher/watcher_test.go` | 全テストで `ch, err` 対応、`InvalidDir` テストの検証方法変更        |
+| `internal/daemon/daemon_test.go`   | 変更不要（`Run` 経由で間接的にカバー）                              |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| シグネチャ変更で外部から `Watch` を呼ぶコードが壊れる | `Watch` の呼び出し元は `daemon.Run` のみ。同時に修正する |
+| Risk                                                                   | Mitigation                                                                 |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| シグネチャ変更で外部から `Watch` を呼ぶコードが壊れる                  | `Watch` の呼び出し元は `daemon.Run` のみ。同時に修正する                   |
 | 初期化成功後のイベントループ内エラー（`fsw.Errors`）は従来通りログのみ | イベントループ中のエラーは一時的なものが多く、ログで十分。今回のスコープ外 |
 
 ## Validation
