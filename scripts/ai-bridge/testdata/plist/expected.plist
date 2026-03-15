@@ -14,6 +14,8 @@
 
     <key>EnvironmentVariables</key>
     <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin</string>
         <key>AI_BRIDGE_CLI</key>
         <string>claude</string>
         <key>AI_BRIDGE_LAUNCHER</key>
