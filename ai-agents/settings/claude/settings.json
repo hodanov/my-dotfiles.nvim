@@ -9,11 +9,13 @@
       "Bash(golangci-lint run:*)",
       "Bash(go mod:*)",
       "Bash(ls:*)",
-      "Bash(markdownlint-cli2 *)",
+      "Bash(markdownlint-cli2:*)",
       "Bash(npm run lint)",
       "Bash(npm run test *)",
+      "Bash(npx markdownlint-cli2:*)",
       "Bash(prettier:*)",
       "Bash(python3:*)",
+      "Bash(rg:*)",
       "Bash(shellcheck:*)",
       "Bash(shfmt:*)",
       "Bash(which go:*)",
@@ -27,10 +29,16 @@
       "WebSearch"
     ],
     "deny": [
+      "Bash(chmod 777 *)",
       "Bash(curl:*)",
+      "Bash(grep:*)",
+      "Bash(rm -rf *)",
+      "Bash(wget:*)",
       "Read(./.env)",
       "Read(./.env.*)",
-      "Read(./secrets/**)"
+      "Read(./secrets/**)",
+      "Read(**/*.key)",
+      "Read(**/*.pem)"
     ]
   },
   "model": "opus",
