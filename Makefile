@@ -1,4 +1,13 @@
 AI_AGENTS_DIR := ai-agents
+AI_BRIDGE_DIR := scripts/ai-bridge
+
+# --- AI Bridge (delegate to scripts/ai-bridge/Makefile) ---
+
+AI_BRIDGE_TARGETS := ai-bridge-build ai-bridge-sign ai-bridge-install ai-bridge-test ai-bridge-clean
+
+.PHONY: $(AI_BRIDGE_TARGETS)
+$(AI_BRIDGE_TARGETS):
+	@$(MAKE) -C $(AI_BRIDGE_DIR) $(patsubst ai-bridge-%,%,$@)
 
 # --- AI Agents (delegate to ai-agents/Makefile) ---
 
