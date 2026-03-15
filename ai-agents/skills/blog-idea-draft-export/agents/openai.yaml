@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blog Idea Draft Export"
+  short_description: "Draft blog ideas and export Markdown files to hodalog docs/idea"
+  default_prompt: "Summarize recent work into a blog draft, then export it via skills/blog-idea-draft-export/scripts/export_blog_idea_draft.sh using --output-dir or BLOG_IDEA_DRAFT_EXPORT_DIR. If neither is set, ask the user which directory to use."
