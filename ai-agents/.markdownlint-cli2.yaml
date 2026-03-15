@@ -1,0 +1,14 @@
+config:
+  MD013: false
+  MD033: false
+  MD041: false
+
+ignores:
+  - ".github"
+  - "**.json"
+  - "**.lua"
+  - "**.yml"
+  - "**.sh"
+  - "**.toml"
+  - "**.txt"
+  - "**/node_modules/**"

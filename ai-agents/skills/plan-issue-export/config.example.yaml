@@ -1,0 +1,19 @@
+# plan-issue-export config
+# Copy this file to config.yaml and fill in your values.
+#   cp config.example.yaml config.yaml
+# config.yaml is git-ignored.
+
+# Required: target repository (owner/repo)
+repository: owner/repo
+
+# Optional: GitHub Projects project number (needed for sprint/status/estimate)
+# project: 1
+
+# Optional: Sprint value. Use "current" to auto-detect the active iteration.
+# sprint: current
+
+# Optional: Status field value (e.g. "Todo", "In Progress")
+# status: Todo
+
+# Optional: Estimate field value (e.g. 3)
+# estimate:

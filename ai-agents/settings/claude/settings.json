@@ -1,0 +1,59 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(go test:*)",
+      "Bash(go tool:*)",
+      "Bash(go build:*)",
+      "Bash(golangci-lint run:*)",
+      "Bash(go mod:*)",
+      "Bash(ls:*)",
+      "Bash(markdownlint-cli2 *)",
+      "Bash(npm run lint)",
+      "Bash(npm run test *)",
+      "Bash(prettier:*)",
+      "Bash(python3:*)",
+      "Bash(shellcheck:*)",
+      "Bash(shfmt:*)",
+      "Bash(which go:*)",
+      "Read(~/.zshrc)",
+      "Read(~/.codex/**)",
+      "Read(~/.cursor/**)",
+      "Read(~/.claude/**)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:hub.docker.com)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ]
+  },
+  "model": "opus",
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "autoUpdatesChannel": "latest",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/goimports.sh" },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/markdown-format.sh"
+          },
+          { "type": "command", "command": "~/.claude/hooks/shfmt.sh" },
+          { "type": "command", "command": "~/.claude/hooks/prettier.sh" }
+        ]
+      }
+    ]
+  }
+}

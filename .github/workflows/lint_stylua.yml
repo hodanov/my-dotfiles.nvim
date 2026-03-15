@@ -4,6 +4,9 @@ permissions:
 
 on:
   pull_request:
+    paths:
+      - "**/*.lua"
+      - .github/workflows/lint_stylua.yml
 
 jobs:
   lint:
