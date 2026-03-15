@@ -1,21 +1,21 @@
-AGENTS_SRC := $(PWD)/agents.xml
+AGENTS_SRC := $(CURDIR)/agents.xml
 AGENTS_DEST := $(HOME)/.codex/AGENTS.md
 AGENTS_DEST_FOR_CLAUDE := $(HOME)/.claude/CLAUDE.md
 
-SKILLS_SRC := $(PWD)/skills
+SKILLS_SRC := $(CURDIR)/skills
 CODEX_SKILLS_DEST := $(HOME)/.codex/skills
 CLAUDE_SKILLS_DEST := $(HOME)/.claude/skills
 CURSOR_SKILLS_DEST := $(HOME)/.cursor/skills
 
-AGENTS_MD_SRC := $(PWD)/agents
+AGENTS_MD_SRC := $(CURDIR)/agents
 CLAUDE_AGENTS_DEST := $(HOME)/.claude/agents
 CURSOR_AGENTS_DEST := $(HOME)/.cursor/agents
 
-SETTINGS_SRC := $(PWD)/settings
+SETTINGS_SRC := $(CURDIR)/settings
 CLAUDE_SETTINGS_DEST := $(HOME)/.claude
 CURSOR_SETTINGS_DEST := $(HOME)/.cursor
 
-COPY_ENTRIES := $(PWD)/scripts/copy-entries.sh
+COPY_ENTRIES := $(CURDIR)/scripts/copy-entries.sh
 
 .PHONY: codex-link
 codex-link:

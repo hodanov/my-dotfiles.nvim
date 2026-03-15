@@ -1,0 +1,28 @@
+name: Lint Shell
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - "**/*.sh"
+      - .github/workflows/lint_shell.yml
+
+jobs:
+  shell-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install shfmt
+        run: |
+          go install mvdan.cc/sh/v3/cmd/shfmt@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Run shfmt
+        run: shfmt -d .
+
+      - name: Run shellcheck
+        run: |
+          shopt -s globstar
+          shellcheck ./**/*.sh
