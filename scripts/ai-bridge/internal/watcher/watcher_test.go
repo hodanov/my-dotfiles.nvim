@@ -16,7 +16,10 @@ func TestWatch_ConsumesRequest(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		t.Fatal(watchErr)
+	}
 
 	// Wait for the goroutine to complete its startup check and enter the event loop.
 	time.Sleep(100 * time.Millisecond)
@@ -55,7 +58,10 @@ func TestWatch_NoDuplicateConsume(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		t.Fatal(watchErr)
+	}
 
 	// Write one request file.
 	reqPath := filepath.Join(dir, "request.json")
@@ -87,7 +93,10 @@ func TestWatch_StopsOnCancel(t *testing.T) {
 	w := New(dir)
 
 	ctx, cancel := context.WithCancel(context.Background())
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		t.Fatal(watchErr)
+	}
 
 	cancel()
 
@@ -103,7 +112,10 @@ func TestWatch_CancelDuringBlockedSend(t *testing.T) {
 	w := New(dir)
 
 	ctx, cancel := context.WithCancel(context.Background())
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		t.Fatal(watchErr)
+	}
 
 	// Wait for the goroutine to complete its startup check and enter the event loop.
 	time.Sleep(100 * time.Millisecond)
@@ -132,7 +144,10 @@ func TestWatch_NoFileNoPanic(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 300*time.Millisecond)
 	defer cancel()
 
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		t.Fatal(watchErr)
+	}
 
 	// No file written — should just close without events.
 	for range ch {
@@ -140,18 +155,16 @@ func TestWatch_NoFileNoPanic(t *testing.T) {
 	}
 }
 
-func TestWatch_InvalidDirClosesChannel(t *testing.T) {
+func TestWatch_InvalidDirReturnsError(t *testing.T) {
 	t.Parallel()
 	w := New("/nonexistent/dir/that/does/not/exist")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	ch := w.Watch(ctx)
-
-	// Channel should be closed without any events.
-	for range ch {
-		t.Error("unexpected event for invalid directory")
+	_, err := w.Watch(ctx)
+	if err == nil {
+		t.Fatal("expected error for invalid directory, got nil")
 	}
 }
 
@@ -186,7 +199,10 @@ func TestWatch_IgnoresNonRequestFile(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		t.Fatal(watchErr)
+	}
 
 	// Wait for the goroutine to enter the event loop.
 	time.Sleep(100 * time.Millisecond)
@@ -217,7 +233,10 @@ func TestWatch_ExistingFileConsumedOnStart(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		t.Fatal(watchErr)
+	}
 
 	select {
 	case consumed := <-ch:

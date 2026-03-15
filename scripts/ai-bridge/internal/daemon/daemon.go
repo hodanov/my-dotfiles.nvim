@@ -134,7 +134,10 @@ func Run(ctx context.Context, cfg *Config, l launcher.Launcher) error {
 	)
 
 	w := watcher.New(cfg.BridgeDir)
-	ch := w.Watch(ctx)
+	ch, watchErr := w.Watch(ctx)
+	if watchErr != nil {
+		return fmt.Errorf("start watcher: %w", watchErr)
+	}
 
 	for consumedPath := range ch {
 		if processErr := processRequest(consumedPath, cfg.CLI, l); processErr != nil {
