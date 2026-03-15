@@ -25,6 +25,8 @@ const plistTemplate = `<?xml version="1.0" encoding="UTF-8"?>
 
     <key>EnvironmentVariables</key>
     <dict>
+        <key>PATH</key>
+        <string>{{.Path}}</string>
         <key>AI_BRIDGE_CLI</key>
         <string>{{.CLI}}</string>
         <key>AI_BRIDGE_LAUNCHER</key>
@@ -49,12 +51,13 @@ const plistTemplate = `<?xml version="1.0" encoding="UTF-8"?>
 // PlistData holds the values used to generate a launchd plist.
 type PlistData struct {
 	BinaryPath string
+	Path       string
 	CLI        string
 	Launcher   string
 }
 
 // generatePlist creates a launchd plist XML string.
-func generatePlist(binaryPath, cli, launcherName string) (string, error) {
+func generatePlist(binaryPath, path, cli, launcherName string) (string, error) {
 	tmpl, parseErr := template.New("plist").Parse(plistTemplate)
 	if parseErr != nil {
 		return "", fmt.Errorf("parse plist template: %w", parseErr)
@@ -63,6 +66,7 @@ func generatePlist(binaryPath, cli, launcherName string) (string, error) {
 	var buf bytes.Buffer
 	data := PlistData{
 		BinaryPath: binaryPath,
+		Path:       path,
 		CLI:        cli,
 		Launcher:   launcherName,
 	}
@@ -89,12 +93,12 @@ func Install(binaryPath, cli, launcherName string) error {
 		return fmt.Errorf("cannot determine home directory: %w", homeDirErr)
 	}
 	dstDir := filepath.Join(home, "Library", "LaunchAgents")
-	return installTo(binaryPath, cli, launcherName, dstDir, defaultLaunchctl)
+	return installTo(binaryPath, os.Getenv("PATH"), cli, launcherName, dstDir, defaultLaunchctl)
 }
 
 // installTo writes the plist to dstDir and loads it via the provided runner.
-func installTo(binaryPath, cli, launcherName, dstDir string, launchctl LaunchctlRunner) error {
-	content, genPlistErr := generatePlist(binaryPath, cli, launcherName)
+func installTo(binaryPath, path, cli, launcherName, dstDir string, launchctl LaunchctlRunner) error {
+	content, genPlistErr := generatePlist(binaryPath, path, cli, launcherName)
 	if genPlistErr != nil {
 		return genPlistErr
 	}

@@ -14,7 +14,7 @@ func TestGeneratePlist(t *testing.T) {
 	t.Parallel()
 	t.Run("matches expected snapshot", func(t *testing.T) {
 		t.Parallel()
-		got, genPlistErr := generatePlist("/path/to/ai-bridge", "claude", "wezterm")
+		got, genPlistErr := generatePlist("/path/to/ai-bridge", "/usr/local/bin:/usr/bin:/bin", "claude", "wezterm")
 		if genPlistErr != nil {
 			t.Fatal(genPlistErr)
 		}
@@ -68,7 +68,7 @@ func TestGeneratePlist(t *testing.T) {
 	for _, tt := range contentTests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got, genPlistErr := generatePlist(tt.binaryPath, tt.cli, tt.launcherName)
+			got, genPlistErr := generatePlist(tt.binaryPath, "/usr/local/bin:/usr/bin:/bin", tt.cli, tt.launcherName)
 			if genPlistErr != nil {
 				t.Fatal(genPlistErr)
 			}
@@ -160,7 +160,7 @@ func TestInstallTo(t *testing.T) {
 			}
 			dstDir := tt.setupDstDir(t)
 
-			err := installTo(binaryPath, "claude", "wezterm", dstDir, fakeCtl)
+			err := installTo(binaryPath, "/usr/local/bin:/usr/bin:/bin", "claude", "wezterm", dstDir, fakeCtl)
 
 			if tt.wantErr {
 				if err == nil {
