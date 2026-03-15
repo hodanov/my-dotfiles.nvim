@@ -1,6 +1,7 @@
 AGENTS_SRC := $(CURDIR)/agents.xml
 AGENTS_DEST := $(HOME)/.codex/AGENTS.md
 AGENTS_DEST_FOR_CLAUDE := $(HOME)/.claude/CLAUDE.md
+AGENTS_DEST_FOR_CURSOR := $(HOME)/.cursor/AGENTS.md
 
 SKILLS_SRC := $(CURDIR)/skills
 CODEX_SKILLS_DEST := $(HOME)/.codex/skills
@@ -43,6 +44,20 @@ claude-unlink:
 		echo "Removed symlink $(AGENTS_DEST_FOR_CLAUDE)"; \
 	else \
 		echo "$(AGENTS_DEST_FOR_CLAUDE) is not a symlink or does not exist."; \
+	fi
+
+.PHONY: cursor-link
+cursor-link:
+	@ln -sf "$(AGENTS_SRC)" "$(AGENTS_DEST_FOR_CURSOR)"
+	@echo "Linked $(AGENTS_DEST_FOR_CURSOR) -> $(AGENTS_SRC)"
+
+.PHONY: cursor-unlink
+cursor-unlink:
+	@if [ -L "$(AGENTS_DEST_FOR_CURSOR)" ]; then \
+		rm -f "$(AGENTS_DEST_FOR_CURSOR)"; \
+		echo "Removed symlink $(AGENTS_DEST_FOR_CURSOR)"; \
+	else \
+		echo "$(AGENTS_DEST_FOR_CURSOR) is not a symlink or does not exist."; \
 	fi
 
 .PHONY: skills-copy

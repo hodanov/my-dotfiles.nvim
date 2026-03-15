@@ -11,8 +11,8 @@ $(AI_BRIDGE_TARGETS):
 
 # --- AI Agents (delegate to ai-agents/Makefile) ---
 
-.PHONY: codex-link codex-unlink claude-link claude-unlink
-codex-link codex-unlink claude-link claude-unlink:
+.PHONY: codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink
+codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
 .PHONY: skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy
