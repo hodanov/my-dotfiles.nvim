@@ -74,26 +74,26 @@ ai-agent-config/
 
 ## File changes
 
-| File | Change |
-| --- | --- |
-| `ai-agents/` | 新規ディレクトリ。ai-agent-config から agents/, agents.xml, skills/, settings/, scripts/ を移動 |
-| `docs/plan/` | ai-agent-config の docs/plan/ 内ファイルをマージ |
-| `docs/log/` | ai-agent-config の docs/log/ 内ファイルをマージ |
-| `.github/workflows/` | lint ワークフローを統合。パスフィルタ追加 |
-| `Makefile`（ルート or `ai-agents/Makefile`） | ai-agent-config の Makefile ターゲットを統合 |
-| `.claude/settings.local.json` | 権限設定をマージ |
-| `AGENTS.md` | ai-agents/ ディレクトリに関するガイドラインを追加 |
-| `README.md` | PDE全体の構成説明を更新 |
+| File                                         | Change                                                                                          |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `ai-agents/`                                 | 新規ディレクトリ。ai-agent-config から agents/, agents.xml, skills/, settings/, scripts/ を移動 |
+| `docs/plan/`                                 | ai-agent-config の docs/plan/ 内ファイルをマージ                                                |
+| `docs/log/`                                  | ai-agent-config の docs/log/ 内ファイルをマージ                                                 |
+| `.github/workflows/`                         | lint ワークフローを統合。パスフィルタ追加                                                       |
+| `Makefile`（ルート or `ai-agents/Makefile`） | ai-agent-config の Makefile ターゲットを統合                                                    |
+| `.claude/settings.local.json`                | 権限設定をマージ                                                                                |
+| `AGENTS.md`                                  | ai-agents/ ディレクトリに関するガイドラインを追加                                               |
+| `README.md`                                  | PDE全体の構成説明を更新                                                                         |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| リポジトリ肥大化により見通しが悪くなる | ディレクトリ境界を明確にし、各サブディレクトリに AGENTS.md を配置して責務を明示する |
-| ai-agent-config のグローバル設定変更が Neovim 側 CI を不要に発火させる | GitHub Actions のパスフィルタ（`paths:` / `paths-ignore:`）で対象を限定する |
-| git subtree add の履歴がコミットログを汚す | `--squash` オプションで取り込み時のコミットを圧縮し、subtree 内の個別履歴は `git log --follow` で確認可能にする |
-| Makefile ターゲットの名前衝突 | ai-agents/ 配下に専用 Makefile を残し、ルート Makefile から委譲する（`make -C ai-agents/ ...`） |
-| 他プロジェクトから ai-agent-config を参照している場合の影響 | 統合前に依存関係を確認。Makefile の配置先パスが変わるため、symlink/copy のソースパスを更新する |
+| Risk                                                                   | Mitigation                                                                                                      |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| リポジトリ肥大化により見通しが悪くなる                                 | ディレクトリ境界を明確にし、各サブディレクトリに AGENTS.md を配置して責務を明示する                             |
+| ai-agent-config のグローバル設定変更が Neovim 側 CI を不要に発火させる | GitHub Actions のパスフィルタ（`paths:` / `paths-ignore:`）で対象を限定する                                     |
+| git subtree add の履歴がコミットログを汚す                             | `--squash` オプションで取り込み時のコミットを圧縮し、subtree 内の個別履歴は `git log --follow` で確認可能にする |
+| Makefile ターゲットの名前衝突                                          | ai-agents/ 配下に専用 Makefile を残し、ルート Makefile から委譲する（`make -C ai-agents/ ...`）                 |
+| 他プロジェクトから ai-agent-config を参照している場合の影響            | 統合前に依存関係を確認。Makefile の配置先パスが変わるため、symlink/copy のソースパスを更新する                  |
 
 ## Validation
 
