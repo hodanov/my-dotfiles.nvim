@@ -32,23 +32,22 @@ func isRequestEvent(event fsnotify.Event) bool {
 
 // Watch monitors for request.json using fsnotify. When found, it atomically renames
 // the file and sends the consumed path on the returned channel. The channel is closed
-// when ctx is cancelled.
-func (w *Watcher) Watch(ctx context.Context) <-chan string {
+// when ctx is cancelled. Returns an error if the watcher cannot be initialized.
+func (w *Watcher) Watch(ctx context.Context) (<-chan string, error) {
+	fsw, err := fsnotify.NewWatcher()
+	if err != nil {
+		return nil, fmt.Errorf("fsnotify: create watcher: %w", err)
+	}
+
+	if addErr := fsw.Add(w.dir); addErr != nil {
+		_ = fsw.Close()
+		return nil, fmt.Errorf("fsnotify: watch dir %s: %w", w.dir, addErr)
+	}
+
 	ch := make(chan string)
 	go func() {
 		defer close(ch)
-
-		fsw, err := fsnotify.NewWatcher()
-		if err != nil {
-			slog.Error("fsnotify: create watcher failed", "error", err)
-			return
-		}
 		defer func() { _ = fsw.Close() }()
-
-		if addErr := fsw.Add(w.dir); addErr != nil {
-			slog.Error("fsnotify: watch dir failed", "error", addErr, "dir", w.dir)
-			return
-		}
 
 		// Check for existing request.json before entering event loop.
 		if consumed, ok := w.tryConsume(); ok {
@@ -87,7 +86,7 @@ func (w *Watcher) Watch(ctx context.Context) <-chan string {
 			}
 		}
 	}()
-	return ch
+	return ch, nil
 }
 
 // tryConsume checks for request.json and atomically renames it.
