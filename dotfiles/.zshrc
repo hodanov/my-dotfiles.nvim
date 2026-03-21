@@ -8,15 +8,39 @@ USER_NAME=`whoami`
 # PS1="%K{cyan}%F{black} $USER_NAME@$HOST_NAME %f%k%F{cyan}%K{white}%k%f%F{black}%K{white} %d %k%f "
 
 # Rich
+# autoload -Uz vcs_info
+# zstyle ':vcs_info:git:*' formats ' %b'
+# precmd() {
+#   vcs_info
+#   PS1="%K{cyan}%F{black} %n@%m %f%k\
+# %F{cyan}%K{white}%F{black} %~ %f%k\
+# %F{white} %F{46}${vcs_info_msg_0_}%f
+# %(?.%F{cyan}.%F{yellow})λ%f "
+# }
+
+# Cyberpunk
+# autoload -Uz vcs_info
+# zstyle ':vcs_info:git:*' formats ' %b'
+# precmd() {
+#   vcs_info
+#   PS1="%K{#0f0f1a}%F{#00eaff} %n@%m %f%k\
+# %F{#0f0f1a}%K{#1a1a2e}%F{#ff2bd6} %~ %f%k\
+# %F{#1a1a2e} %F{#00eaff}${vcs_info_msg_0_}%f
+# %(?.%F{#00ff9c}.%F{#ff9f1c})λ%f "
+# }
+
+# Cyberpunk pastel
 autoload -Uz vcs_info
-zstyle ':vcs_info:git:*' formats ' %b'
+zstyle ':vcs_info:git:*' formats '%F{#89dceb} %b%f'
 precmd() {
   vcs_info
-  PS1="%K{cyan}%F{black} %n@%m %f%k\
-%F{cyan}%K{white}%F{black} %~ %f%k\
-%F{white} %F{cyan}${vcs_info_msg_0_}%f
-%(?.%F{cyan}.%F{yellow})❯%f "
+  PS1="%K{#1e1e2e}%F{#9399b2} %n@%m %f%k\
+%F{#1e1e2e}%K{#2a2a3c}%F{#cba6f7} %~ %f%k\
+%F{#2a2a3c} %F{#94e2d5}${vcs_info_msg_0_}%f
+%(?.%F{#a6e3a1}.%F{#f9e2af})λ%f "
 }
+
+RPROMPT="%F{#6c7086}%D{%m/%d %H:%M}%f"
 
 export LC_ALL=en_US.UTF-8
 
@@ -87,3 +111,4 @@ export EDITOR=nvim
 export BLOG_IDEA_DRAFT_EXPORT_DIR="$HOME/workspace/hodalog-hugo/docs/idea"
 # codex
 eval "$(codex completion zsh)"
+

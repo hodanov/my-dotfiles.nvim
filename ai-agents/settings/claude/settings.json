@@ -31,7 +31,6 @@
     "deny": [
       "Bash(chmod 777 *)",
       "Bash(curl:*)",
-      "Bash(grep:*)",
       "Bash(rm -rf *)",
       "Bash(wget:*)",
       "Read(./.env)",
