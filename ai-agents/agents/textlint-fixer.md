@@ -1,6 +1,6 @@
 ---
 name: textlint-fixer
-description: "textlint の校正エラーを検出・修正する。記事ファイルパスを受け取り、エラーゼロになるまで lint→修正を繰り返す。write-blog-entry スキルの Phase 5 で自動的に使われる。"
+description: "textlint の校正エラーを検出・修正する。記事ファイルパスを受け取り、エラーゼロになるまで lint→修正を繰り返す。
 tools: Read, Edit, Bash, Grep
 model: sonnet
 permissionMode: acceptEdits
@@ -43,7 +43,6 @@ color: cyan
 | ja-hiragana-hojodoushi | 補助動詞はひらがなにする |
 | ja-hiragana-keishikimeishi | 形式名詞はひらがなにする |
 | no-mixed-zenkaku-and-hankaku-alphabet | 全角・半角アルファベットの混在禁止 |
-| prh | `FANZA` / `fanza` / `ライブチャット` → 使用禁止、`GCP` → `Google Cloud` |
 
 ## maxTurns に近づいた場合
 
