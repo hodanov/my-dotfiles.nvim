@@ -6,6 +6,8 @@ description: >-
   大きなPRや複雑な変更を丁寧にレビューしたい場合は /review-scan を使う。
 disable-model-invocation: true
 argument-hint: "[PR番号 | ブランチ名 | staged]"
+metadata:
+  version: 1
 ---
 
 # /review スキル
