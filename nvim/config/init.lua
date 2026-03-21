@@ -22,16 +22,6 @@ vim.opt.mouse = "" -- Don't use a mouse.
 vim.opt.signcolumn = "yes" -- Always show signcolumn to prevent rattling.
 
 -- ----------------------------------------
--- Remove unnecessary spaces at the end of line.
--- ----------------------------------------
-vim.api.nvim_create_augroup("auto_remove_unnecessary_spaces_at_the_end_of_line", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePre", {
-	group = "auto_remove_unnecessary_spaces_at_the_end_of_line",
-	pattern = "*",
-	command = [[%s/\s\+$//e]],
-})
-
--- ----------------------------------------
 -- Copy to the system clipboard.
 -- ----------------------------------------
 local has_osc52, osc52 = pcall(require, "vim.ui.clipboard.osc52")
