@@ -26,7 +26,7 @@ argument-hint: "<スキル名|all> [--apply]"
 
 ### Step 2: observations 読み込み
 
-対象スキルの `ai-agents/skills/<スキル名>/observations/*_obs.md` を全て読み込む。
+対象スキルの `ai-agents/skills/<スキル名>/observations/YYYY-MM-DD_NNN_obs.md` を全て読み込む。
 
 - observations がない場合、その旨を通知して終了
 - `all` の場合、全スキルの `observations/*_obs.md` を走査（`amendments/` は除外）
@@ -72,7 +72,7 @@ argument-hint: "<スキル名|all> [--apply]"
 
 1. ユーザーに提案内容を表示し、**明示的な承認** を求める
 2. 承認されたら SKILL.md を編集
-3. SKILL.md の `version:` フィールドをインクリメント（なければ `version: 1` を追加）
+3. SKILL.md の `version:` フィールドをインクリメント（なければ `metadata` 配下に `version: 1` を追加。 `metadata`もない場合は追加する）
 4. amendment 記録を `ai-agents/skills/<スキル名>/observations/amendments/YYYY-MM-DD_NNN_amendment.md` に保存（NNN は同日の連番、001 から開始。既存ファイルと重複しないようインクリメントする）
 5. 変更内容をユーザーに表示
 
