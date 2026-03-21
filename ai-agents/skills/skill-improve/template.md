@@ -4,7 +4,7 @@ amendment 記録ファイル（`observations/amendments/YYYY-MM-DD_NNN_amendment
 
 ---
 
-````markdown
+```markdown
 ---
 skill: <スキル名>
 date: YYYY-MM-DD
@@ -42,11 +42,8 @@ version_after: <変更後バージョン>
 
 （SKILL.md の変更を diff 形式で記載）
 
-```diff
 - 変更前の行
 + 変更後の行
-```
-````
 
 ### 変更理由
 
@@ -70,7 +67,4 @@ version_after: <変更後バージョン>
 - **適用後 failure 率**: X%
 - **評価**: 改善 / 変化なし / 悪化
 - **備考**: ...
-
-```
-
 ```
