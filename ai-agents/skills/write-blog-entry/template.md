@@ -10,7 +10,7 @@ Front Matter は既存ファイルがある場合はそのまま保持し、`Tit
 ---
 Title: <記事タイトル>
 Category:
-- <カテゴリ名>
+  - <カテゴリ名>
 Draft: true
 ---
 ```

@@ -33,15 +33,15 @@ color: cyan
 
 ## 主な textlint ルール
 
-| ルール | 制約 |
-| --- | --- |
-| sentence-length | 1文あたり最大130文字 |
-| max-ten | 1文あたり読点は最大4つ |
-| max-kanji-continuous-len | 漢字の連続は最大8文字 |
-| ja-hiragana-daimeishi | 代名詞はひらがなにする |
-| ja-hiragana-fukushi | 副詞はひらがなにする |
-| ja-hiragana-hojodoushi | 補助動詞はひらがなにする |
-| ja-hiragana-keishikimeishi | 形式名詞はひらがなにする |
+| ルール                                | 制約                               |
+| ------------------------------------- | ---------------------------------- |
+| sentence-length                       | 1文あたり最大130文字               |
+| max-ten                               | 1文あたり読点は最大4つ             |
+| max-kanji-continuous-len              | 漢字の連続は最大8文字              |
+| ja-hiragana-daimeishi                 | 代名詞はひらがなにする             |
+| ja-hiragana-fukushi                   | 副詞はひらがなにする               |
+| ja-hiragana-hojodoushi                | 補助動詞はひらがなにする           |
+| ja-hiragana-keishikimeishi            | 形式名詞はひらがなにする           |
 | no-mixed-zenkaku-and-hankaku-alphabet | 全角・半角アルファベットの混在禁止 |
 
 ## maxTurns に近づいた場合
@@ -64,9 +64,9 @@ color: cyan
 
 ### 修正内容
 
-| # | ルール | 行 | 修正前 | 修正後 |
-| --- | --- | --- | --- | --- |
-| 1 | rule-name | 42 | 修正前の文 | 修正後の文 |
+| #   | ルール    | 行  | 修正前     | 修正後     |
+| --- | --------- | --- | ---------- | ---------- |
+| 1   | rule-name | 42  | 修正前の文 | 修正後の文 |
 
 ### 未解決エラー
 
