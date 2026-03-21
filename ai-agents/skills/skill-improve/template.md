@@ -1,10 +1,10 @@
 # Amendment Proposal Template
 
-amendment 記録ファイル（`observations/amendments/YYYY-MM-DD_amendment.md`）のテンプレート。
+amendment 記録ファイル（`observations/amendments/YYYY-MM-DD_NNN_amendment.md`）のテンプレート。
 
 ---
 
-```markdown
+````markdown
 ---
 skill: <スキル名>
 date: YYYY-MM-DD
@@ -12,7 +12,7 @@ version_before: <変更前バージョン>
 version_after: <変更後バージョン>
 ---
 
-# Amendment: <スキル名> — YYYY-MM-DD
+# Amendment: <スキル名> — YYYY-MM-DD_NNN
 
 ## 分析サマリ
 
@@ -46,6 +46,7 @@ version_after: <変更後バージョン>
 - 変更前の行
 + 変更後の行
 ```
+````
 
 ### 変更理由
 
@@ -69,4 +70,7 @@ version_after: <変更後バージョン>
 - **適用後 failure 率**: X%
 - **評価**: 改善 / 変化なし / 悪化
 - **備考**: ...
+
+```
+
 ```

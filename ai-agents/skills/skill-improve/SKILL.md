@@ -26,30 +26,32 @@ argument-hint: "<スキル名|all> [--apply]"
 
 ### Step 2: observations 読み込み
 
-対象スキルの `ai-agents/skills/<スキル名>/observations/*.md` を全て読み込む。
+対象スキルの `ai-agents/skills/<スキル名>/observations/*_obs.md` を全て読み込む。
 
 - observations がない場合、その旨を通知して終了
-- `all` の場合、全スキルの observations ディレクトリを走査
+- `all` の場合、全スキルの `observations/*_obs.md` を走査（`amendments/` は除外）
 
 ### Step 3: パターン分析
 
 以下の 4 観点で observations を分析する:
 
-| 観点               | 分析内容                                                     |
-| ------------------ | ------------------------------------------------------------ |
-| 失敗頻度           | 直近 10 回中の failure / partial の割合                      |
-| 再発パターン       | 同じ「問題」の繰り返し（類似キーワードの出現頻度）           |
-| コンテキスト依存   | 特定条件（言語、規模、リポ種別）での失敗集中                 |
-| フィードバック傾向 | 共通する不満や要望のキーワード                               |
+| 観点               | 分析内容                                           |
+| ------------------ | -------------------------------------------------- |
+| 失敗頻度           | 直近 10 回中の failure / partial の割合            |
+| 再発パターン       | 同じ「問題」の繰り返し（類似キーワードの出現頻度） |
+| コンテキスト依存   | 特定条件（言語、規模、リポ種別）での失敗集中       |
+| フィードバック傾向 | 共通する不満や要望のキーワード                     |
 
 ### Step 4: 前回 amendment の効果評価（Evaluate フェーズ）
 
 `ai-agents/skills/<スキル名>/observations/amendments/` に過去の amendment がある場合:
 
-1. amendment 適用日を特定
+1. amendment 適用日をファイル名の `YYYY-MM-DD` 部分から特定（複数ある場合はファイル名の辞書順で最新を選択）
 2. 適用前後の failure/partial 率を比較
 3. amendment 後に新たな失敗パターンが出現していないか確認
 4. 効果が見られない or 悪化している場合、ロールバックを提案
+
+`all` モードでは各スキルの直近 amendment の効果のみをサマリ一覧表示する。個別スキルモードの場合のみ詳細評価を行う。
 
 この評価結果を分析レポートの冒頭に記載する。
 
@@ -71,7 +73,7 @@ argument-hint: "<スキル名|all> [--apply]"
 1. ユーザーに提案内容を表示し、**明示的な承認** を求める
 2. 承認されたら SKILL.md を編集
 3. SKILL.md の `version:` フィールドをインクリメント（なければ `version: 1` を追加）
-4. amendment 記録を `ai-agents/skills/<スキル名>/observations/amendments/YYYY-MM-DD_amendment.md` に保存
+4. amendment 記録を `ai-agents/skills/<スキル名>/observations/amendments/YYYY-MM-DD_NNN_amendment.md` に保存（NNN は同日の連番、001 から開始。既存ファイルと重複しないようインクリメントする）
 5. 変更内容をユーザーに表示
 
 承認されなかった場合は適用せず終了。

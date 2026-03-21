@@ -70,14 +70,14 @@ ai-agents/skills/
 
 記録する 6 フィールド:
 
-| フィールド | 内容 |
-| --- | --- |
-| タスク | 何を試みたか |
-| スキル | 使用したスキル名 |
-| 結果 | success / partial / failure |
-| 問題 | 何が起きたか（なければ「なし」） |
-| フィードバック | ユーザーの所感（なければ「なし」） |
-| コンテキスト | 関連する詳細（リポジトリ種別、規模、言語など） |
+| フィールド     | 内容                                           |
+| -------------- | ---------------------------------------------- |
+| タスク         | 何を試みたか                                   |
+| スキル         | 使用したスキル名                               |
+| 結果           | success / partial / failure                    |
+| 問題           | 何が起きたか（なければ「なし」）               |
+| フィードバック | ユーザーの所感（なければ「なし」）             |
+| コンテキスト   | 関連する詳細（リポジトリ種別、規模、言語など） |
 
 使用例:
 
@@ -118,34 +118,34 @@ ai-agents/skills/
 
 ## File changes
 
-| File | Change |
-| --- | --- |
-| `ai-agents/skills/skill-observe/SKILL.md` | 新規作成。observation 記録スキル |
-| `ai-agents/skills/skill-improve/SKILL.md` | 新規作成。分析・改善提案スキル |
-| `ai-agents/skills/skill-improve/template.md` | 新規作成。amendment proposal テンプレート |
-| `ai-agents/skills/review/observations/.gitkeep` | 新規作成。PoC ディレクトリ |
-| `ai-agents/scripts/copy-entries.sh` | 変更なし（`cp -R` で再帰コピー対応済み） |
-| `ai-agents/Makefile` | 変更なし |
+| File                                            | Change                                    |
+| ----------------------------------------------- | ----------------------------------------- |
+| `ai-agents/skills/skill-observe/SKILL.md`       | 新規作成。observation 記録スキル          |
+| `ai-agents/skills/skill-improve/SKILL.md`       | 新規作成。分析・改善提案スキル            |
+| `ai-agents/skills/skill-improve/template.md`    | 新規作成。amendment proposal テンプレート |
+| `ai-agents/skills/review/observations/.gitkeep` | 新規作成。PoC ディレクトリ                |
+| `ai-agents/scripts/copy-entries.sh`             | 変更なし（`cp -R` で再帰コピー対応済み）  |
+| `ai-agents/Makefile`                            | 変更なし                                  |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| 手動 observe の忘れ・サボり | 習慣化を促す。バッチモードで振り返りやすくする |
-| observations のサンプル不足で分析が不正確 | 5 件未満の場合は信頼度が低い旨を注記 |
-| SKILL.md の自動書き換えによる品質劣化 | `--apply` は必ずユーザー承認を経る。自動書き換えはしない |
-| observations ファイルの肥大化 | 1 日 1 ファイルで追記。古い observations は git 履歴で参照可能 |
-| amendment 後の regression | Evaluate フェーズで前後比較し、悪化時はロールバックを提案 |
+| Risk                                      | Mitigation                                                     |
+| ----------------------------------------- | -------------------------------------------------------------- |
+| 手動 observe の忘れ・サボり               | 習慣化を促す。バッチモードで振り返りやすくする                 |
+| observations のサンプル不足で分析が不正確 | 5 件未満の場合は信頼度が低い旨を注記                           |
+| SKILL.md の自動書き換えによる品質劣化     | `--apply` は必ずユーザー承認を経る。自動書き換えはしない       |
+| observations ファイルの肥大化             | 1 日 1 ファイルで追記。古い observations は git 履歴で参照可能 |
+| amendment 後の regression                 | Evaluate フェーズで前後比較し、悪化時はロールバックを提案      |
 
 ## Excluded scope
 
-| 除外項目 | 理由 |
-| --- | --- |
-| 自動 observation 記録 | PostSkillExecution フックがない。手動の方がユーザー判断を含む |
-| DB / 構造化ストレージ | Markdown で十分。ツール増加に見合わない |
-| 数値スコアリング | サンプルサイズが小さく統計的に無意味 |
-| Agent 定義への observation | スキル経由で呼ばれるため、スキル側で間接的にカバー |
-| SKILL.md の自動書き換え | プロンプトの無制御な自動変更はリスクが高い |
+| 除外項目                   | 理由                                                          |
+| -------------------------- | ------------------------------------------------------------- |
+| 自動 observation 記録      | PostSkillExecution フックがない。手動の方がユーザー判断を含む |
+| DB / 構造化ストレージ      | Markdown で十分。ツール増加に見合わない                       |
+| 数値スコアリング           | サンプルサイズが小さく統計的に無意味                          |
+| Agent 定義への observation | スキル経由で呼ばれるため、スキル側で間接的にカバー            |
+| SKILL.md の自動書き換え    | プロンプトの無制御な自動変更はリスクが高い                    |
 
 ## Validation
 

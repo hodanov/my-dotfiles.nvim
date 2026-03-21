@@ -24,6 +24,13 @@
 - `tools:` is the correct field for agent definitions; `allowed-tools:` is for skill definitions (different schemas)
 - Color convention: yellow = code-review agents, cyan = investigation agents, magenta = review subagents
 
+## Skill Improve System Conventions
+
+- `observations/` layout: obs files at `YYYY-MM-DD_obs.md` (top-level), amendment files under `observations/amendments/YYYY-MM-DD_amendment.md`
+- `observations/*.md` glob in individual-skill mode correctly excludes `amendments/` subdir (single-level glob)
+- `all` mode walk instruction has no glob — LLM may read amendment files as obs files; this is the known ambiguity
+- 12 skills exist under `ai-agents/skills/`; only `review/observations/.gitkeep` exists (no actual obs files yet as of 2026-03-21)
+
 ## Past Reviews
 
 ### 2026-03-01: 4 review subagent definitions (review-security/performance/correctness/changeability)
@@ -49,3 +56,10 @@
 - Severity terminology mismatch: subagents output `Critical/Warning/Info` but SKILL.md Step 3 references `Critical/High` -- FIXED in re-review
 - `disable-model-invocation: true` incorrectly flagged as conflicting with summary generation -- was wrong interpretation
 - Phase.2 handoff mechanism ambiguous -- still valid in re-review
+
+### 2026-03-21: skill-improve/SKILL.md + skill-observe/SKILL.md (new files)
+
+- Core issue: Step 2 asymmetry — individual mode uses `observations/*.md` (glob, excludes amendments/), `all` mode says "走査" with no glob — LLM may read amendment files as obs files
+- Step 4 correctly targets `observations/amendments/` separately — the intent to separate the two is clear but `all` mode doesn't enforce it
+- `observations/*.md` single-level glob is technically correct and safe for individual mode; the problem is only in `all` mode prose
+- Fix: add `observations/*_obs.md` or explicit "amendments/ を除外" instruction to `all` mode description in Step 2
