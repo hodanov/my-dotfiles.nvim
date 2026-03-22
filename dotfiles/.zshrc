@@ -4,6 +4,13 @@
 HOST_NAME=`hostname`
 USER_NAME=`whoami`
 
+typeset -g CMD_RAN=0
+
+preexec() {
+  TIMER=$EPOCHREALTIME
+  CMD_RAN=1
+}
+
 # Simple
 # PS1="%K{cyan}%F{black} $USER_NAME@$HOST_NAME %f%k%F{cyan}%K{white}%k%f%F{black}%K{white} %d %k%f "
 
@@ -33,6 +40,10 @@ USER_NAME=`whoami`
 autoload -Uz vcs_info
 zstyle ':vcs_info:git:*' formats '%F{#89dceb} %b%f'
 precmd() {
+  if (( CMD_RAN )); then
+    print ""
+  fi
+  CMD_RAN=0
   vcs_info
   PS1="%K{#1e1e2e}%F{#9399b2} %n@%m %f%k\
 %F{#1e1e2e}%K{#2a2a3c}%F{#cba6f7} %~ %f%k\
