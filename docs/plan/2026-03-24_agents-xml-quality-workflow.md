@@ -32,25 +32,25 @@ agents.xml にワークフロー定義を追加し、新規開発・既存改修
 
 ## File changes
 
-| File | Change |
-| --- | --- |
+| File                   | Change                                                                                       |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
 | `ai-agents/agents.xml` | `<workflow>`, `<new_product>`, `<existing_product>`, `<verification_rules>` セクションを追加 |
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| agents.xml が長くなり、指示が埋もれる | `verification_rules` を簡潔に保ち、プロジェクト固有の設定は CLAUDE.md に分離 |
-| テスト/リンターコマンドが不明なプロジェクトで実行失敗 | verification_rules に「設定ファイルを先に確認する」ルールを含める |
-| 既存改修で test-first が適用しにくいケース（UI変更等） | test_first ステップの説明に「再現テストが書ける場合」の前提を明記 |
+| Risk                                                   | Mitigation                                                                   |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| agents.xml が長くなり、指示が埋もれる                  | `verification_rules` を簡潔に保ち、プロジェクト固有の設定は CLAUDE.md に分離 |
+| テスト/リンターコマンドが不明なプロジェクトで実行失敗  | verification_rules に「設定ファイルを先に確認する」ルールを含める            |
+| 既存改修で test-first が適用しにくいケース（UI変更等） | test_first ステップの説明に「再現テストが書ける場合」の前提を明記            |
 
 ## Validation
 
-- [ ] agents.xml が well-formed な XML であること
-- [ ] 既存の `agent_profile` が変更されていないこと
-- [ ] `<workflow>` 内に `<new_product>` と `<existing_product>` の両ワークフローが存在すること
-- [ ] `<verification_rules>` にテスト・リンター・型チェックのルールが含まれること
-- [ ] agents.xml を参照している CLAUDE.md が正常に読み込めること
+- [x] agents.xml が well-formed な XML であること
+- [x] 既存の `agent_profile` が変更されていないこと
+- [x] `<workflow>` 内に `<new_product>` と `<existing_product>` の両ワークフローが存在すること
+- [x] `<verification_rules>` にテスト・リンター・型チェックのルールが含まれること
+- [x] agents.xml を参照している CLAUDE.md が正常に読み込めること
 
 ## Open questions
 
