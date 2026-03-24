@@ -13,6 +13,8 @@
       "Bash(npm run lint)",
       "Bash(npm run test *)",
       "Bash(npx markdownlint-cli2:*)",
+      "Bash(npx playwright:*)",
+      "Bash(npx prettier:*)",
       "Bash(prettier:*)",
       "Bash(python3:*)",
       "Bash(rg:*)",
