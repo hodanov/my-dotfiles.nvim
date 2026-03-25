@@ -10,7 +10,6 @@ Behavior:
   - Output dir priority: --output-dir > BLOG_IDEA_DRAFT_EXPORT_DIR > interactive prompt (TTY only).
   - Markdown content is read from stdin.
   - File name: YYYY-MM-DD_<slug>.md
-  - Runs markdownlint-cli2 --fix after writing.
 EOF
 }
 
@@ -118,7 +117,5 @@ if [[ -e "$target_file" && "$force_overwrite" != "1" ]]; then
 fi
 
 cat >"$target_file"
-
-markdownlint-cli2 --fix "$target_file"
 
 echo "$target_file"
