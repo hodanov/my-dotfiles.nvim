@@ -41,8 +41,7 @@ EOF
 2. The script uses local date (`date +%F`) to build `YYYY-MM-DD_slug.md`
    unless `--date` is specified.
 3. If the target file already exists, ask before overwriting (or use `--force`).
-4. The script runs `markdownlint-cli2 --fix <target_file>`.
-5. Return the output file path and a short summary of the draft structure.
+4. Return the output file path and a short summary of the draft structure.
 
 ## Draft Structure
 

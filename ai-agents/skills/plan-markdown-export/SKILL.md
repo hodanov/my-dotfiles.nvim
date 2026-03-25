@@ -1,6 +1,6 @@
 ---
 name: plan-markdown-export
-description: AIとの壁打ちで整理したプラン、または別ファイルの設計メモや実装メモを、読みやすいMarkdown形式の実装プランに整形して `docs/plan/YYYY-MM-DD_<plan-name>.md` に保存する作業で使う。会話中に提案したプランの書き出し、テキストメモの構造化、見出し整理、表への変換、チェックリスト化、保存、markdownlint の実行が必要なときに使う。
+description: AIとの壁打ちで整理したプラン、または別ファイルの設計メモや実装メモを、読みやすいMarkdown形式の実装プランに整形して `docs/plan/YYYY-MM-DD_<plan-name>.md` に保存する作業で使う。会話中に提案したプランの書き出し、テキストメモの構造化、見出し整理、表への変換、チェックリスト化、保存が必要なときに使う。
 argument-hint: [source-file-or-request]
 disable-model-invocation: true
 ---
@@ -38,8 +38,7 @@ AIとの壁打ちで整理したプラン、または既存のメモを、レビ
 4. `docs/plan/` が無ければ作成する
 5. ローカル日付を使って `docs/plan/YYYY-MM-DD_<plan-name>.md` を作成する
 6. [template.md](template.md) をベースに Markdown を出力する
-7. `markdownlint-cli2 --fix <file>` を実行する（markdownlint-cli2 がインストールされていない場合はスキップ）
-8. 生成ファイルのパスを返す
+7. 生成ファイルのパスを返す
 
 ## 正規化ルール
 
