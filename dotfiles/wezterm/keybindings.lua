@@ -7,6 +7,9 @@ return function(config)
 	config.macos_forward_to_ime_modifier_mask = "SHIFT|CTRL"
 
 	config.keys = {
+		-- Ctrl+[をEscapeとして送信（IME転送をバイパス）
+		{ key = "[", mods = "CTRL", action = act.SendKey({ key = "Escape" }) },
+
 		-- Shift+Enterで改行を送信
 		{ key = "Enter", mods = "SHIFT", action = act.SendString("\n") },
 
