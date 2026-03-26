@@ -26,3 +26,19 @@ agents-copy claude-agents-copy cursor-agents-copy:
 .PHONY: settings-copy claude-settings-copy cursor-settings-copy
 settings-copy claude-settings-copy cursor-settings-copy:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
+
+# --- Dotfiles ---
+
+DOTFILES_DIR := dotfiles
+
+.PHONY: dotfiles-link dotfiles-unlink
+
+dotfiles-link:
+	@mkdir -p $(HOME)/.config
+	@rm -f $(HOME)/.wezterm.lua
+	@ln -sfn $(CURDIR)/$(DOTFILES_DIR)/wezterm $(HOME)/.config/wezterm
+	@echo "Linked $(DOTFILES_DIR)/wezterm -> $(HOME)/.config/wezterm"
+
+dotfiles-unlink:
+	@rm -f $(HOME)/.config/wezterm
+	@echo "Unlinked $(HOME)/.config/wezterm"
