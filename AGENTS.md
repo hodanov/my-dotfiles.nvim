@@ -5,8 +5,8 @@ Neovim runs inside a Docker container; AI agent configs and dotfiles live on the
 
 ## Project Structure
 
-- `environment/`: Docker image and toolchain pins. See `environment/AGENTS.md`.
-- `nvim/`: Neovim configuration (`init.lua` + modular Lua). See `nvim/AGENTS.md`.
+- `environment/`: Docker image and toolchain pins.
+- `nvim/`: Neovim configuration (`init.lua` + modular Lua).
 - `scripts/ai-bridge/`: Go daemon bridging Neovim to host-side AI CLIs. See `scripts/ai-bridge/AGENTS.md`.
 - `ai-agents/`: AI agent/skill definitions and settings deployed to `~/.claude`, `~/.cursor`, `~/.codex`.
   - `ai-agents/agents/`: 9 agent definitions (review, investigation, textlint).
