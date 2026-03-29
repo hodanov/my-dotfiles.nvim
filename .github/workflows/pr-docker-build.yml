@@ -5,13 +5,6 @@ permissions:
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - "environment/docker/nvim.dockerfile"
-      - "environment/tools/python/**"
-      - "environment/tools/node/**"
-      - "environment/tools/go/**"
-      - ".github/workflows/bump-tool-versions.yml"
-      - ".github/dependabot.yml"
 
 concurrency:
   group: pr-docker-build-${{ github.event.pull_request.number }}
