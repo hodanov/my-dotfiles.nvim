@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(actionlint:*)",
       "Bash(git:*)",
       "Bash(gh:*)",
       "Bash(go test:*)",
