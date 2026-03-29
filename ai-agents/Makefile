@@ -2,19 +2,23 @@ AGENTS_SRC := $(CURDIR)/agents.xml
 AGENTS_DEST := $(HOME)/.codex/AGENTS.md
 AGENTS_DEST_FOR_CLAUDE := $(HOME)/.claude/CLAUDE.md
 AGENTS_DEST_FOR_CURSOR := $(HOME)/.cursor/AGENTS.md
+AGENTS_DEST_FOR_GEMINI := $(HOME)/.gemini/AGENTS.md
 
 SKILLS_SRC := $(CURDIR)/skills
 CODEX_SKILLS_DEST := $(HOME)/.codex/skills
 CLAUDE_SKILLS_DEST := $(HOME)/.claude/skills
 CURSOR_SKILLS_DEST := $(HOME)/.cursor/skills
+GEMINI_SKILLS_DEST := $(HOME)/.gemini/skills
 
 AGENTS_MD_SRC := $(CURDIR)/agents
 CLAUDE_AGENTS_DEST := $(HOME)/.claude/agents
 CURSOR_AGENTS_DEST := $(HOME)/.cursor/agents
+GEMINI_AGENTS_DEST := $(HOME)/.gemini/agents
 
 SETTINGS_SRC := $(CURDIR)/settings
 CLAUDE_SETTINGS_DEST := $(HOME)/.claude
 CURSOR_SETTINGS_DEST := $(HOME)/.cursor
+GEMINI_SETTINGS_DEST := $(HOME)/.gemini
 
 COPY_ENTRIES := $(CURDIR)/scripts/copy-entries.sh
 
@@ -60,8 +64,22 @@ cursor-unlink:
 		echo "$(AGENTS_DEST_FOR_CURSOR) is not a symlink or does not exist."; \
 	fi
 
+.PHONY: gemini-link
+gemini-link:
+	@ln -sf "$(AGENTS_SRC)" "$(AGENTS_DEST_FOR_GEMINI)"
+	@echo "Linked $(AGENTS_DEST_FOR_GEMINI) -> $(AGENTS_SRC)"
+
+.PHONY: gemini-unlink
+gemini-unlink:
+	@if [ -L "$(AGENTS_DEST_FOR_GEMINI)" ]; then \
+		rm -f "$(AGENTS_DEST_FOR_GEMINI)"; \
+		echo "Removed symlink $(AGENTS_DEST_FOR_GEMINI)"; \
+	else \
+		echo "$(AGENTS_DEST_FOR_GEMINI) is not a symlink or does not exist."; \
+	fi
+
 .PHONY: skills-copy
-skills-copy: codex-skills-copy claude-skills-copy cursor-skills-copy
+skills-copy: codex-skills-copy claude-skills-copy cursor-skills-copy gemini-skills-copy
 
 .PHONY: codex-skills-copy
 codex-skills-copy:
@@ -75,8 +93,12 @@ claude-skills-copy:
 cursor-skills-copy:
 	@"$(COPY_ENTRIES)" skills "$(SKILLS_SRC)" "$(CURSOR_SKILLS_DEST)"
 
+.PHONY: gemini-skills-copy
+gemini-skills-copy:
+	@"$(COPY_ENTRIES)" skills "$(SKILLS_SRC)" "$(GEMINI_SKILLS_DEST)"
+
 .PHONY: agents-copy
-agents-copy: claude-agents-copy cursor-agents-copy
+agents-copy: claude-agents-copy cursor-agents-copy gemini-agents-copy
 
 .PHONY: claude-agents-copy
 claude-agents-copy:
@@ -86,8 +108,12 @@ claude-agents-copy:
 cursor-agents-copy:
 	@"$(COPY_ENTRIES)" agents "$(AGENTS_MD_SRC)" "$(CURSOR_AGENTS_DEST)"
 
+.PHONY: gemini-agents-copy
+gemini-agents-copy:
+	@"$(COPY_ENTRIES)" agents "$(AGENTS_MD_SRC)" "$(GEMINI_AGENTS_DEST)"
+
 .PHONY: settings-copy
-settings-copy: claude-settings-copy cursor-settings-copy
+settings-copy: claude-settings-copy cursor-settings-copy gemini-settings-copy
 
 .PHONY: claude-settings-copy
 claude-settings-copy:
@@ -96,3 +122,7 @@ claude-settings-copy:
 .PHONY: cursor-settings-copy
 cursor-settings-copy:
 	@"$(COPY_ENTRIES)" settings "$(SETTINGS_SRC)/cursor" "$(CURSOR_SETTINGS_DEST)"
+
+.PHONY: gemini-settings-copy
+gemini-settings-copy:
+	@"$(COPY_ENTRIES)" settings "$(SETTINGS_SRC)/gemini" "$(GEMINI_SETTINGS_DEST)"

@@ -1,0 +1,40 @@
+{
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "hooks": {
+    "AfterTool": [
+      {
+        "matcher": "write_file|replace",
+        "hooks": [
+          {
+            "name": "goimports",
+            "type": "command",
+            "command": "~/.gemini/hooks/goimports.sh",
+            "description": "Run goimports on Go files"
+          },
+          {
+            "name": "markdown-format",
+            "type": "command",
+            "command": "~/.gemini/hooks/markdown-format.sh",
+            "description": "Run markdownlint and prettier on Markdown files"
+          },
+          {
+            "name": "shfmt",
+            "type": "command",
+            "command": "~/.gemini/hooks/shfmt.sh",
+            "description": "Run shfmt on shell scripts"
+          },
+          {
+            "name": "prettier",
+            "type": "command",
+            "command": "~/.gemini/hooks/prettier.sh",
+            "description": "Run prettier on web files"
+          }
+        ]
+      }
+    ]
+  }
+}
