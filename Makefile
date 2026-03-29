@@ -11,20 +11,20 @@ $(AI_BRIDGE_TARGETS):
 
 # --- AI Agents (delegate to ai-agents/Makefile) ---
 
-.PHONY: codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink gemini-link gemini-unlink
-codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink gemini-link gemini-unlink:
+.PHONY: codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink
+codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
-.PHONY: skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy gemini-skills-copy
-skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy gemini-skills-copy:
+.PHONY: skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy
+skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
-.PHONY: agents-copy claude-agents-copy cursor-agents-copy gemini-agents-copy
-agents-copy claude-agents-copy cursor-agents-copy gemini-agents-copy:
+.PHONY: agents-copy claude-agents-copy cursor-agents-copy
+agents-copy claude-agents-copy cursor-agents-copy:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
-.PHONY: settings-copy claude-settings-copy cursor-settings-copy gemini-settings-copy
-settings-copy claude-settings-copy cursor-settings-copy gemini-settings-copy:
+.PHONY: settings-copy claude-settings-copy cursor-settings-copy
+settings-copy claude-settings-copy cursor-settings-copy:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
 # --- Dotfiles ---
