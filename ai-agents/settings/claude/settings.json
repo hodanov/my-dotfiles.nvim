@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(actionlint:*)",
+      "Bash(find:*)",
       "Bash(git:*)",
       "Bash(gh:*)",
       "Bash(go test:*)",
@@ -9,6 +10,7 @@
       "Bash(go build:*)",
       "Bash(golangci-lint run:*)",
       "Bash(go mod:*)",
+      "Bash(grep:*)",
       "Bash(ls:*)",
       "Bash(markdownlint-cli2:*)",
       "Bash(npm run lint)",

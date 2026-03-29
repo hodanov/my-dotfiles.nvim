@@ -4,22 +4,22 @@
     "postToolUse": [
       {
         "type": "command",
-        "bash": "~/.github/hooks/goimports.sh",
+        "bash": "~/.copilot/hooks/goimports.sh",
         "timeoutSec": 10
       },
       {
         "type": "command",
-        "bash": "~/.github/hooks/markdown-format.sh",
+        "bash": "~/.copilot/hooks/markdown-format.sh",
         "timeoutSec": 10
       },
       {
         "type": "command",
-        "bash": "~/.github/hooks/shfmt.sh",
+        "bash": "~/.copilot/hooks/shfmt.sh",
         "timeoutSec": 10
       },
       {
         "type": "command",
-        "bash": "~/.github/hooks/prettier.sh",
+        "bash": "~/.copilot/hooks/prettier.sh",
         "timeoutSec": 10
       }
     ]

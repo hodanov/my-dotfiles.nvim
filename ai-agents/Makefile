@@ -18,7 +18,7 @@ COPILOT_AGENTS_DEST := $(HOME)/.copilot/agents
 SETTINGS_SRC := $(CURDIR)/settings
 CLAUDE_SETTINGS_DEST := $(HOME)/.claude
 CURSOR_SETTINGS_DEST := $(HOME)/.cursor
-COPILOT_HOOKS_DEST := $(HOME)/.github/hooks
+COPILOT_HOOKS_DEST := $(HOME)/.copilot/hooks
 
 COPY_ENTRIES := $(CURDIR)/scripts/copy-entries.sh
 
