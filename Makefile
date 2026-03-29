@@ -11,20 +11,20 @@ $(AI_BRIDGE_TARGETS):
 
 # --- AI Agents (delegate to ai-agents/Makefile) ---
 
-.PHONY: codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink
-codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink:
+.PHONY: codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink copilot-link copilot-unlink
+codex-link codex-unlink claude-link claude-unlink cursor-link cursor-unlink copilot-link copilot-unlink:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
-.PHONY: skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy
-skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy:
+.PHONY: skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy copilot-skills-copy
+skills-copy codex-skills-copy claude-skills-copy cursor-skills-copy copilot-skills-copy:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
-.PHONY: agents-copy claude-agents-copy cursor-agents-copy
-agents-copy claude-agents-copy cursor-agents-copy:
+.PHONY: agents-copy claude-agents-copy cursor-agents-copy copilot-agents-copy
+agents-copy claude-agents-copy cursor-agents-copy copilot-agents-copy:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
-.PHONY: settings-copy claude-settings-copy cursor-settings-copy
-settings-copy claude-settings-copy cursor-settings-copy:
+.PHONY: settings-copy claude-settings-copy cursor-settings-copy copilot-hooks-copy
+settings-copy claude-settings-copy cursor-settings-copy copilot-hooks-copy:
 	@$(MAKE) -C $(AI_AGENTS_DIR) $@
 
 # --- Dotfiles ---

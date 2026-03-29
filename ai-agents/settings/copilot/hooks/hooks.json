@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "command",
+        "bash": "~/.github/hooks/goimports.sh",
+        "timeoutSec": 10
+      },
+      {
+        "type": "command",
+        "bash": "~/.github/hooks/markdown-format.sh",
+        "timeoutSec": 10
+      },
+      {
+        "type": "command",
+        "bash": "~/.github/hooks/shfmt.sh",
+        "timeoutSec": 10
+      },
+      {
+        "type": "command",
+        "bash": "~/.github/hooks/prettier.sh",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}

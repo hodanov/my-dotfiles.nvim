@@ -12,7 +12,7 @@ Neovim runs inside a Docker container; AI agent configs and dotfiles live on the
   - `ai-agents/agents/`: 9 agent definitions (review, investigation, textlint).
   - `ai-agents/skills/`: 12 skills (commit, review, blog, log export, etc.).
   - `ai-agents/settings/`: Claude/Cursor settings and hooks.
-  - `ai-agents/Makefile`: link/copy targets for deploying to each CLI.
+  - `ai-agents/Makefile`: link/copy targets for deploying to each CLI (Claude, Cursor, Codex, Copilot).
 - `dotfiles/`: Shell and terminal configs (`.zshrc`, `wezterm/`).
 - `docs/plan/`: implementation plans. `docs/log/`: work logs.
 - `assets/`: screenshots and static media.

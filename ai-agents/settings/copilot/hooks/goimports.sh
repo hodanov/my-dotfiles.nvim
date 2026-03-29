@@ -1,0 +1,14 @@
+#!/bin/bash
+# stdin から JSON を読み込む
+INPUT=$(cat)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+FILE_PATH=$(printf '%s' "$INPUT" | python3 "$SCRIPT_DIR/get_file_path.py")
+
+# .goファイルじゃなければ何もしない
+if [[ "$FILE_PATH" != *.go ]]; then
+	exit 0
+fi
+
+# goimportsを実行
+goimports -w "$FILE_PATH"
