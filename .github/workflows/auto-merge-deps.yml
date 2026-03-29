@@ -1,0 +1,22 @@
+name: Auto-merge dependency PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: |
+      github.actor == 'dependabot[bot]' ||
+      startsWith(github.head_ref, 'chore/bump-tool-versions') ||
+      startsWith(github.head_ref, 'update/go-tools')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge "${{ github.event.pull_request.number }}" --auto --squash --repo "${{ github.repository }}"
