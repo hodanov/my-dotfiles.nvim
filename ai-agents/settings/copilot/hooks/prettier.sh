@@ -1,12 +1,9 @@
 #!/bin/bash
 # stdin から JSON を読み込む
 INPUT=$(cat)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-FILE_PATH=$(echo "$INPUT" | python3 -c "
-import sys, json
-data = json.load(sys.stdin)
-print(data.get('tool_input', {}).get('file_path', ''))
-")
+FILE_PATH=$(printf '%s' "$INPUT" | python3 "$SCRIPT_DIR/get_file_path.py")
 
 case "$FILE_PATH" in
 *.html | *.css | *.js | *.ts | *.json | *.yaml | *.yml)
