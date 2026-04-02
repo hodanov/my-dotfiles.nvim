@@ -25,13 +25,13 @@ grep -rn 'uses:' .github/workflows/ \
 
 ## ピン留め対象の判定
 
-| パターン | 例 | 対応 |
-|---|---|---|
-| タグ指定（未ピン留め） | `actions/checkout@v6` | ピン留め対象 |
-| SHA + コメント（ピン留め済み） | `actions/checkout@abc...def # v6.0.2` | verify のみ |
-| ローカル参照 | `./.github/common/action` | 対象外 |
-| reusable workflow | `org/repo/...yml@main` | ピン留め対象 |
-| reusable workflow（SHA） | `org/repo/...yml@abc...def` | verify のみ |
+| パターン                       | 例                                    | 対応         |
+| ------------------------------ | ------------------------------------- | ------------ |
+| タグ指定（未ピン留め）         | `actions/checkout@v6`                 | ピン留め対象 |
+| SHA + コメント（ピン留め済み） | `actions/checkout@abc...def # v6.0.2` | verify のみ  |
+| ローカル参照                   | `./.github/common/action`             | 対象外       |
+| reusable workflow              | `org/repo/...yml@main`                | ピン留め対象 |
+| reusable workflow（SHA）       | `org/repo/...yml@abc...def`           | verify のみ  |
 
 ## pinact によるピン留め
 
