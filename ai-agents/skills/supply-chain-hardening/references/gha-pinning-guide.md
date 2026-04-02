@@ -38,7 +38,7 @@ grep -rn 'uses:' .github/workflows/ \
 ### 全ワークフローを一括ピン留め
 
 ```bash
-pinact run .github/workflows/
+pinact run .github/workflows/*
 ```
 
 - 未ピン留めの全 Action を自動で SHA ピン留めする
