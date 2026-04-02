@@ -24,6 +24,7 @@
       "Bash(shellcheck:*)",
       "Bash(shfmt:*)",
       "Bash(which go:*)",
+      "Bash(xargs:*)",
       "Read(~/.zshrc)",
       "Read(~/.codex/**)",
       "Read(~/.cursor/**)",
@@ -66,5 +67,9 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "jq -r '(.model.display_name // \"Claude\") + \" | Context: \" + (.context_window.used_percentage // 0 | tostring) + \"% used\"'"
   }
 }

@@ -120,7 +120,7 @@ bash scripts/scan-repo.sh
 ### 2-1. pinact で一括ピン留め
 
 ```bash
-pinact run .github/workflows/
+pinact run .github/workflows/*
 ```
 
 - `pinact` は全ワークフローの未ピン留め Action を一括で SHA ピン留めする
@@ -129,7 +129,7 @@ pinact run .github/workflows/
 ### 2-2. pinact verify で整合性チェック
 
 ```bash
-pinact verify .github/workflows/
+pinact verify .github/workflows/*
 ```
 
 - 既にピン留め済みの Action も含め、SHA とタグの対応が正しいか検証する
@@ -193,7 +193,7 @@ grep -rh 'uses:' .github/workflows/ \
 # → 0 であること
 
 # pinact verify による整合性チェック
-pinact verify .github/workflows/
+pinact verify .github/workflows/*
 ```
 
 ### 4-2. Dependabot / Renovate の検証
