@@ -2,7 +2,7 @@
 name: supply-chain-hardening
 description: GitHub Actions の SHA ピン留め（pinact 必須）と Dependabot・Renovate のクールダウン設定（14日間）をリポジトリに適用し、サプライチェーン攻撃対策を実施する。ユーザーが「サプライチェーン対策」「GHA ピン留め」「Dependabot クールダウン」「pinact」「supply chain hardening」に言及した場合に使用する。
 disable-model-invocation: "true"
-argument-hint: "[対象スコープ: all / gha / dependabot]"
+argument-hint: "[対象スコープ: all / gha / dependabot / automerge]"
 ---
 
 # Supply Chain Hardening
@@ -16,14 +16,16 @@ Phase 0: pinact インストール確認（必須前提条件）
 Phase 1: 現状分析レポート
 Phase 2: GitHub Actions SHA ピン留め（pinact 使用）
 Phase 3: Dependabot / Renovate クールダウン設定
-Phase 4: 検証
+Phase 4: 自動マージ設定
+Phase 5: 検証
 ```
 
 **スコープ制御**: `$ARGUMENTS` で対象を絞れる。
 
-- `all`（デフォルト）: Phase 2 + 3 の両方
+- `all`（デフォルト）: Phase 2 + 3 + 4 すべて
 - `gha`: Phase 2 のみ
 - `dependabot`: Phase 3 のみ
+- `automerge`: Phase 4 のみ
 
 ---
 
@@ -109,7 +111,7 @@ bash scripts/scan-repo.sh
 | Renovate   | minimumReleaseAge      | 未設定 / 設定済み |
 ```
 
-**全て対策済みの場合**: その旨を報告し、Phase 4 の検証のみ実行する。
+**全て対策済みの場合**: その旨を報告し、Phase 5 の検証のみ実行する。
 
 ---
 
@@ -179,9 +181,78 @@ cooldown:
 
 ---
 
-## Phase 4: 検証
+## Phase 4: 自動マージ設定
 
-### 4-1. GHA ピン留めの検証
+依存アップデート PR を CI 通過後に自動マージする仕組みを設定する。
+
+### 4-0. 前提条件チェック
+
+以下の GitHub リポジトリ設定が必要。未設定の場合はユーザーに設定を促してから進む。
+
+1. **Allow auto-merge が有効であること**
+   - Settings > General > Pull Requests > "Allow auto-merge"
+2. **`main` ブランチに branch protection rule が設定されていること**
+   - required status checks が設定されていること（CI チェック通過後に auto-merge が発動する）
+
+### 4-1. Dependabot の場合
+
+`.github/workflows/auto-merge-deps.yml` を新規作成する（既存の場合はスキップ）:
+
+```yaml
+name: Auto-merge dependency PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: |
+      github.actor == 'dependabot[bot]' ||
+      startsWith(github.head_ref, 'renovate/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge "${{ github.event.pull_request.number }}" --auto --squash --repo "${{ github.repository }}"
+```
+
+- リポジトリ固有の自作ワークフローブランチ（例: `chore/bump-tool-versions`）がある場合は `if:` 条件に追加するよう案内する
+- Renovate のブランチ名パターンはデフォルトの `renovate/` を前提としている。カスタマイズしている場合は `startsWith(github.head_ref, 'renovate/')` の部分を調整する必要がある旨をユーザーに案内する
+
+> **⚠️ 権限に関する注意**: Dependabot PR で `GITHUB_TOKEN` の権限が不足して動作しない場合は、`pull_request_target` イベントへの切り替えを検討すること。ただし `pull_request_target` はセキュリティ上のリスクがあるため、GitHub 公式ドキュメントを確認のうえ慎重に対応すること。
+
+### 4-2. Renovate の場合
+
+`renovate.json`（または `.renovaterc.json`）の `packageRules` に以下を追加する:
+
+```json
+{
+  "matchManagers": ["github-actions"],
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "squash"
+}
+```
+
+- Renovate の自動マージは GitHub native auto-merge を利用する
+- 全エコシステムに適用する場合は `matchManagers` を省略する
+- Renovate の `$schema` バージョンで `automerge` フィールドがサポートされているか確認するよう案内する
+
+### 4-3. どちらも未導入の場合
+
+ユーザーに Dependabot の導入を提案し、Phase 3-3 のテンプレートと合わせて 4-1 のワークフローテンプレートを提示する。
+
+---
+
+## Phase 5: 検証
+
+### 5-1. GHA ピン留めの検証
 
 ```bash
 # 未ピン留めの外部 Action がゼロであること
@@ -195,7 +266,7 @@ grep -rn 'uses:' .github/workflows/ \
 > **注意**: `@branch` や `@tag` で意図的に参照している Action（自己参照など）がある場合は、
 > リポジトリに合わせて追加の `grep -v` で除外すること。除外パターンはユーザーに確認する。
 
-### 4-2. Dependabot / Renovate の検証
+### 5-2. Dependabot / Renovate の検証
 
 ```bash
 # dependabot.yml の全エコシステムに cooldown が設定されていること
@@ -205,7 +276,13 @@ grep -c 'cooldown' .github/dependabot.yml
 grep 'minimumReleaseAge' renovate.json
 ```
 
-### 4-3. 結果レポート
+### 5-3. 自動マージの検証
+
+- 依存 PR に auto-merge が有効化されること
+- CI チェック失敗時はマージされないこと
+- 人間が作成した PR は対象にならないこと
+
+### 5-4. 結果レポート
 
 最終的な対策状況をテーブル形式で報告する。
 
@@ -214,4 +291,5 @@ grep 'minimumReleaseAge' renovate.json
 | ------------------- | ------ | ------ |
 | GHA 未ピン留め      | X 箇所 | 0 箇所 |
 | Dependabot cooldown | 未設定 | 14 日  |
+| 自動マージ          | 未設定 | 設定済 |
 ```
