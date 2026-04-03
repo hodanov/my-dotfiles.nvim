@@ -42,3 +42,17 @@ section "Renovate の minimumReleaseAge 設定状況"
 grep 'minimumReleaseAge' \
 	renovate.json renovate.json5 .renovaterc .renovaterc.json 2>/dev/null ||
 	echo "(minimumReleaseAge 未設定または renovate 設定なし)"
+
+section "自動マージルールの有無"
+
+printf '### 自動マージワークフロー (gh pr merge --auto を含むファイル)\n'
+if grep -rl 'pr merge.*--auto\|--auto.*pr merge' .github/workflows/ 2>/dev/null | grep -q .; then
+	grep -rl 'pr merge.*--auto\|--auto.*pr merge' .github/workflows/ 2>/dev/null
+else
+	echo "(gh pr merge --auto を呼び出すワークフロー未検出)"
+fi
+
+printf '\n### Renovate automerge 設定\n'
+grep -h 'automerge' \
+	renovate.json renovate.json5 .renovaterc .renovaterc.json 2>/dev/null ||
+	echo "(Renovate の automerge 設定なし)"
