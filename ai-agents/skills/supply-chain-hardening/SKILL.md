@@ -126,10 +126,10 @@ pinact run .github/workflows/*
 - `pinact` は全ワークフローの未ピン留め Action を一括で SHA ピン留めする
 - `SHA # vX.Y.Z` 形式のコメントも自動付与される
 
-### 2-2. pinact verify で整合性チェック
+### 2-2. `pinact run --verify` で整合性チェック
 
 ```bash
-pinact verify .github/workflows/*
+pinact run --verify .github/workflows/*
 ```
 
 - 既にピン留め済みの Action も含め、SHA とタグの対応が正しいか検証する
@@ -185,16 +185,15 @@ cooldown:
 
 ```bash
 # 未ピン留めの外部 Action がゼロであること
-grep -rh 'uses:' .github/workflows/ \
-  | sed 's/.*uses: *//' \
-  | grep -v '#' \
-  | grep -v '^\.\/' \
-  | wc -l
-# → 0 であること
-
-# pinact verify による整合性チェック
-pinact verify .github/workflows/*
+# SHA（40桁の16進数）が付いていない uses: 行を抽出する
+grep -rn 'uses:' .github/workflows/ \
+  | grep -v '@[a-f0-9]\{40\}' \
+  | grep -v '^\.\/'
+# → 0 行であること
 ```
+
+> **注意**: `@branch` や `@tag` で意図的に参照している Action（自己参照など）がある場合は、
+> リポジトリに合わせて追加の `grep -v` で除外すること。除外パターンはユーザーに確認する。
 
 ### 4-2. Dependabot / Renovate の検証
 
