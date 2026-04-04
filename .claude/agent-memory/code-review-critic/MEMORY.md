@@ -31,6 +31,13 @@
 - `all` mode walk instruction has no glob — LLM may read amendment files as obs files; this is the known ambiguity
 - 12 skills exist under `ai-agents/skills/`; only `review/observations/.gitkeep` exists (no actual obs files yet as of 2026-03-21)
 
+## WezTerm Config Conventions
+
+- Config split into 4 modules: `wezterm.lua` (entry), `appearance.lua`, `keybindings.lua`, `workspaces.lua`
+- Each module exports `function(config)` pattern; entry point calls them sequentially
+- `wezterm.GLOBAL` used for cross-reload persistent state (survives config reloads)
+- `wezterm.mux.get_workspace_names()` always returns a Lua table (never nil); at least one workspace always exists
+
 ## Past Reviews
 
 ### 2026-03-01: 4 review subagent definitions (review-security/performance/correctness/changeability)
@@ -63,3 +70,10 @@
 - Step 4 correctly targets `observations/amendments/` separately — the intent to separate the two is clear but `all` mode doesn't enforce it
 - `observations/*.md` single-level glob is technically correct and safe for individual mode; the problem is only in `all` mode prose
 - Fix: add `observations/*_obs.md` or explicit "amendments/ を除外" instruction to `all` mode description in Step 2
+
+### 2026-04-04: dotfiles/wezterm/keybindings.lua (fuzzy workspace selector)
+
+- Phase.1 Critical (`get_workspace_names()` nil/empty risk) was FALSE POSITIVE -- API always returns table, never nil
+- Real issue found: `prompt_new_workspace` allows empty-string workspace creation (`if line then` is truthy for `""` in Lua) -- pre-existing bug, not introduced by this diff
+- `local next` shadows Lua built-in -- no functional impact in this scope but style concern
+- Overall: clean refactoring, good separation of concerns, standard WezTerm patterns
