@@ -1,8 +1,11 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
+local WORKSPACE_MODE = { FUZZY = "fuzzy", LAUNCHER = "launcher" }
+local WORKSPACE_NEW_ID = "__new__"
+
 if wezterm.GLOBAL.workspace_selector_mode == nil then
-	wezterm.GLOBAL.workspace_selector_mode = "fuzzy"
+	wezterm.GLOBAL.workspace_selector_mode = WORKSPACE_MODE.FUZZY
 end
 
 local function prompt_new_workspace()
@@ -13,7 +16,7 @@ local function prompt_new_workspace()
 			{ Text = "Enter name for new workspace" },
 		}),
 		action = wezterm.action_callback(function(window, pane, line)
-			if line then
+			if line and line ~= "" then
 				window:perform_action(act.SwitchToWorkspace({ name = line }), pane)
 			end
 		end),
@@ -23,13 +26,15 @@ end
 local function build_workspace_choices(current)
 	local choices = {}
 	for _, name in ipairs(wezterm.mux.get_workspace_names()) do
-		table.insert(choices, {
-			id = name,
-			label = "Switch to workspace: `" .. name .. "`",
-		})
+		if name ~= current then
+			table.insert(choices, {
+				id = name,
+				label = "Switch to workspace: `" .. name .. "`",
+			})
+		end
 	end
 	table.insert(choices, {
-		id = "__new__",
+		id = WORKSPACE_NEW_ID,
 		label = "Create new Workspace (current is `" .. current .. "`)",
 	})
 	return choices
@@ -49,7 +54,7 @@ local function select_workspace()
 					if not id then
 						return
 					end
-					if id == "__new__" then
+					if id == WORKSPACE_NEW_ID then
 						w:perform_action(prompt_new_workspace(), p)
 					else
 						w:perform_action(act.SwitchToWorkspace({ name = id }), p)
@@ -64,16 +69,16 @@ end
 local function toggle_workspace_selector_mode()
 	return wezterm.action_callback(function(window, _)
 		local current = wezterm.GLOBAL.workspace_selector_mode
-		local next = current == "fuzzy" and "launcher" or "fuzzy"
-		wezterm.GLOBAL.workspace_selector_mode = next
-		window:toast_notification("WezTerm", "Workspace selector: " .. next, nil, 2000)
+		local new_mode = current == WORKSPACE_MODE.FUZZY and WORKSPACE_MODE.LAUNCHER or WORKSPACE_MODE.FUZZY
+		wezterm.GLOBAL.workspace_selector_mode = new_mode
+		window:toast_notification("WezTerm", "Workspace selector: " .. new_mode, nil, 2000)
 	end)
 end
 
 local function dispatch_workspace_selector()
 	return wezterm.action_callback(function(window, pane)
 		local mode = wezterm.GLOBAL.workspace_selector_mode
-		if mode == "fuzzy" then
+		if mode == WORKSPACE_MODE.FUZZY then
 			window:perform_action(select_workspace(), pane)
 		else
 			window:perform_action(act.ShowLauncherArgs({ flags = "WORKSPACES" }), pane)
