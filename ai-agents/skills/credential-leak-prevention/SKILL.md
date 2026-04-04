@@ -2,6 +2,8 @@
 name: credential-leak-prevention
 description: gitleaks + pre-commit を使ってローカルコミット時のクレデンシャル混入を機械的にブロックする。「クレデンシャル漏洩防止」「シークレット混入対策」「gitleaks」「pre-commit シークレット」「credential leak prevention」に言及した場合に使用する。
 disable-model-invocation: "true"
+metadata:
+  version: 1
 ---
 
 # Credential Leak Prevention
@@ -118,3 +120,36 @@ bash ai-agents/skills/credential-leak-prevention/scripts/validate.sh
 | git hook が有効化されている                    | ✓ / ✗ |
 
 全て ✓ なら導入完了。
+
+---
+
+## Phase 4: バージョンの継続的更新（オプション）
+
+`.pre-commit-config.yaml` の `rev` は定期的に更新しないと、フックが陳腐化しセキュリティ上の穴が生じる。
+
+ユーザーに下記を提案して終了する（提案だけ。修正はユーザーに任せる）。
+
+```text
+`.pre-commit-config.yaml` の `rev` は定期的に更新しないと、フックが陳腐化しセキュリティ上の穴が生じます。
+
+`pre-commit autoupdate` で手動更新するか、dependabotなどで自動更新してください。
+
+Dependabot による自動更新の設定例↓
+
+---
+# `.github/dependabot.yml` に `pre-commit` エコシステムを追加する:
+version: 2
+updates:
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    cooldown:
+      semver-patch-days: 3 # パッチは 3 日後
+      semver-minor-days: 5 # マイナーは 5 日後
+      semver-major-days: 7 # メジャーは 7 日後
+---
+
+`cooldown` により、リリース直後の不安定なバージョンへの即時更新を防ぐ。
+```
