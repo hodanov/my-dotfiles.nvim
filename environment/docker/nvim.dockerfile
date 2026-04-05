@@ -168,7 +168,7 @@ FROM base
 COPY ./nvim/config/.bash_profile /root/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  ripgrep python3 mysql-client luarocks \
+  ripgrep fd-find python3 mysql-client luarocks \
   && mkdir -p /root/.local/state/nvim/undo \
   && apt-get autoremove -y \
   && apt-get clean -y \
