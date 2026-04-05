@@ -1,6 +1,6 @@
 ####################
 # Base image with common dependencies and Japanese fonts
-FROM ubuntu:24.04 AS base
+FROM ubuntu:26.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Asia/Tokyo
@@ -103,7 +103,9 @@ RUN ARCH="$(dpkg --print-architecture)" \
 
 ENV PATH="/usr/local/go/bin:${PATH}"
 COPY ./environment/tools/go/go-tools.txt /tmp/go-tools.txt
-RUN while read -r pkg; do go install "$pkg"; done < /tmp/go-tools.txt
+RUN while read -r pkg; do \
+      CGO_ENABLED=0 go install "$pkg" || exit 1; \
+    done < /tmp/go-tools.txt
 
 ####################
 # Stage 4: Build Rust-based tools
