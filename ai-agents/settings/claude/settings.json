@@ -23,6 +23,8 @@
       "Bash(rg:*)",
       "Bash(shellcheck:*)",
       "Bash(shfmt:*)",
+      "Bash(stylua:*)",
+      "Bash(tombi:*)",
       "Bash(which:*)",
       "Bash(xargs:*)",
       "Read(~/.zshrc)",
@@ -63,7 +65,9 @@
             "command": "~/.claude/hooks/markdown-format.sh"
           },
           { "type": "command", "command": "~/.claude/hooks/shfmt.sh" },
-          { "type": "command", "command": "~/.claude/hooks/prettier.sh" }
+          { "type": "command", "command": "~/.claude/hooks/prettier.sh" },
+          { "type": "command", "command": "~/.claude/hooks/stylua.sh" },
+          { "type": "command", "command": "~/.claude/hooks/tombi.sh" }
         ]
       }
     ]
