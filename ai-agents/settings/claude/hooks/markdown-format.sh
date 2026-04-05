@@ -13,6 +13,16 @@ if [[ "$FILE_PATH" != *.md ]]; then
 	exit 0
 fi
 
-# 順番に実行
-markdownlint-cli2 --config "$HOME/.claude/hooks/.markdownlint-cli2.yaml" --fix "$FILE_PATH"
-prettier --write "$FILE_PATH"
+# markdownlint-cli2
+if ! markdownlint-cli2 --config "$HOME/.claude/hooks/.markdownlint-cli2.yaml" --fix "$FILE_PATH" 2>&1; then
+	rc=$?
+	echo "[markdownlint] fail: $FILE_PATH" >&2
+	exit "$rc"
+fi
+
+# prettier
+if ! prettier --write "$FILE_PATH" 2>&1; then
+	rc=$?
+	echo "[prettier:md] fail: $FILE_PATH" >&2
+	exit "$rc"
+fi

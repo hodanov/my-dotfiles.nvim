@@ -13,5 +13,8 @@ if [[ "$FILE_PATH" != *.go ]]; then
 	exit 0
 fi
 
-# goimportsを実行
-goimports -w "$FILE_PATH"
+if ! goimports -w "$FILE_PATH" 2>&1; then
+	rc=$?
+	echo "[goimports] fail: $FILE_PATH" >&2
+	exit "$rc"
+fi
