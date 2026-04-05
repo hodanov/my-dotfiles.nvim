@@ -21,6 +21,16 @@
         "type": "command",
         "bash": "~/.copilot/hooks/prettier.sh",
         "timeoutSec": 10
+      },
+      {
+        "type": "command",
+        "bash": "~/.copilot/hooks/stylua.sh",
+        "timeoutSec": 10
+      },
+      {
+        "type": "command",
+        "bash": "~/.copilot/hooks/tombi.sh",
+        "timeoutSec": 10
       }
     ]
   }
