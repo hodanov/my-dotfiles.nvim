@@ -23,7 +23,7 @@
       "Bash(rg:*)",
       "Bash(shellcheck:*)",
       "Bash(shfmt:*)",
-      "Bash(which go:*)",
+      "Bash(which:*)",
       "Bash(xargs:*)",
       "Read(~/.zshrc)",
       "Read(~/.codex/**)",
