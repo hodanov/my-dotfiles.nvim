@@ -49,8 +49,7 @@ return {
 	},
 	{ -- Configurations for Nvim LSP
 		"neovim/nvim-lspconfig",
-		lazy = true,
-		event = { "BufRead", "BufNewFile" },
+		lazy = false,
 	},
 	{ -- Formatt runner
 		"stevearc/conform.nvim",
