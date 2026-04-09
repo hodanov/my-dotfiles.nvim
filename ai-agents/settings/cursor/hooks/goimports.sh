@@ -11,7 +11,6 @@ if [[ "$FILE_PATH" != *.go ]]; then
 fi
 
 if ! goimports -w "$FILE_PATH" 2>&1; then
-	rc=$?
 	echo "[goimports] fail: $FILE_PATH" >&2
-	exit "$rc"
+	exit 1
 fi

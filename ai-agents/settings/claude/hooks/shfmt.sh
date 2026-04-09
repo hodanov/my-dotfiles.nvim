@@ -13,7 +13,6 @@ if [[ "$FILE_PATH" != *.sh ]]; then
 fi
 
 if ! shfmt -w "$FILE_PATH" 2>&1; then
-	rc=$?
 	echo "[shfmt] fail: $FILE_PATH" >&2
-	exit "$rc"
+	exit 1
 fi
