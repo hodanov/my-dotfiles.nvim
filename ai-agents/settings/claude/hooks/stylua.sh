@@ -13,7 +13,6 @@ if [[ "$FILE_PATH" != *.lua ]]; then
 fi
 
 if ! stylua "$FILE_PATH" 2>&1; then
-	rc=$?
 	echo "[stylua] fail: $FILE_PATH" >&2
-	exit "$rc"
+	exit 1
 fi

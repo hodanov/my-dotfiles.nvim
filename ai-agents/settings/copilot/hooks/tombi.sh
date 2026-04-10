@@ -10,7 +10,6 @@ if [[ "$FILE_PATH" != *.toml ]]; then
 fi
 
 if ! tombi format "$FILE_PATH" 2>&1; then
-	rc=$?
 	echo "[tombi] fail: $FILE_PATH" >&2
-	exit "$rc"
+	exit 1
 fi

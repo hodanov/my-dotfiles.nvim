@@ -11,9 +11,8 @@ print(data.get('tool_input', {}).get('file_path', ''))
 case "$FILE_PATH" in
 *.html | *.css | *.js | *.ts | *.json | *.yaml | *.yml)
 	if ! prettier --write "$FILE_PATH" 2>&1; then
-		rc=$?
 		echo "[prettier] fail: $FILE_PATH" >&2
-		exit "$rc"
+		exit 1
 	fi
 	;;
 esac
