@@ -32,7 +32,7 @@ ENV LC_CTYPE=ja_JP.UTF-8
 # Stage 1: Build Neovim from source
 FROM base AS nvim-builder
 
-ARG NEOVIM_VERSION=0.12.0
+ARG NEOVIM_VERSION=0.12.1
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ninja-build gettext cmake \
   && git clone https://github.com/neovim/neovim /neovim \
@@ -82,7 +82,7 @@ RUN cd /opt/npm-tools && npm install --omit=dev --no-audit --no-fund
 # Stage 3: Build Go toolchain and tools
 FROM base AS go-builder
 
-ARG GO_VERSION=1.26.1
+ARG GO_VERSION=1.26.2
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN ARCH="$(dpkg --print-architecture)" \
