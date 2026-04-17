@@ -47,11 +47,7 @@ which gitleaks && gitleaks version
 
 ## Phase 1: 現状スキャン
 
-リポジトリルートで調査スクリプトを実行し、現状を取得する。
-
-```bash
-bash ai-agents/skills/credential-leak-prevention/scripts/scan.sh
-```
+調査スクリプト [scripts/scan.sh](scripts/scan.sh) を実行し、現状を取得する。
 
 スクリプトは以下の状態を出力する:
 
@@ -78,11 +74,7 @@ bash ai-agents/skills/credential-leak-prevention/scripts/scan.sh
 
 ## Phase 2: 自動セットアップ
 
-ユーザーに確認を取ってからセットアップスクリプトを実行する。
-
-```bash
-bash ai-agents/skills/credential-leak-prevention/scripts/setup.sh
-```
+ユーザーに確認を取ってからセットアップスクリプト [scripts/setup.sh](scripts/setup.sh) を実行する。
 
 スクリプトは以下を冪等に実行する:
 
@@ -103,9 +95,7 @@ bash ai-agents/skills/credential-leak-prevention/scripts/setup.sh
 
 ## Phase 3: 動作検証
 
-```bash
-bash ai-agents/skills/credential-leak-prevention/scripts/validate.sh
-```
+動作検証用のスクリプト [scripts/validate.sh](scripts/validate.sh) を実行する。
 
 スクリプトはダミーの GitHub PAT を含むファイルを一時作成し、`pre-commit run gitleaks` でブロックされることを自動確認する。ファイルは検証後に自動削除される。
 
