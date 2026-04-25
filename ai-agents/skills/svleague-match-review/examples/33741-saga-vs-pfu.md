@@ -37,6 +37,16 @@
 ## 確認ポイント
 
 - カテゴリ判定（`sv_women`）が自動で通ること、失敗時にユーザー確認が走ること
-- LiveScore が JS レンダリング等で取得できない場合でも、REPORT-A/B のみで本文が完結すること
+- LiveScore は `--with-livescore` 未指定時はフェッチを試みず、付録に「(取得不可 / 未取得)」相当の注記が出ること
 - 書き出し前にユーザー承認ステップが挟まること
 - 保存先ディレクトリ `docs/svleague-match-review/` が無ければ自動作成されること
+- データ鮮度のメタデータ表記が `REPORT-B {速報版|確定版} (取得: YYYY-MM-DD HH:MM JST) / LiveScore {取得可|取得不可 (理由)}` のフォーマットに揃っていること
+
+## バリアント例
+
+- `/svleague-match-review 33741 --views team,versus`
+  - 視点 3（player ズーム）と template の `## 視点 3` セクション、注目選手の確定ステップが省かれる
+  - メタデータの「注目選手」行も出力に含めない
+- `/svleague-match-review 33741 --with-livescore`
+  - LiveScore を WebFetch で試行する。取得できれば付録の `### LiveScore 要点` にローテ・試合経過・個人成績の時系列を埋める
+  - 失敗時は本サンプル同様 `(取得不可)` を残す
