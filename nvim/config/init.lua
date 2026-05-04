@@ -30,6 +30,13 @@ vim.opt.mouse = "" -- Don't use a mouse.
 vim.opt.signcolumn = "yes" -- Always show signcolumn to prevent rattling.
 
 -- ----------------------------------------
+-- Neovim 0.12 で追加された UI オプション
+-- ----------------------------------------
+vim.opt.pumborder = "rounded" -- Add a rounded border to the popup menu (completion).
+vim.opt.pummaxwidth = 60 -- Cap the popup menu width to keep long doc lines readable.
+vim.opt.winborder = "rounded" -- Default border for floating windows (hover, signature help, etc.).
+
+-- ----------------------------------------
 -- Copy to the system clipboard.
 -- ----------------------------------------
 local has_osc52, osc52 = pcall(require, "vim.ui.clipboard.osc52")
@@ -118,6 +125,11 @@ end
 vim.g.indent_guides_enable_on_vim_startup = 1
 vim.g.indent_guides_start_level = 2
 vim.g.indent_guides_guide_size = 1
+
+-- ----------------------------------------
+-- Undo tree viewer (Neovim 0.12 builtin).
+-- ----------------------------------------
+vim.api.nvim_set_keymap("n", "<Leader>u", ":Undotree<CR>", { noremap = true, silent = true })
 
 -- ----------------------------------------
 -- fern.vim setting.
